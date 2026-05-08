@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import { QueryProvider } from '@/shared/providers/query-provider'
 import { UIKitProvider } from '@/shared/providers/ui-kit-provider'
 import { AppHeader } from '@/shared/ui/app-header'
-import '@datavac/ui-kit/style.css'
 import './globals.css'
+import '@datavac/ui-kit/style.css'
 
 export const metadata: Metadata = {
   title: 'DataVac — справочник вакцин',
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ru" className="h-full">
+    <html lang="ru" className="h-full" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
