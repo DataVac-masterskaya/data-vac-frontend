@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+/* Пробрасываем токены ui-kit в Tailwind-утилиты (bg-page, text-fg и т.д.)
+   Сами значения переменных задаёт @datavac/ui-kit/style.css + ThemeProvider */
+@theme inline {
+  --color-fg: var(--color-fg);
+  --color-fg-secondary: var(--color-fg-secondary);
+  --color-fg-muted: var(--color-fg-muted);
+  --color-page: var(--color-page);
+  --color-card: var(--color-card);
+  --color-subtle: var(--color-subtle);
+  --color-accent: var(--color-accent);
+  --color-accent-hover: var(--color-accent-hover);
+  --color-border: var(--color-border);
+  --color-link: var(--color-link);
+}
