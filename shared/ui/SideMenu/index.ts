@@ -1,4 +1,6 @@
 export { SideMenu } from './side-menu'
+export { SideMenuContent } from './side-menu-content'
+export type { SideMenuContentProps } from './side-menu-content'
 export {
   COPYRIGHT,
   isNavItemActive,
