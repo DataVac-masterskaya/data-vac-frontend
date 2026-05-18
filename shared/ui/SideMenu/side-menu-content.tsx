@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { Inter_Tight } from 'next/font/google'
 import { usePathname } from 'next/navigation'
 import {
   ArrowsIcon,
@@ -18,6 +19,11 @@ import {
 } from './nav-config'
 
 const ICON_SIZE = { width: 20, height: 20 } as const
+
+const supportButtonFont = Inter_Tight({
+  subsets: ['latin', 'cyrillic'],
+  weight: '500',
+})
 
 function NavGlyph({ id }: { id: NavIconId }) {
   const props = { ...ICON_SIZE, 'aria-hidden': true as const }
@@ -51,7 +57,7 @@ export function SideMenuContent({
   const pathname = usePathname()
 
   return (
-    <div className={['flex flex-1 flex-col', className].filter(Boolean).join(' ')}>
+    <div className={['flex min-h-0 flex-1 flex-col', className].filter(Boolean).join(' ')}>
       <div className="shrink-0">
         <Link
           href="/"
@@ -101,32 +107,37 @@ export function SideMenuContent({
         })}
       </nav>
 
-      <div className="mt-auto flex flex-col gap-6 pt-8">
-        <Link
-          href="/support"
-          aria-label={showSupportText ? undefined : SUPPORT_BUTTON_LABEL}
-          className="flex w-full items-center justify-center rounded-xl bg-[#B40A49] px-4 py-3 text-sm font-semibold text-white shadow-sm outline-none transition-opacity hover:opacity-95 focus-visible:ring-2 focus-visible:ring-[#E30C5C] focus-visible:ring-offset-2 focus-visible:ring-offset-card"
-        >
-          {showSupportText ? SUPPORT_BUTTON_LABEL : null}
-        </Link>
+      {(showSupportText || showFooter) && (
+        <div className="mt-auto shrink-0">
+          <footer className="flex h-[232px] w-[208px] flex-col">
+            <Link
+              href="/support"
+              aria-label={showSupportText ? undefined : SUPPORT_BUTTON_LABEL}
+              className={[
+                supportButtonFont.className,
+                'mt-[37px] flex h-[90px] w-[208px] shrink-0 items-center justify-center rounded-xl bg-[#E30C5C] text-center text-[16px] font-medium leading-[1.1] tracking-normal text-white shadow-sm outline-none transition-opacity hover:opacity-95 focus-visible:ring-2 focus-visible:ring-[#E30C5C] focus-visible:ring-offset-2 focus-visible:ring-offset-card',
+              ].join(' ')}
+            >
+              {showSupportText ? SUPPORT_BUTTON_LABEL : null}
+            </Link>
 
-        {showFooter ? (
-          <footer className="flex flex-col gap-2 text-xs text-fg-muted">
-            <div className="flex flex-wrap gap-x-3 gap-y-1">
-              <Link href="/#about" className="underline-offset-2 hover:underline">
-                О нас
-              </Link>
-              <Link href="/support" className="underline-offset-2 hover:underline">
-                Обратная связь
-              </Link>
-              <Link href="/#privacy" className="underline-offset-2 hover:underline">
-                Политика конфиденциальности
-              </Link>
-            </div>
-            <p className="leading-snug">{COPYRIGHT}</p>
+            {showFooter ? (
+              <div className="flex min-h-0 flex-1 flex-col gap-1 pt-2 pl-1 text-xs text-fg-muted">
+                <Link href="/#about" className="underline underline-offset-2">
+                  О нас
+                </Link>
+                <Link href="/support" className="underline underline-offset-2">
+                  Обратная связь
+                </Link>
+                <p className="leading-snug">{COPYRIGHT}</p>
+                <Link href="/#privacy" className="underline underline-offset-2">
+                  Политика конфиденциальности
+                </Link>
+              </div>
+            ) : null}
           </footer>
-        ) : null}
-      </div>
+        </div>
+      )}
     </div>
   )
 }
