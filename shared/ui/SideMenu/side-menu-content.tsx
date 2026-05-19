@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { Inter_Tight } from 'next/font/google'
+import { DataVacLogo } from '@/shared/ui/Logo'
 import { usePathname } from 'next/navigation'
 import {
   ArrowsIcon,
@@ -20,9 +21,9 @@ import {
 
 const ICON_SIZE = { width: 20, height: 20 } as const
 
-const supportButtonFont = Inter_Tight({
+const interTight = Inter_Tight({
   subsets: ['latin', 'cyrillic'],
-  weight: '500',
+  weight: ['400', '500'],
 })
 
 function NavGlyph({ id }: { id: NavIconId }) {
@@ -57,24 +58,19 @@ export function SideMenuContent({
   const pathname = usePathname()
 
   return (
-    <div className={['flex min-h-0 flex-1 flex-col', className].filter(Boolean).join(' ')}>
-      <div className="shrink-0">
-        <Link
-          href="/"
-          className="flex items-center gap-2.5 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-[#E30C5C] focus-visible:ring-offset-2 focus-visible:ring-offset-card"
-        >
-          <span
-            className="flex size-10 shrink-0 items-center justify-center rounded-full bg-[#E30C5C] text-white text-lg font-semibold leading-none"
-            aria-hidden
-          >
-            D
-          </span>
-          {showLabels ? (
-            <span className="text-lg font-bold text-[#E30C5C] tracking-tight">DataVac</span>
-          ) : null}
-        </Link>
+    <div
+      className={[
+        interTight.className,
+        'flex min-h-0 flex-1 flex-col font-normal',
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
+    >
+      <div className="shrink-0 p-4 max-md:hidden">
+        <DataVacLogo placement="sidebar" showText={showLabels} />
         {showCaption ? (
-          <p className="mt-3 text-xs leading-snug text-fg-secondary">{SOURCE_CAPTION}</p>
+          <p className="mt-3 text-[10px] font-normal leading-[1.3] text-fg-secondary">{SOURCE_CAPTION}</p>
         ) : null}
       </div>
 
@@ -88,7 +84,7 @@ export function SideMenuContent({
               aria-current={active ? 'page' : undefined}
               aria-label={showLabels ? undefined : label}
               className={[
-                'flex items-center gap-3 rounded-xl px-2 py-2.5 text-sm font-medium text-fg outline-none transition-colors',
+                'flex items-center gap-3 rounded-xl px-2 py-2.5 text-[16px] font-normal text-fg outline-none transition-colors',
                 'hover:bg-subtle',
                 'focus-visible:ring-2 focus-visible:ring-[#E30C5C] focus-visible:ring-offset-2 focus-visible:ring-offset-card',
               ].join(' ')}
@@ -114,7 +110,6 @@ export function SideMenuContent({
               href="/support"
               aria-label={showSupportText ? undefined : SUPPORT_BUTTON_LABEL}
               className={[
-                supportButtonFont.className,
                 'mt-[37px] flex h-[90px] w-[208px] shrink-0 items-center justify-center rounded-xl bg-[#E30C5C] text-center text-[16px] font-medium leading-[1.1] tracking-normal text-white shadow-sm outline-none transition-opacity hover:opacity-95 focus-visible:ring-2 focus-visible:ring-[#E30C5C] focus-visible:ring-offset-2 focus-visible:ring-offset-card',
               ].join(' ')}
             >
