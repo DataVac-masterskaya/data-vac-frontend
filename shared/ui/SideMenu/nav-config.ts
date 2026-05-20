@@ -3,6 +3,8 @@ export const SOURCE_CAPTION =
 
 export const SUPPORT_BUTTON_LABEL = 'Поддержать проект'
 
+export const MOBILE_SUPPORT_BUTTON_LABEL = 'Помощь проекту'
+
 /** Планшет: пункты меню и кнопка — Inter Tight 400, 14px, line-height 130% */
 export const SIDE_MENU_TABLET_LABEL_CLASS =
   'text-[14px] font-normal leading-[1.3] tracking-normal'
