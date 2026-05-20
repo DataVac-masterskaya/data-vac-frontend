@@ -50,7 +50,7 @@ export function SideMenuContent({
       ) : null}
 
       {isTablet ? (
-        <div className="flex min-w-0 items-center justify-between gap-3">
+        <div className="flex h-10 min-w-0 items-center justify-between gap-3 overflow-hidden">
           <SideMenuNav showLabels={showLabels} orientation="horizontal" />
           <SideMenuFooter showSupportText={showSupportText} showFooter={showFooter} mode="tablet" />
         </div>
