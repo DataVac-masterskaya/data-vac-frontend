@@ -3,7 +3,32 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import supportSpiral from './icons/spiral.svg'
-import { COPYRIGHT, SUPPORT_BUTTON_LABEL } from './nav-config'
+import { SUPPORT_BUTTON_LABEL } from './nav-config'
+
+const FOOTER_LINK_CLASS_NAME = 'underline underline-offset-2 transition-colors hover:text-[#000000]'
+
+type FooterLinkItem = {
+  href: string
+  label: string
+}
+
+const FOOTER_LINKS: FooterLinkItem[] = [
+  { href: '/#about', label: 'О нас' },
+  { href: '/support', label: 'Обратная связь' },
+  { href: '/#about', label: 'АНО «Коллективный иммунитет»' },
+  { href: '/#privacy', label: 'Все права защищены' },
+  { href: '/#privacy', label: 'Политика конфиденциальности' },
+]
+
+type FooterLinkProps = FooterLinkItem
+
+function FooterLink({ href, label }: FooterLinkProps) {
+  return (
+    <Link href={href} className={FOOTER_LINK_CLASS_NAME}>
+      {label}
+    </Link>
+  )
+}
 
 export type SideMenuFooterProps = {
   showSupportText?: boolean
@@ -36,16 +61,9 @@ export function SideMenuFooter({
 
         {showFooter ? (
           <div className="flex min-h-0 flex-1 flex-col gap-1 pt-2 pl-1 text-xs text-[#868686]">
-            <Link href="/#about" className="underline underline-offset-2 transition-colors hover:text-[#000000]">
-              О нас
-            </Link>
-            <Link href="/support" className="underline underline-offset-2 transition-colors hover:text-[#000000]">
-              Обратная связь
-            </Link>
-            <p className="leading-snug">{COPYRIGHT}</p>
-            <Link href="/#privacy" className="underline underline-offset-2 transition-colors hover:text-[#000000]">
-              Политика конфиденциальности
-            </Link>
+            {FOOTER_LINKS.map((item) => (
+              <FooterLink key={`${item.href}-${item.label}`} href={item.href} label={item.label} />
+            ))}
           </div>
         ) : null}
       </footer>
