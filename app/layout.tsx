@@ -35,6 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </div>
             </main>
           </div>
+          <ResponsiveSideMenuSlot slot="mobile" />
         </UIKitProvider>
       </body>
     </html>
