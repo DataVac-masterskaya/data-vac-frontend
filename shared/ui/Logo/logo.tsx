@@ -22,7 +22,7 @@ export function DataVacLogo({ placement, showText = true, className }: DataVacLo
     <Link
       href="/"
       className={[
-        'rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-[#E30C5C] focus-visible:ring-offset-2 focus-visible:ring-offset-card',
+        'rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-card',
         visibilityByPlacement[placement],
         className,
       ]

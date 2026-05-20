@@ -3,13 +3,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import supportSpiral from './icons/spiral.svg'
-import {
-  SIDE_MENU_DESKTOP_SUPPORT_BUTTON_CLASS,
-  SIDE_MENU_TABLET_LABEL_CLASS,
-  SUPPORT_BUTTON_LABEL,
-} from './nav-config'
+import { SideMenuSupportButton } from './side-menu-support-button'
 
-const FOOTER_LINK_CLASS_NAME = 'underline underline-offset-2 transition-colors hover:text-[#000000]'
+const FOOTER_LINK_CLASS_NAME = 'underline underline-offset-2 transition-colors hover:text-fg'
 
 type FooterLinkItem = {
   href: string
@@ -59,28 +55,10 @@ export function SideMenuFooter({
             <Image src={supportSpiral} alt="" aria-hidden className="h-full w-full object-contain" />
           </div>
         ) : null}
-        <Link
-          href="/support"
-          aria-label={showSupportText ? undefined : SUPPORT_BUTTON_LABEL}
-          className={[
-            isTablet
-              ? `relative z-0 flex h-10 min-w-0 w-[153px] shrink-0 items-center justify-center rounded-xl bg-[#E30C5C] px-2 ${SIDE_MENU_TABLET_LABEL_CLASS} text-white outline-none transition-colors hover:bg-[#B40A49] focus-visible:ring-2 focus-visible:ring-[#E30C5C] focus-visible:ring-offset-2 focus-visible:ring-offset-page`
-              : `relative z-0 mt-[37px] flex h-[90px] w-[208px] shrink-0 items-center justify-center rounded-xl bg-[#E30C5C] ${SIDE_MENU_DESKTOP_SUPPORT_BUTTON_CLASS} text-white shadow-sm outline-none transition-colors hover:bg-[#B40A49] focus-visible:ring-2 focus-visible:ring-[#E30C5C] focus-visible:ring-offset-2 focus-visible:ring-offset-card`,
-          ].join(' ')}
-        >
-          {showSupportText ? (
-            isTablet ? (
-              <span className="min-w-0 truncate" title={SUPPORT_BUTTON_LABEL}>
-                {SUPPORT_BUTTON_LABEL}
-              </span>
-            ) : (
-              SUPPORT_BUTTON_LABEL
-            )
-          ) : null}
-        </Link>
+        <SideMenuSupportButton variant={isTablet ? 'tablet' : 'desktop'} showText={showSupportText} />
 
         {showFooter && !isTablet ? (
-          <div className="flex min-h-0 flex-1 flex-col gap-1 pt-2 pl-1 text-xs text-[#868686]">
+          <div className="flex min-h-0 flex-1 flex-col gap-1 pt-2 pl-1 text-xs text-fg-muted">
             {FOOTER_LINKS.map((item) => (
               <FooterLink key={`${item.href}-${item.label}`} href={item.href} label={item.label} />
             ))}
