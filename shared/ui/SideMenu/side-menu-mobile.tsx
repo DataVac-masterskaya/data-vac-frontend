@@ -1,20 +1,11 @@
 'use client'
 
-import { Inter_Tight } from 'next/font/google'
-import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useId, useState } from 'react'
-import {
-  isNavItemActive,
-  MOBILE_SUPPORT_BUTTON_LABEL,
-  NAV_ITEMS,
-} from './nav-config'
-import { NavGlyph } from './nav-glyph'
-
-const interTight = Inter_Tight({
-  subsets: ['latin', 'cyrillic'],
-  weight: ['400', '500'],
-})
+import { isNavItemActive, NAV_ITEMS } from './nav-config'
+import { sideMenuFont } from './side-menu-font'
+import { SideMenuNavLink } from './side-menu-nav-link'
+import { SideMenuSupportButton } from './side-menu-support-button'
 
 function MenuIcon() {
   return (
@@ -37,6 +28,10 @@ export function SideMenuMobile() {
   const close = useCallback(() => setOpen(false), [])
 
   useEffect(() => {
+    close()
+  }, [pathname, close])
+
+  useEffect(() => {
     if (!open) {
       return
     }
@@ -57,7 +52,7 @@ export function SideMenuMobile() {
   }, [open, close])
 
   return (
-    <div className={interTight.className}>
+    <div className={sideMenuFont.className}>
       <div
         role="presentation"
         aria-hidden={!open}
@@ -80,32 +75,19 @@ export function SideMenuMobile() {
             : 'pointer-events-none translate-y-4 opacity-0 motion-reduce:translate-y-0',
         ].join(' ')}
       >
-        {NAV_ITEMS.map(({ href, label, icon }) => {
-          const active = isNavItemActive(pathname, href)
+        {NAV_ITEMS.map(({ href, label, icon }) => (
+          <SideMenuNavLink
+            key={href}
+            href={href}
+            label={label}
+            icon={icon}
+            active={isNavItemActive(pathname, href)}
+            variant="mobile"
+            onNavigate={close}
+          />
+        ))}
 
-          return (
-            <Link
-              key={href}
-              href={href}
-              onClick={close}
-              aria-current={active ? 'page' : undefined}
-              className="flex items-center gap-2 rounded-xl bg-white px-4 py-2 text-[14px] font-normal leading-[1.3] text-[#323335] outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#E30C5C] focus-visible:ring-offset-2 focus-visible:ring-offset-page"
-            >
-              <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-[#F3F3F3] text-fg-secondary">
-                <NavGlyph id={icon} />
-              </span>
-              {label}
-            </Link>
-          )
-        })}
-
-        <Link
-          href="/support"
-          onClick={close}
-          className="flex h-10 items-center justify-center rounded-xl bg-[#E30C5C] px-4 text-[14px] font-medium leading-[1.3] text-white outline-none transition-colors hover:bg-[#B40A49] focus-visible:ring-2 focus-visible:ring-[#E30C5C] focus-visible:ring-offset-2 focus-visible:ring-offset-page"
-        >
-          {MOBILE_SUPPORT_BUTTON_LABEL}
-        </Link>
+        <SideMenuSupportButton variant="mobile" onNavigate={close} />
       </nav>
 
       <button
@@ -113,7 +95,7 @@ export function SideMenuMobile() {
         aria-expanded={open}
         aria-controls={drawerId}
         aria-label={open ? 'Закрыть меню' : 'Открыть меню'}
-        className="fixed bottom-6 left-1/2 z-50 flex size-10 -translate-x-1/2 items-center justify-center rounded-full bg-[#E30C5C] text-white shadow-md outline-none transition-colors hover:bg-[#B40A49] focus-visible:ring-2 focus-visible:ring-[#E30C5C] focus-visible:ring-offset-2 focus-visible:ring-offset-page"
+        className="fixed bottom-6 left-1/2 z-50 flex size-10 -translate-x-1/2 items-center justify-center rounded-full bg-accent text-white shadow-md outline-none transition-colors hover:bg-accent-hover focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-page"
         onClick={() => setOpen((value) => !value)}
       >
         <MenuIcon />

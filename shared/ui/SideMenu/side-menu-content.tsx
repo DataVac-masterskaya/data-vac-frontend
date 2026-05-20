@@ -1,15 +1,10 @@
 'use client'
 
-import { Inter_Tight } from 'next/font/google'
 import { DataVacLogo } from '@/shared/ui/Logo'
 import { SOURCE_CAPTION } from './nav-config'
 import { SideMenuFooter } from './side-menu-footer'
+import { sideMenuFont } from './side-menu-font'
 import { SideMenuNav } from './side-menu-nav'
-
-const interTight = Inter_Tight({
-  subsets: ['latin', 'cyrillic'],
-  weight: ['400', '500'],
-})
 
 export type SideMenuContentProps = {
   mode?: 'desktop' | 'tablet'
@@ -33,7 +28,7 @@ export function SideMenuContent({
   return (
     <div
       className={[
-        interTight.className,
+        sideMenuFont.className,
         isTablet ? 'flex min-h-0 min-w-0 flex-1 flex-col font-normal' : 'flex min-h-0 flex-1 flex-col font-normal',
         className,
       ]
@@ -44,7 +39,7 @@ export function SideMenuContent({
         <div className="shrink-0 p-4">
           <DataVacLogo placement="sidebar" showText={showLabels} />
           {showCaption ? (
-            <p className="mt-3 text-[10px] font-normal leading-[1.3] text-[#868686]">{SOURCE_CAPTION}</p>
+            <p className="mt-3 text-[10px] font-normal leading-[1.3] text-fg-muted">{SOURCE_CAPTION}</p>
           ) : null}
         </div>
       ) : null}
