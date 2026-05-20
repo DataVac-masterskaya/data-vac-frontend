@@ -1,15 +1,9 @@
 'use client'
 
-import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
-import {
-  isNavItemActive,
-  NAV_ITEMS,
-  SIDE_MENU_DESKTOP_NAV_CLASS,
-  SIDE_MENU_TABLET_LABEL_CLASS,
-} from './nav-config'
-import { NavGlyph } from './nav-glyph'
+import { isNavItemActive, NAV_ITEMS } from './nav-config'
+import { SideMenuNavLink } from './side-menu-nav-link'
 
 export type SideMenuNavProps = {
   orientation?: 'vertical' | 'horizontal'
@@ -23,6 +17,7 @@ export function SideMenuNav({
   const pathname = usePathname()
   const [hoveredHref, setHoveredHref] = useState<string | null>(null)
   const isHorizontal = orientation === 'horizontal'
+  const variant = isHorizontal ? 'tablet' : 'desktop'
 
   return (
     <nav
@@ -39,42 +34,17 @@ export function SideMenuNav({
         const highlighted = hoveredHref !== null ? href === hoveredHref : active
 
         return (
-          <Link
+          <SideMenuNavLink
             key={href}
             href={href}
+            label={label}
+            icon={icon}
+            active={active}
+            variant={variant}
+            highlighted={highlighted}
+            showLabel={showLabels}
             onMouseEnter={() => setHoveredHref(href)}
-            aria-current={active ? 'page' : undefined}
-            aria-label={showLabels ? undefined : label}
-            className={[
-              isHorizontal
-                ? `flex h-10 min-w-0 flex-1 basis-0 items-center gap-2 rounded-xl bg-[#FFFFFF] px-3 ${SIDE_MENU_TABLET_LABEL_CLASS} outline-none transition-colors`
-                : `flex items-center gap-2 rounded-xl py-2 pl-4 pr-2 ${SIDE_MENU_DESKTOP_NAV_CLASS} outline-none transition-colors`,
-              'text-[#323335]',
-              isHorizontal
-                ? 'focus-visible:ring-2 focus-visible:ring-[#E30C5C] focus-visible:ring-offset-2 focus-visible:ring-offset-page'
-                : 'focus-visible:ring-2 focus-visible:ring-[#E30C5C] focus-visible:ring-offset-2 focus-visible:ring-offset-card',
-            ].join(' ')}
-          >
-            <span
-              className={[
-                'flex size-6 shrink-0 items-center justify-center rounded-full transition-colors duration-300 ease-out',
-                highlighted
-                  ? 'bg-[#E30C5C] text-[#FFFCFC]'
-                  : 'bg-[#F3F3F3] text-fg-secondary',
-              ].join(' ')}
-            >
-              <NavGlyph id={icon} />
-            </span>
-            {showLabels ? (
-              isHorizontal ? (
-                <span className="min-w-0 flex-1 truncate" title={label}>
-                  {label}
-                </span>
-              ) : (
-                label
-              )
-            ) : null}
-          </Link>
+          />
         )
       })}
     </nav>
