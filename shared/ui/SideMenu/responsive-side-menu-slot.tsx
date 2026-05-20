@@ -27,7 +27,16 @@ export function ResponsiveSideMenuSlot({ slot }: ResponsiveSideMenuSlotProps) {
   const isTablet = viewportWidth >= 768 && viewportWidth < 1280
 
   if (slot === 'desktop') {
-    return isDesktop ? <SideMenu mode="desktop" /> : null
+    if (!isDesktop) {
+      return null
+    }
+
+    return (
+      <>
+        <SideMenu mode="desktop" />
+        <div className="w-[216px] shrink-0" aria-hidden />
+      </>
+    )
   }
 
   return isTablet ? <SideMenu mode="tablet" /> : null

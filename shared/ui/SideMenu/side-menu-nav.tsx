@@ -47,10 +47,12 @@ export function SideMenuNav({
             aria-label={showLabels ? undefined : label}
             className={[
               isHorizontal
-                ? `flex min-w-0 shrink items-center gap-2 rounded-xl border border-border bg-white px-3 py-2.5 ${SIDE_MENU_TABLET_LABEL_CLASS} outline-none transition-colors`
+                ? `flex h-10 min-w-0 flex-1 basis-0 items-center gap-2 rounded-xl bg-[#FFFFFF] px-3 ${SIDE_MENU_TABLET_LABEL_CLASS} outline-none transition-colors`
                 : `flex items-center gap-2 rounded-xl py-2 pl-4 pr-2 ${SIDE_MENU_DESKTOP_NAV_CLASS} outline-none transition-colors`,
               'text-[#323335]',
-              'focus-visible:ring-2 focus-visible:ring-[#E30C5C] focus-visible:ring-offset-2 focus-visible:ring-offset-card',
+              isHorizontal
+                ? 'focus-visible:ring-2 focus-visible:ring-[#E30C5C] focus-visible:ring-offset-2 focus-visible:ring-offset-page'
+                : 'focus-visible:ring-2 focus-visible:ring-[#E30C5C] focus-visible:ring-offset-2 focus-visible:ring-offset-card',
             ].join(' ')}
           >
             <span
@@ -65,7 +67,9 @@ export function SideMenuNav({
             </span>
             {showLabels ? (
               isHorizontal ? (
-                <span className="min-w-0 truncate">{label}</span>
+                <span className="min-w-0 flex-1 truncate" title={label}>
+                  {label}
+                </span>
               ) : (
                 label
               )
