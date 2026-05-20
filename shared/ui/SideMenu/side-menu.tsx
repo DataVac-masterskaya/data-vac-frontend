@@ -1,14 +1,19 @@
 'use client'
 
 import { SideMenuContent } from './side-menu-content'
+import { SideMenuMobile } from './side-menu-mobile'
 
-type SideMenuMode = 'desktop' | 'tablet'
+type SideMenuMode = 'desktop' | 'tablet' | 'mobile'
 
 type SideMenuProps = {
   mode?: SideMenuMode
 }
 
 export function SideMenu({ mode = 'desktop' }: SideMenuProps) {
+  if (mode === 'mobile') {
+    return <SideMenuMobile />
+  }
+
   if (mode === 'tablet') {
     return (
       <div className="flex h-10 min-w-0 items-center bg-page">
