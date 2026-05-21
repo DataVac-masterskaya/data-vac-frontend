@@ -2,6 +2,7 @@
 
 import { SIDE_MENU_WIDTH_PX } from './breakpoints'
 import { SideMenuContent } from './side-menu-content'
+import { useIsPortrait } from './use-orientation'
 
 export function SideMenuDesktop() {
   return (
@@ -15,11 +16,13 @@ export function SideMenuDesktop() {
 }
 
 export function SideMenuTablet() {
+  const isPortrait = useIsPortrait()
+
   return (
     <div className="flex h-10 min-w-0 items-center bg-page">
       <SideMenuContent
         mode="tablet"
-        showLabels
+        showLabels={!isPortrait}
         showCaption={false}
         showSupportText
         showFooter={false}

@@ -41,11 +41,11 @@ export function SideMenuFooter({
   showSupportText = true,
   showFooter = true,
 }: SideMenuFooterProps) {
-  if (!showSupportText && !showFooter) {
+  const isTablet = mode === 'tablet'
+
+  if (!isTablet && !showSupportText && !showFooter) {
     return null
   }
-
-  const isTablet = mode === 'tablet'
 
   return (
     <div className={isTablet ? 'shrink-0' : 'mt-auto shrink-0'}>

@@ -26,10 +26,12 @@ export const SIDE_MENU_DESKTOP_NAV_CLASS =
 export const SIDE_MENU_MOBILE_NAV_LINK_CLASS =
   'flex items-center gap-2 rounded-xl bg-card px-4 py-2 text-[14px] font-normal leading-[1.3] text-fg outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-page'
 
+export const SIDE_MENU_NAV_ICON_COLOR = '#323335'
+
 export const SIDE_MENU_NAV_ICON_BASE_CLASS =
   'flex size-6 shrink-0 items-center justify-center rounded-full transition-colors duration-300 ease-out'
 
-export const SIDE_MENU_NAV_ICON_IDLE_CLASS = 'bg-subtle text-fg-secondary'
+export const SIDE_MENU_NAV_ICON_IDLE_CLASS = 'bg-subtle text-[#323335]'
 
 export const SIDE_MENU_NAV_ICON_HIGHLIGHTED_CLASS = 'bg-accent text-white'
 
