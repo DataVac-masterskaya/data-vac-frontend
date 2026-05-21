@@ -28,11 +28,18 @@ export type SideMenuNavLinkProps = {
   onMouseEnter?: () => void
 }
 
-function getLinkClassName(variant: SideMenuNavLinkVariant): string {
+function getLinkClassName(variant: SideMenuNavLinkVariant, showLabel: boolean): string {
   if (variant === 'mobile') {
     return SIDE_MENU_MOBILE_NAV_LINK_CLASS
   }
   if (variant === 'tablet') {
+    if (!showLabel) {
+      return [
+        'flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-card',
+        'outline-none transition-colors',
+        SIDE_MENU_FOCUS_RING_PAGE_CLASS,
+      ].join(' ')
+    }
     return [
       'flex h-10 min-w-0 flex-1 basis-0 items-center gap-2 rounded-xl bg-card px-3',
       SIDE_MENU_TABLET_LABEL_CLASS,
@@ -68,7 +75,7 @@ export function SideMenuNavLink({
       onMouseEnter={onMouseEnter}
       aria-current={active ? 'page' : undefined}
       aria-label={showLabel ? undefined : label}
-      className={getLinkClassName(variant)}
+      className={getLinkClassName(variant, showLabel)}
     >
       <span
         className={[
