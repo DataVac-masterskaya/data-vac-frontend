@@ -18,7 +18,7 @@ export type SideMenuSupportButtonProps = {
   onNavigate?: () => void
 }
 
-function getButtonClassName(variant: SideMenuSupportButtonVariant): string {
+function getButtonClassName(variant: SideMenuSupportButtonVariant, showText: boolean): string {
   if (variant === 'mobile') {
     return [
       'flex h-10 items-center justify-center rounded-xl bg-accent px-4',
@@ -55,7 +55,7 @@ export function SideMenuSupportButton({
       href={SUPPORT_HREF}
       onClick={onNavigate}
       aria-label={showText ? undefined : label}
-      className={getButtonClassName(variant)}
+      className={getButtonClassName(variant, showText)}
     >
       {showText ? (
         variant === 'tablet' ? (
