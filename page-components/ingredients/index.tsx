@@ -1,4 +1,35 @@
 import { fetchIngredients } from '@/shared/api/ingredients'
+import { BackLink } from '@/shared/ui/back-link'
+import { sideMenuFont } from '@/shared/ui/SideMenu/side-menu-font'
+import { IngredientCard, IngredientTableHeader } from './ui/ingredient-card'
+
+const FILTER_TYPES = [
+  'Адъювант',
+  'Консервант',
+  'Инактиватор',
+  'Стабилизатор',
+  'Субстрат',
+  'Антибиотик',
+] as const
+
+function filterChipClass(isActive: boolean) {
+  return [
+    'rounded-full px-3 py-1.5 text-sm font-normal transition-colors',
+    isActive
+      ? 'bg-neutral text-white'
+      : 'bg-card text-fg hover:text-accent',
+  ].join(' ')
+}
+
+function resultsLabel(count: number) {
+  const mod10 = count % 10
+  const mod100 = count % 100
+  if (mod10 === 1 && mod100 !== 11) return `${count} результат`
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) {
+    return `${count} результата`
+  }
+  return `${count} результатов`
+}
 
 export default async function IngredientsPage({
   searchParams,
@@ -6,52 +37,50 @@ export default async function IngredientsPage({
   searchParams: Promise<{ type?: string }>
 }) {
   const { type } = await searchParams
-  const { results, count } = await fetchIngredients({
+  const { results } = await fetchIngredients({
     sort: 'popularity',
     type: type || undefined,
   })
 
-  const allTypes = ['Адъювант', 'Консервант', 'Инактиватор', 'Стабилизатор', 'Субстрат', 'Антибиотик']
-
   return (
-    <div>
-      <h1 className="text-2xl font-semibold text-fg mb-6">
-        Ингредиенты <span className="text-fg-secondary font-normal text-base">({count})</span>
+    <div className="flex flex-col">
+      <BackLink href="/" />
+
+      <h1
+        className={`${sideMenuFont.className} pt-4 pb-4 text-2xl font-normal text-fg`}
+      >
+        Компоненты
       </h1>
 
-      <div className="flex flex-wrap gap-2 mb-6">
-        <a
-          href="/ingredients"
-          className={`px-3 py-1 rounded-full text-sm ${!type ? 'bg-accent text-white' : 'bg-card text-fg'}`}
-        >
-          Все
-        </a>
-        {allTypes.map((t) => (
-          <a
-            key={t}
-            href={`/ingredients?type=${t}`}
-            className={`px-3 py-1 rounded-full text-sm ${type === t ? 'bg-accent text-white' : 'bg-card text-fg'}`}
-          >
-            {t}
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <div className="flex flex-wrap gap-2">
+          <a href="/ingredients" className={filterChipClass(!type)}>
+            Все
           </a>
-        ))}
+          {FILTER_TYPES.map((t) => (
+            <a
+              key={t}
+              href={`/ingredients?type=${encodeURIComponent(t)}`}
+              className={filterChipClass(type === t)}
+            >
+              {t}
+            </a>
+          ))}
+        </div>
+        <p className="shrink-0 text-xs font-normal text-fg-muted">{resultsLabel(results.length)}</p>
       </div>
 
-      <div className="bg-card rounded-2xl overflow-hidden">
-        <ul>
-          {results.map((ingredient, i) => (
-            <li
-              key={ingredient.id}
-              className={`flex items-center justify-between px-5 py-3 text-sm ${i > 0 ? 'border-t border-subtle' : ''}`}
-            >
-              <span className="text-fg">{ingredient.name}</span>
-              <span className="text-xs text-fg-secondary bg-subtle px-2 py-0.5 rounded-full">
-                {ingredient.type}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <hr className="mt-4 border-0 border-t border-border" />
+
+      <IngredientTableHeader className="mt-4" />
+
+      <ul className="flex flex-col gap-1">
+        {results.map((ingredient) => (
+          <li key={ingredient.id}>
+            <IngredientCard ingredient={ingredient} />
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
