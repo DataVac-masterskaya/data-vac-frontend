@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   Button,
@@ -19,32 +18,13 @@ export function CategoryCard({
   viewAllHref,
   layout = "1col",
 }: CategoryCardProps) {
-  const [itemsCount, setItemsCount] = useState(3);
   const showTwoColumnsOnDesktop = layout === "2col";
-
-  useEffect(() => {
-    const handleResize = () => {
-      const width = window.innerWidth;
-      if (width >= 768) {
-        if (layout === "1col") {
-          setItemsCount(5);
-        } else {
-          setItemsCount(10);
-        }
-      } else {
-        setItemsCount(3);
-      }
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [layout]);
 
   return (
     <Card
       shadow={true}
       className="
-         w-full max-w-[328px] md:max-w-[354px]  xl:max-w-[498px]  2xl:max-w-[646px] 
+         w-full max-w-full min-[500px]:max-w-[354px] xl:max-w-[498px] 2xl:max-w-[646px]
           flex
           relative
           p-1
@@ -59,7 +39,6 @@ export function CategoryCard({
             absolute
             top-[-33px]
             left-[218px]
-            z-10
             w-[183px]
             h-[183px]
             2xl:left-[340px]
@@ -107,14 +86,22 @@ export function CategoryCard({
                 grid-cols-1
                 gap-y-2
                 2xl:gap-y-4
-                ${showTwoColumnsOnDesktop ? "xl:grid-cols-2 xl:gap-x-7" : "xl:grid-cols-1"}
+                ${
+                  showTwoColumnsOnDesktop
+                    ? "grid-cols-1 xl:grid-cols-2 xl:gap-x-7"
+                    : "grid-cols-1"
+                }
               `}
           >
-            {items.slice(0, itemsCount).map((item) => (
+            {items.slice(0, layout === "1col" ? 5 : 10).map((item, idx) => (
               <Link
                 key={item.id}
                 href={item.href}
-                className="flex justify-between group w-full"
+                className={`
+                  flex justify-between group w-full
+                  ${idx >= 3 ? "hidden md:flex" : ""}
+                  ${layout === "2col" && idx >= 5 ? "hidden xl:flex" : ""}
+                `}
               >
                 <Text
                   size="sm"
