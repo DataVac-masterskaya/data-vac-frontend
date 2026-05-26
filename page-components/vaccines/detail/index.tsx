@@ -1,4 +1,5 @@
 import { fetchAllVaccineIds, fetchVaccineById } from '@/shared/api/vaccines'
+import { BackLink } from '@/shared/ui/back-link'
 import { notFound } from 'next/navigation'
 
 export async function generateStaticParams() {
@@ -14,9 +15,7 @@ export default async function VaccineDetailPage({ params }: { params: Promise<{ 
 
   return (
     <div className="max-w-2xl">
-      <a href="/vaccines" className="text-sm text-accent hover:underline mb-4 inline-block">
-        ← Назад к вакцинам
-      </a>
+      <BackLink href="/vaccines" label="Назад к вакцинам" className="mb-4" />
 
       <div className="bg-card rounded-2xl p-6">
         <h1 className="text-2xl font-semibold text-fg mb-6">{vaccine.name}</h1>
