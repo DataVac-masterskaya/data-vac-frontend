@@ -22,7 +22,7 @@ export default async function HomePage() {
   return (
     <div>
       <h1 className="text-2xl font-semibold text-fg mb-6">Главная</h1>
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 min-[500px]:grid-cols-2 gap-6">
         {sections.map(({ title, href, items }) => (
           <section key={title} className="bg-card rounded-2xl p-5">
             <div className="flex items-center justify-between mb-4">
