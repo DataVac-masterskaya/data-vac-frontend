@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import {
   Button,
@@ -24,7 +22,7 @@ export function CategoryCard({
     <Card
       shadow={true}
       className="
-         w-full max-w-full min-[500px]:max-w-[354px] xl:max-w-[498px] 2xl:max-w-[646px]
+         w-full xl:max-w-[498px] 2xl:max-w-[646px]
           flex
           relative
           p-1

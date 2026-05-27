@@ -8,7 +8,7 @@ export type CategoryItem = {
 export type CategoryCardProps = {
   title: string;
   items: CategoryItem[];
-  decorationImage: string;
+  decorationImage?: string;
   viewAllHref: string;
-  layout: "1col" | "2col";
+  layout?: "1col" | "2col";
 };
