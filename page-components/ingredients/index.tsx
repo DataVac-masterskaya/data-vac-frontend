@@ -1,7 +1,11 @@
 import { fetchIngredients } from '@/shared/api/ingredients'
 import { BackLink } from '@/shared/ui/back-link'
 import { sideMenuFont } from '@/shared/ui/SideMenu/side-menu-font'
-import { IngredientCard, IngredientTableHeader } from './ui/ingredient-card'
+import {
+  INGREDIENT_TABLE_WIDTH_CLASS,
+  IngredientCard,
+  IngredientTableHeader,
+} from './ui/ingredient-card'
 
 const FILTER_TYPES = [
   'Адъювант',
@@ -14,7 +18,7 @@ const FILTER_TYPES = [
 
 function filterChipClass(isActive: boolean) {
   return [
-    'rounded-full px-3 py-1.5 text-sm font-normal transition-colors',
+    'inline-flex h-8 items-center rounded-full px-3 text-sm font-normal transition-colors whitespace-nowrap',
     isActive
       ? 'bg-neutral text-white'
       : 'bg-card text-fg hover:text-accent',
@@ -52,7 +56,7 @@ export default async function IngredientsPage({
         Компоненты
       </h1>
 
-      <div className="flex flex-wrap items-center justify-between gap-4">
+      <div className="flex min-h-8 flex-wrap items-center justify-between gap-4">
         <div className="flex flex-wrap gap-2">
           <a href="/ingredients" className={filterChipClass(!type)}>
             Все
@@ -72,15 +76,17 @@ export default async function IngredientsPage({
 
       <hr className="mt-4 border-0 border-t border-border" />
 
-      <IngredientTableHeader className="mt-4" />
+      <div className={INGREDIENT_TABLE_WIDTH_CLASS}>
+        <IngredientTableHeader className="mt-4" />
 
-      <ul className="flex flex-col gap-1">
-        {results.map((ingredient) => (
-          <li key={ingredient.id}>
-            <IngredientCard ingredient={ingredient} />
-          </li>
-        ))}
-      </ul>
+        <ul className="flex flex-col gap-1">
+          {results.map((ingredient) => (
+            <li key={ingredient.id}>
+              <IngredientCard ingredient={ingredient} />
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   )
 }
