@@ -1,5 +1,4 @@
 'use client'
-import { useEffect } from 'react'
 import { ThemeProvider } from '@datavac/ui-kit'
 import type { ReactNode } from 'react'
 
