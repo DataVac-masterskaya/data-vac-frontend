@@ -1,4 +1,3 @@
-
 import { InfoCircleIcon } from '@datavac/ui-kit';
 
 export type VaccineInfoBlockProps = {
