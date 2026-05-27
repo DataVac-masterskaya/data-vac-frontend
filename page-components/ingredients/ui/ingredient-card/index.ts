@@ -5,7 +5,10 @@ export { getIngredientColumns } from './ingredient-columns'
 export { IngredientNameCell } from './ingredient-name-cell'
 export { IngredientTableHeader } from './ingredient-table-header'
 export { IngredientWhereUsed } from './ingredient-where-used'
-export { INGREDIENT_ROW_GRID_CLASS } from './ingredient-row-grid'
+export {
+  INGREDIENT_ROW_GRID_CLASS,
+  INGREDIENT_TABLE_WIDTH_CLASS,
+} from './ingredient-row-grid'
 export type {
   DataTableColumn,
   IngredientClassCellProps,
