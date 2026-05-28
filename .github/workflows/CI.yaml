@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+      - devops/test-deploy-main
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: build NextJS container
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v5
+
+      - name: Build Docker image
+        run: docker build --pull --tag datavac-frontend:${{ github.sha }} .

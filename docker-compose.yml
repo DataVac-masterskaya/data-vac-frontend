@@ -2,7 +2,8 @@ name: datavac
 
 services:
   frontend:
-    build: 
-      context: .
-      dockerfile: Dockerfile
+    expose:
+      - "3000"
+    env_file:
+      - .env
     restart: unless-stopped
