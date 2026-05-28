@@ -11,12 +11,30 @@ export type IngredientCardProps = {
 /** Строка таблицы ингредиентов (#28): без hover/active на контейнере */
 export function IngredientCard({ ingredient }: IngredientCardProps) {
   return (
-    <div
-      className={`${INGREDIENT_ROW_GRID_CLASS} rounded-xl bg-card px-3 py-[11px]`}
-    >
-      <IngredientNameCell name={ingredient.name} />
-      <IngredientClassCell ingredientClass={ingredient.type} />
-      <IngredientWhereUsed href={`/vaccines?ingredient_id=${ingredient.id}`} />
+    <div className="rounded-xl bg-card px-3 py-[11px]">
+      <div className="flex flex-col gap-1 md:hidden">
+        <div className="flex items-start justify-between gap-2">
+          <span className="text-[14px] font-normal leading-[1.3] text-fg-muted">
+            Наименование компонента
+          </span>
+          <IngredientWhereUsed
+            href={`/vaccines?ingredient_id=${ingredient.id}`}
+            label="Подробнее"
+            variant="mobile"
+          />
+        </div>
+        <IngredientNameCell name={ingredient.name} />
+        <span className="mt-2 text-[14px] font-normal leading-[1.3] text-fg-muted">
+          Класс
+        </span>
+        <IngredientClassCell ingredientClass={ingredient.type} />
+      </div>
+
+      <div className={`${INGREDIENT_ROW_GRID_CLASS} max-md:hidden`}>
+        <IngredientNameCell name={ingredient.name} />
+        <IngredientClassCell ingredientClass={ingredient.type} />
+        <IngredientWhereUsed href={`/vaccines?ingredient_id=${ingredient.id}`} />
+      </div>
     </div>
   )
 }

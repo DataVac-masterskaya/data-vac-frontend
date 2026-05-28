@@ -1,7 +1,5 @@
 import { fetchIngredients } from '@/shared/api/ingredients'
 import { BackLink } from '@/shared/ui/back-link'
-import { MobileSortDropdown } from '@/shared/ui/dropdown/mobile-sort-dropdown'
-import { Separator } from '@/shared/ui/separator'
 import { sideMenuFont } from '@/shared/ui/SideMenu/side-menu-font'
 import {
   INGREDIENT_TABLE_WIDTH_CLASS,
@@ -37,29 +35,14 @@ function resultsLabel(count: number) {
   return `${count} результатов`
 }
 
-const SORT_OPTIONS = [
-  { value: 'name', label: 'По названию А – Я' },
-  { value: 'name_desc', label: 'По названию Я – А' },
-] as const
-
-function buildSortHref(type: string | undefined, sort: 'name' | 'name_desc'): string {
-  const params = new URLSearchParams()
-  if (type) {
-    params.set('type', type)
-  }
-  params.set('sort', sort)
-  return `/ingredients?${params.toString()}`
-}
-
 export default async function IngredientsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ type?: string; sort?: string }>
+  searchParams: Promise<{ type?: string }>
 }) {
-  const { type, sort } = await searchParams
-  const sortValue = sort === 'name_desc' ? 'name_desc' : 'name'
+  const { type } = await searchParams
   const { results } = await fetchIngredients({
-    sort: sortValue === 'name_desc' ? 'name_desc' : 'name',
+    sort: 'popularity',
     type: type || undefined,
   })
 
@@ -91,17 +74,9 @@ export default async function IngredientsPage({
         <p className="shrink-0 text-xs font-normal text-fg-muted">{resultsLabel(results.length)}</p>
       </div>
 
-      <Separator className="mt-4" />
+      <hr className="mt-4 border-0 border-t border-border" />
 
       <div className={INGREDIENT_TABLE_WIDTH_CLASS}>
-        <MobileSortDropdown
-          value={sortValue}
-          options={SORT_OPTIONS.map((option) => ({
-            ...option,
-            href: buildSortHref(type, option.value),
-          }))}
-          ariaLabel="Сортировка ингредиентов"
-        />
         <IngredientTableHeader className="mt-4" />
 
         <ul className="flex flex-col gap-1">
