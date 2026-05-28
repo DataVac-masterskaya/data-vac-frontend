@@ -1,0 +1,10 @@
+services:
+  frontend:
+    image: ${FRONTEND_IMAGE}
+    networks:
+      - proxy-net
+
+
+networks:
+  # There is Caddy reverse-proxy (with SSL termination) on server in this network
+  proxy-net:
