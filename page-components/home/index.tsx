@@ -1,8 +1,12 @@
-import { Badge, Button } from '@datavac/ui-kit'
 import { fetchContraindications } from '@/shared/api/contraindications'
 import { fetchInfections } from '@/shared/api/infections'
 import { fetchIngredients } from '@/shared/api/ingredients'
 import { fetchVaccines } from '@/shared/api/vaccines'
+import { CategoryCard } from './ui/category-card/category-card'
+import shape from './ui/assets/shape.webp'
+import shape1 from './ui/assets/shape-1.webp'
+import shape2 from './ui/assets/shape-2.webp'
+import shape3 from './ui/assets/shape-3.webp'
 
 export default async function HomePage() {
   const [vaccines, infections, ingredients, contraindications] = await Promise.all([
@@ -13,36 +17,65 @@ export default async function HomePage() {
   ])
 
   const sections = [
-    { title: 'Вакцины', href: '/vaccines', items: vaccines.results },
-    { title: 'Инфекции', href: '/infections', items: infections.results },
-    { title: 'Ингредиенты', href: '/ingredients', items: ingredients.results },
-    { title: 'Противопоказания', href: '/contraindications', items: contraindications.results },
+    {
+      title: 'Вакцины',
+      viewAllHref: '/vaccines',
+      decorationImage: shape.src,
+      items: vaccines.results.map((v) => ({
+        id: v.id,
+        name: v.name,
+        popularity: v.popularity,
+        href: `/vaccines/${v.id}`,
+      })),
+    },
+    {
+      title: 'Инфекции',
+      viewAllHref: '/infections',
+      decorationImage: shape1.src,
+      items: infections.results.map((v) => ({
+        id: v.id,
+        name: v.name,
+        popularity: v.popularity,
+        href: `/infections/${v.id}`,
+      })),
+    },
+    {
+      title: 'Ингредиенты',
+      viewAllHref: '/ingredients',
+      decorationImage: shape2.src,
+      items: ingredients.results.map((v) => ({
+        id: v.id,
+        name: v.name,
+        popularity: v.popularity,
+        href: `/ingredients/${v.id}`,
+      })),
+    },
+    {
+      title: 'Противопоказания',
+      viewAllHref: '/contraindications',
+      decorationImage: shape3.src,
+      items: contraindications.results.map((v) => ({
+        id: v.id,
+        name: v.name,
+        popularity: v.popularity,
+        href: `/contraindications/${v.id}`,
+      })),
+    },
   ]
 
   return (
     <div>
       <h1 className="text-2xl font-semibold text-fg mb-6">Главная</h1>
-      <div className="grid grid-cols-2 gap-6">
-        {sections.map(({ title, href, items }) => (
-          <section key={title} className="bg-card rounded-2xl p-5">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-base font-semibold text-fg">{title}</h2>
-              <Button variant="secondary" size="sm" asChild>
-                <a href={href}>Смотреть все</a>
-              </Button>
-            </div>
-            <ul className="flex flex-col gap-2">
-              {items.map((item) => (
-                <li
-                  key={item.id}
-                  className="flex items-center justify-between py-2 border-b border-subtle last:border-0"
-                >
-                  <span className="text-sm text-fg">{item.name}</span>
-                  <Badge>{title.slice(0, -1)}</Badge>
-                </li>
-              ))}
-            </ul>
-          </section>
+      <div className="grid grid-cols-1 min-[500px]:grid-cols-2 gap-6">
+        {sections.map(({ title, viewAllHref, decorationImage, items }) => (
+          <CategoryCard
+            key={title}
+            title={title}
+            viewAllHref={viewAllHref}
+            decorationImage={decorationImage}
+            items={items}
+            layout="1col"
+          />
         ))}
       </div>
     </div>
