@@ -4,7 +4,22 @@ import type { IngredientWhereUsedProps } from './types'
 
 const DEFAULT_LABEL = 'Где содержится'
 
-export function IngredientWhereUsed({ href, label = DEFAULT_LABEL }: IngredientWhereUsedProps) {
+export function IngredientWhereUsed({
+  href,
+  label = DEFAULT_LABEL,
+  variant = 'default',
+}: IngredientWhereUsedProps) {
+  if (variant === 'mobile') {
+    return (
+      <Link
+        href={href}
+        className="inline-flex h-5 w-[77px] shrink-0 items-center justify-center rounded-full bg-[#F3F3F3] text-[12px] font-normal leading-4 text-[#4F5153] no-underline transition-colors hover:bg-subtle"
+      >
+        {label}
+      </Link>
+    )
+  }
+
   return (
     <Link
       href={href}

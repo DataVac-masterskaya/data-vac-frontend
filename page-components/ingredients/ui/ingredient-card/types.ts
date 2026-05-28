@@ -14,6 +14,7 @@ export type IngredientClassCellProps = {
 export type IngredientWhereUsedProps = {
   href: string
   label?: string
+  variant?: 'default' | 'mobile'
 }
 
 /** TODO: import from @datavac/ui-kit when DataTable ships (#18) */

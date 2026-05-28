@@ -7,6 +7,7 @@ export { IngredientTableHeader } from './ingredient-table-header'
 export { IngredientWhereUsed } from './ingredient-where-used'
 export {
   INGREDIENT_ROW_GRID_CLASS,
+  INGREDIENT_ROW_GRID_TEMPLATE,
   INGREDIENT_TABLE_WIDTH_CLASS,
 } from './ingredient-row-grid'
 export type {

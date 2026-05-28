@@ -1,4 +1,4 @@
-import { INGREDIENT_ROW_GRID_CLASS } from './ingredient-row-grid'
+import { INGREDIENT_ROW_GRID_TEMPLATE } from './ingredient-row-grid'
 
 type IngredientTableHeaderProps = {
   className?: string
@@ -8,7 +8,7 @@ export function IngredientTableHeader({ className }: IngredientTableHeaderProps)
   return (
     <div
       className={[
-        INGREDIENT_ROW_GRID_CLASS,
+        `grid w-full max-md:hidden ${INGREDIENT_ROW_GRID_TEMPLATE}`,
         'mb-6 px-3 text-sm font-normal text-fg-muted',
         className,
       ]
