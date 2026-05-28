@@ -4,9 +4,16 @@ import { MobileSortDropdown } from '@/shared/ui/dropdown/mobile-sort-dropdown'
 import { Separator } from '@/shared/ui/separator'
 import { sideMenuFont } from '@/shared/ui/SideMenu/side-menu-font'
 import {
+  buildIngredientSortHref,
+  INGREDIENT_SORT_OPTIONS,
+  normalizeIngredientSort,
+} from './model/sort'
+import {
+  INGREDIENT_TABLE_GRID_CLASS,
   INGREDIENT_TABLE_WIDTH_CLASS,
   IngredientCard,
   IngredientTableHeader,
+  IngredientTableRow,
 } from './ui/ingredient-card'
 
 const FILTER_TYPES = [
@@ -37,29 +44,15 @@ function resultsLabel(count: number) {
   return `${count} результатов`
 }
 
-const SORT_OPTIONS = [
-  { value: 'name', label: 'По названию А – Я' },
-  { value: 'name_desc', label: 'По названию Я – А' },
-] as const
-
-function buildSortHref(type: string | undefined, sort: 'name' | 'name_desc'): string {
-  const params = new URLSearchParams()
-  if (type) {
-    params.set('type', type)
-  }
-  params.set('sort', sort)
-  return `/ingredients?${params.toString()}`
-}
-
 export default async function IngredientsPage({
   searchParams,
 }: {
   searchParams: Promise<{ type?: string; sort?: string }>
 }) {
   const { type, sort } = await searchParams
-  const sortValue = sort === 'name_desc' ? 'name_desc' : 'name'
+  const sortValue = normalizeIngredientSort(sort)
   const { results } = await fetchIngredients({
-    sort: sortValue === 'name_desc' ? 'name_desc' : 'name',
+    sort: sortValue,
     type: type || undefined,
   })
 
@@ -96,15 +89,25 @@ export default async function IngredientsPage({
       <div className={INGREDIENT_TABLE_WIDTH_CLASS}>
         <MobileSortDropdown
           value={sortValue}
-          options={SORT_OPTIONS.map((option) => ({
+          options={INGREDIENT_SORT_OPTIONS.map((option) => ({
             ...option,
-            href: buildSortHref(type, option.value),
+            href: buildIngredientSortHref(type, option.value),
           }))}
           ariaLabel="Сортировка ингредиентов"
         />
-        <IngredientTableHeader className="mt-4" />
+        <div
+          className={`${INGREDIENT_TABLE_GRID_CLASS} mt-4 max-md:hidden`}
+          role="table"
+        >
+          <IngredientTableHeader />
+          <div role="rowgroup" className="contents">
+            {results.map((ingredient) => (
+              <IngredientTableRow key={ingredient.id} ingredient={ingredient} />
+            ))}
+          </div>
+        </div>
 
-        <ul className="flex flex-col gap-1">
+        <ul className="flex flex-col gap-1 md:hidden">
           {results.map((ingredient) => (
             <li key={ingredient.id}>
               <IngredientCard ingredient={ingredient} />

@@ -4,10 +4,15 @@ export { IngredientClassCell } from './ingredient-class-cell'
 export { getIngredientColumns } from './ingredient-columns'
 export { IngredientNameCell } from './ingredient-name-cell'
 export { IngredientTableHeader } from './ingredient-table-header'
+export { IngredientTableRow } from './ingredient-table-row'
+export type { IngredientTableRowProps } from './ingredient-table-row'
 export { IngredientWhereUsed } from './ingredient-where-used'
 export {
   INGREDIENT_ROW_GRID_CLASS,
   INGREDIENT_ROW_GRID_TEMPLATE,
+  INGREDIENT_TABLE_GRID_CLASS,
+  INGREDIENT_TABLE_ROW_CLASS,
+  INGREDIENT_TABLE_ROW_SUBGRID_CLASS,
   INGREDIENT_TABLE_WIDTH_CLASS,
 } from './ingredient-row-grid'
 export type {
