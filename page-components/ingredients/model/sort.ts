@@ -19,14 +19,20 @@ export function normalizeIngredientSort(sort?: string): IngredientSortValue {
   return 'name'
 }
 
-export function buildIngredientSortHref(
-  type: string | undefined,
-  sort: IngredientSortValue,
-): string {
+export function buildIngredientsPageHref({
+  type,
+  sort,
+}: {
+  type?: string
+  sort?: IngredientSortValue
+}): string {
   const params = new URLSearchParams()
   if (type) {
     params.set('type', type)
   }
-  params.set('sort', sort)
-  return `/ingredients?${params.toString()}`
+  if (sort && sort !== 'name') {
+    params.set('sort', sort)
+  }
+  const query = params.toString()
+  return query ? `/ingredients?${query}` : '/ingredients'
 }
