@@ -2,7 +2,7 @@
 export const INGREDIENT_TABLE_WIDTH_CLASS =
   'w-full max-w-[720px] md:max-w-[1016px] xl:max-w-[1312px]'
 
-/** Общая сетка таблицы: заголовок и строки — прямые участники одной grid (вариант A) */
+/** Общая сетка таблицы: заголовок и строки — прямые участники одной grid */
 export const INGREDIENT_TABLE_GRID_CLASS =
   'grid w-full grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(11rem,max-content)] items-start gap-x-4 gap-y-1 md:gap-x-6'
 
@@ -11,10 +11,3 @@ export const INGREDIENT_TABLE_ROW_SUBGRID_CLASS = 'col-span-3 grid grid-cols-sub
 
 /** Строка данных с карточкой */
 export const INGREDIENT_TABLE_ROW_CLASS = `${INGREDIENT_TABLE_ROW_SUBGRID_CLASS} rounded-xl bg-card px-3 py-[11px]`
-
-/** @deprecated Используйте INGREDIENT_TABLE_GRID_CLASS */
-export const INGREDIENT_ROW_GRID_TEMPLATE =
-  'grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(11rem,max-content)]'
-
-/** @deprecated Используйте INGREDIENT_TABLE_ROW_CLASS */
-export const INGREDIENT_ROW_GRID_CLASS = `grid ${INGREDIENT_ROW_GRID_TEMPLATE}`

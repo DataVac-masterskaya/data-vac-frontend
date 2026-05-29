@@ -4,7 +4,7 @@ import { MobileSortDropdown } from '@/shared/ui/dropdown/mobile-sort-dropdown'
 import { Separator } from '@/shared/ui/separator'
 import { sideMenuFont } from '@/shared/ui/SideMenu/side-menu-font'
 import {
-  buildIngredientSortHref,
+  buildIngredientsPageHref,
   INGREDIENT_SORT_OPTIONS,
   normalizeIngredientSort,
 } from './model/sort'
@@ -68,13 +68,16 @@ export default async function IngredientsPage({
 
       <div className="flex min-h-8 flex-wrap items-center justify-between gap-4">
         <div className="flex flex-wrap gap-2">
-          <a href="/ingredients" className={filterChipClass(!type)}>
+          <a
+            href={buildIngredientsPageHref({ sort: sortValue })}
+            className={filterChipClass(!type)}
+          >
             Все
           </a>
           {FILTER_TYPES.map((t) => (
             <a
               key={t}
-              href={`/ingredients?type=${encodeURIComponent(t)}`}
+              href={buildIngredientsPageHref({ type: t, sort: sortValue })}
               className={filterChipClass(type === t)}
             >
               {t}
@@ -91,7 +94,7 @@ export default async function IngredientsPage({
           value={sortValue}
           options={INGREDIENT_SORT_OPTIONS.map((option) => ({
             ...option,
-            href: buildIngredientSortHref(type, option.value),
+            href: buildIngredientsPageHref({ type, sort: option.value }),
           }))}
           ariaLabel="Сортировка ингредиентов"
         />
