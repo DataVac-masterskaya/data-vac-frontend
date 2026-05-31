@@ -7,7 +7,7 @@ import { useIsPortrait } from './use-orientation'
 export function SideMenuDesktop() {
   return (
     <aside
-      className="fixed inset-y-0 left-0 z-30 flex h-dvh flex-col overflow-hidden rounded-2xl border-r border-border bg-card p-1"
+      className="fixed inset-y-2 left-2 z-30 flex flex-col overflow-hidden rounded-2xl border-r border-border bg-card p-1"
       style={{ width: SIDE_MENU_WIDTH_PX }}
     >
       <SideMenuContent mode="desktop" />
