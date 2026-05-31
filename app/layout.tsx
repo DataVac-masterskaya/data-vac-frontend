@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { QueryProvider } from '@/shared/providers/query-provider'
 import { UIKitProvider } from '@/shared/providers/ui-kit-provider'
 import { AppShell } from '@/shared/ui/SideMenu/app-shell'
+import { PageLayout } from '@/shared/ui/PageLayout'
 import './globals.css'
 import '@datavac/ui-kit/style.css'
 
@@ -22,9 +23,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-dvh flex bg-page text-fg">
         <UIKitProvider>
-          <AppShell>
+          {/* <AppShell> */}
+          <PageLayout>
             <QueryProvider>{children}</QueryProvider>
-          </AppShell>
+          </PageLayout>
+          {/* </AppShell> */}
         </UIKitProvider>
       </body>
     </html>
