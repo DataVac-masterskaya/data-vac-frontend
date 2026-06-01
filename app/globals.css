@@ -13,4 +13,7 @@
   --color-accent-hover: var(--color-accent-hover);
   --color-border: var(--color-border);
   --color-link: var(--color-link);
+  --color-neutral: var(--color-neutral);
+  --color-interactive: var(--color-interactive);
+  --color-warning: var(--color-warning);
 }
