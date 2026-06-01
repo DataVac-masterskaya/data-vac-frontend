@@ -46,11 +46,11 @@ export const InfectionCard = ({
         className={cn(
           "rounded-full size-[20px] self-center justify-self-end flex", 
           "items-center transition-colors justify-center", 
-          "group-hover:bg-accent group-hover:text-[color:var(--color-interactive)]",
-          isActive ? "bg-accent text-[color:var(--color-interactive)]" : "bg-subtle text-fg",
+          "group-hover:bg-accent group-hover:text-interactive",
+          isActive ? "bg-accent text-interactive" : "bg-subtle text-fg",
         )}
       >
-        <ArrowsIcon width={12} height={12} />
+        <ArrowsIcon width={12} height={12} className="translate-x-[1.5px]" />
       </span>
     </button>
   );
