@@ -8,34 +8,28 @@ export function ContraIndicationRow({
   text,
   isActive = false,
   linkText,
-  onClick,
   onLinkClick,
   className,
 }: ContraIndicationRowProps) {
   return (
     <div
       className={`
-        grid grid-cols-1 gap-3 rounded-xl bg-white px-3 py-2.75
+        group grid grid-cols-1 gap-3 rounded-xl bg-card px-3 py-[11px]
         sm:grid-cols-[200px_minmax(0,1fr)_auto] sm:items-center sm:gap-5
         md:grid-cols-[280px_minmax(0,1fr)_auto]
         ${className ?? ''}
       `}
-      onClick={onClick}
     >
-      <span className="block truncate text-sm text-[#A6A6A6]">
-        {category}
-      </span>
+      <span className="block truncate text-sm text-fg-muted">{category}</span>
 
-      <span className="block min-w-0 text-sm text-[#323335]">
-        {text}
-      </span>
+      <span className="block min-w-0 text-sm text-fg">{text}</span>
 
       <div className="flex items-center justify-between gap-2 sm:justify-end">
         {linkText && (
           <button
             type="button"
             onClick={onLinkClick}
-            className="text-sm text-[#A6A6A6]"
+            className="text-sm text-fg-muted"
           >
             {linkText}
           </button>

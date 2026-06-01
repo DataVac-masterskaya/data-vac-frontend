@@ -8,7 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@datavac/ui-kit": "^1.2.0",
+    "@datavac/ui-kit": "^1.8.0",
     "@tanstack/react-query": "^5.100.9",
     "next": "^16.2.5",
     "react": "19.2.4",
