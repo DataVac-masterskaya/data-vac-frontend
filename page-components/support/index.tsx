@@ -1,3 +1,5 @@
+import { FAQSection } from "./ui/FAQSection";
+
 export default function SupportPage() {
   return (
     <div className="max-w-2xl">
@@ -30,6 +32,8 @@ export default function SupportPage() {
           <span className="text-accent">info@datavac.ru</span>
         </p>
       </div>
+
+      <FAQSection/>
     </div>
   )
 }
