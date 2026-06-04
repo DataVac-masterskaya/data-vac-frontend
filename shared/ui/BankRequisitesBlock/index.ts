@@ -1,0 +1,1 @@
+export { BankRequisitesBlock } from './BankRequisitesBlock'
