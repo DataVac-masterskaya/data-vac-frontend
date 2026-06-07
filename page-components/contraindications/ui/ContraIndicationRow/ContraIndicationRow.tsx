@@ -1,5 +1,6 @@
 'use client';
 
+import { cn } from '@datavac/ui-kit';
 import { ContraIndicationRowProps } from './ContraIndicationRow.types';
 import { CircleArrow } from './CircleArrow';
 
@@ -13,12 +14,12 @@ export function ContraIndicationRow({
 }: ContraIndicationRowProps) {
   return (
     <div
-      className={`
-        group grid grid-cols-1 gap-3 rounded-xl bg-card px-3 py-[11px]
-        sm:grid-cols-[200px_minmax(0,1fr)_auto] sm:items-center sm:gap-5
-        md:grid-cols-[280px_minmax(0,1fr)_auto]
-        ${className ?? ''}
-      `}
+      className={cn(
+        'group grid grid-cols-1 gap-3 rounded-xl bg-card px-3 py-[11px]',
+        'sm:grid-cols-[200px_minmax(0,1fr)_auto] sm:items-center sm:gap-5',
+        'md:grid-cols-[280px_minmax(0,1fr)_auto]',
+        className,
+      )}
     >
       <span className="block truncate text-sm text-fg-muted">{category}</span>
 
