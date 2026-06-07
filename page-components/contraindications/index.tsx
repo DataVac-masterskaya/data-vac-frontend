@@ -55,7 +55,7 @@ export default async function ContraindicationsPage({
                 category={contraindication.category}
                 text={contraindication.name}
                 isActive={i === 0}
-                linkText='Перейти к списку ингридиентов'
+                linkText='Перейти к списку ингредиентов'
               />
             </li>
           ))}
