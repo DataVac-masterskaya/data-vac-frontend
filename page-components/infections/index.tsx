@@ -1,4 +1,5 @@
 import { fetchInfections } from '@/shared/api/infections'
+import { InfectionsList } from './ui/InfectionsList'
 
 const CATEGORIES = [
   { value: '', label: 'Все' },
@@ -36,26 +37,13 @@ export default async function InfectionsPage({
         ))}
       </div>
 
-      <div className="bg-card rounded-2xl overflow-hidden">
-        <ul>
-          {results.map((infection, i) => (
-            <li
-              key={infection.id}
-              className={`flex items-center justify-between px-5 py-3 text-sm ${i > 0 ? 'border-t border-subtle' : ''}`}
-            >
-              <span className="text-fg">{infection.name}</span>
-              <div className="flex items-center gap-3">
-                <span className="text-xs text-fg-secondary">
-                  {CATEGORIES.find((c) => c.value === infection.category)?.label}
-                </span>
-                <a href={`/vaccines?infection_id=${infection.id}`} className="text-accent text-xs hover:underline">
-                  Вакцины →
-                </a>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <InfectionsList
+        infections={results.map((infection) => ({
+          id: infection.id,
+          name: infection.name,
+          categoryLabel: CATEGORIES.find((c) => c.value === infection.category)?.label ?? infection.category,
+        }))}
+      />
     </div>
   )
 }
