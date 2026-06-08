@@ -1,10 +1,14 @@
+import type { SortDirection } from '@datavac/ui-kit'
+
 export type IngredientSortValue = 'name' | 'name_desc' | 'popularity'
+
+export const POPULARITY_SORT_LABEL = 'Сначала популярные'
 
 export const INGREDIENT_SORT_OPTIONS: ReadonlyArray<{
   value: IngredientSortValue
   label: string
 }> = [
-  { value: 'popularity', label: 'Сначала популярные' },
+  { value: 'popularity', label: POPULARITY_SORT_LABEL },
   { value: 'name', label: 'По названию А – Я' },
   { value: 'name_desc', label: 'По названию Я – А' },
 ]
@@ -17,6 +21,16 @@ export function normalizeIngredientSort(sort?: string): IngredientSortValue {
     return 'popularity'
   }
   return 'name'
+}
+
+export function ingredientSortToTable(sort: IngredientSortValue): {
+  sortField: string
+  sortDirection: SortDirection
+} {
+  return {
+    sortField: 'name',
+    sortDirection: sort === 'name_desc' ? 'desc' : 'asc',
+  }
 }
 
 export function buildIngredientsPageHref({
