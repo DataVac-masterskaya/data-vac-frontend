@@ -1,20 +1,17 @@
 import { fetchIngredients } from '@/shared/api/ingredients'
 import { BackLink } from '@/shared/ui/back-link'
-import { MobileSortDropdown } from '@/shared/ui/dropdown/mobile-sort-dropdown'
 import { Separator } from '@/shared/ui/separator'
 import { sideMenuFont } from '@/shared/ui/SideMenu/side-menu-font'
 import {
   buildIngredientsPageHref,
-  INGREDIENT_SORT_OPTIONS,
+  ingredientSortToTable,
   normalizeIngredientSort,
+  POPULARITY_SORT_LABEL,
 } from './model/sort'
 import {
-  INGREDIENT_TABLE_GRID_CLASS,
   INGREDIENT_TABLE_WIDTH_CLASS,
-  IngredientCard,
-  IngredientTableHeader,
-  IngredientTableRow,
-} from './ui/ingredient-card'
+  IngredientsTable,
+} from './ui/ingredients-table'
 
 const FILTER_TYPES = [
   'Адъювант',
@@ -55,6 +52,7 @@ export default async function IngredientsPage({
     sort: sortValue,
     type: type || undefined,
   })
+  const { sortField, sortDirection } = ingredientSortToTable(sortValue)
 
   return (
     <div className="flex flex-col">
@@ -89,35 +87,22 @@ export default async function IngredientsPage({
 
       <Separator className="mt-4" />
 
-      <div className={INGREDIENT_TABLE_WIDTH_CLASS}>
-        <MobileSortDropdown
-          value={sortValue}
-          options={INGREDIENT_SORT_OPTIONS.map((option) => ({
-            ...option,
-            href: buildIngredientsPageHref({ type, sort: option.value }),
-          }))}
-          ariaLabel="Сортировка ингредиентов"
-        />
-        <div
-          className={`${INGREDIENT_TABLE_GRID_CLASS} mt-4 max-md:hidden`}
-          role="table"
+      <div className="mt-4 flex flex-wrap gap-2">
+        <a
+          href={buildIngredientsPageHref({ type, sort: 'popularity' })}
+          className={filterChipClass(sortValue === 'popularity')}
         >
-          <IngredientTableHeader />
-          <div role="rowgroup" className="contents">
-            {results.map((ingredient) => (
-              <IngredientTableRow key={ingredient.id} ingredient={ingredient} />
-            ))}
-          </div>
-        </div>
-
-        <ul className="flex flex-col gap-1 md:hidden">
-          {results.map((ingredient) => (
-            <li key={ingredient.id}>
-              <IngredientCard ingredient={ingredient} />
-            </li>
-          ))}
-        </ul>
+          {POPULARITY_SORT_LABEL}
+        </a>
       </div>
+
+      <IngredientsTable
+        ingredients={results}
+        sortField={sortField}
+        sortDirection={sortDirection}
+        type={type}
+        className={`${INGREDIENT_TABLE_WIDTH_CLASS} mt-4`}
+      />
     </div>
   )
 }
