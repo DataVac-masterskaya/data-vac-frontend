@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import { DataTable } from '@datavac/ui-kit'
 import type { DataTableColumn, SortDirection } from '@datavac/ui-kit'
 import type { Ingredient } from '@/shared/types/api'
-import { buildIngredientsPageHref, type IngredientSortValue } from '../model/sort'
+import { buildIngredientsPageHref, tableSortToIngredient } from '../model/sort'
 import { ingredientVaccinesHref } from './ingredient-links'
 import { INGREDIENT_FIELD_LABELS } from './labels'
 
@@ -52,8 +52,7 @@ export function IngredientsTable({
       sortField={sortField}
       sortDirection={sortDirection}
       onSortChange={(field, dir) => {
-        const sort = (dir === 'desc' ? `${field}_desc` : field) as IngredientSortValue
-        router.push(buildIngredientsPageHref({ type, sort }))
+        router.push(buildIngredientsPageHref({ type, sort: tableSortToIngredient(field, dir) }))
       }}
       onRowClick={(row) => router.push(ingredientVaccinesHref(row.id))}
       mobileActionLabel="Подробнее"

@@ -4,15 +4,6 @@ export type IngredientSortValue = 'name' | 'name_desc' | 'popularity'
 
 export const POPULARITY_SORT_LABEL = 'Сначала популярные'
 
-export const INGREDIENT_SORT_OPTIONS: ReadonlyArray<{
-  value: IngredientSortValue
-  label: string
-}> = [
-  { value: 'popularity', label: POPULARITY_SORT_LABEL },
-  { value: 'name', label: 'По названию А – Я' },
-  { value: 'name_desc', label: 'По названию Я – А' },
-]
-
 export function normalizeIngredientSort(sort?: string): IngredientSortValue {
   if (sort === 'name_desc') {
     return 'name_desc'
@@ -31,6 +22,16 @@ export function ingredientSortToTable(sort: IngredientSortValue): {
     sortField: 'name',
     sortDirection: sort === 'name_desc' ? 'desc' : 'asc',
   }
+}
+
+export function tableSortToIngredient(
+  field: string,
+  direction: SortDirection,
+): IngredientSortValue {
+  if (field !== 'name') {
+    return 'name'
+  }
+  return direction === 'desc' ? 'name_desc' : 'name'
 }
 
 export function buildIngredientsPageHref({

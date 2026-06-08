@@ -87,22 +87,23 @@ export default async function IngredientsPage({
 
       <Separator className="mt-4" />
 
-      <div className="mt-4 flex flex-wrap gap-2">
-        <a
-          href={buildIngredientsPageHref({ type, sort: 'popularity' })}
-          className={filterChipClass(sortValue === 'popularity')}
-        >
-          {POPULARITY_SORT_LABEL}
-        </a>
-      </div>
+      <div className={`${INGREDIENT_TABLE_WIDTH_CLASS} mt-4 flex flex-col gap-4`}>
+        <div className="flex flex-wrap gap-2">
+          <a
+            href={buildIngredientsPageHref({ type, sort: 'popularity' })}
+            className={filterChipClass(sortValue === 'popularity')}
+          >
+            {POPULARITY_SORT_LABEL}
+          </a>
+        </div>
 
-      <IngredientsTable
-        ingredients={results}
-        sortField={sortField}
-        sortDirection={sortDirection}
-        type={type}
-        className={`${INGREDIENT_TABLE_WIDTH_CLASS} mt-4`}
-      />
+        <IngredientsTable
+          ingredients={results}
+          sortField={sortField}
+          sortDirection={sortDirection}
+          type={type}
+        />
+      </div>
     </div>
   )
 }
