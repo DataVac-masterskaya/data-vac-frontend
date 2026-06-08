@@ -35,14 +35,17 @@ export const FAQSection = ({ items, className }: FAQSectionProps) => {
     <Accordion className={cn("my-12 2xl:my-16 max-w-147 mx-auto", className)}
     >
       {faqItems.map((item) => (
-        <AccordionItem
-          key={item.id}
-          title={item.title}
-          value={item.id}
-          // className={cn("cursor-pointer rounded-input p-4 md:p-5 bg-card")}
-        >
-          {item.value}
-        </AccordionItem>
+        <div key={item.id} className="bg-card rounded-xl p-5 shadow-[0_4px_25px_rgba(0,0,0,0.03)]">
+          <AccordionItem
+            title={item.title}
+            value={item.id}
+            titleClassName="text-xl font-medium py-0"
+            iconClassName="text-accent"
+            contentClassName="pt-6 pb-0 text-sm"
+          >
+            {item.value}
+          </AccordionItem>
+        </div>
       ))}
     </Accordion>
   );
