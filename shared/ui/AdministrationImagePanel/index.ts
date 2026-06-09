@@ -1,1 +1,1 @@
-export { AdministrationImagePanel } from './AdministrationImagePanel'
+export { AdministrationImagePanel } from "./AdministrationImagePanel";
