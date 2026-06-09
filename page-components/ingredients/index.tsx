@@ -1,4 +1,5 @@
 import { fetchIngredients } from '@/shared/api/ingredients'
+import { cn } from '@datavac/ui-kit'
 import { BackLink } from '@/shared/ui/back-link'
 import { Separator } from '@/shared/ui/separator'
 import { sideMenuFont } from '@/shared/ui/SideMenu/side-menu-font'
@@ -23,12 +24,10 @@ const FILTER_TYPES = [
 ] as const
 
 function filterChipClass(isActive: boolean) {
-  return [
+  return cn(
     'inline-flex h-8 items-center rounded-full px-3 text-sm font-normal transition-colors whitespace-nowrap',
-    isActive
-      ? 'bg-neutral text-white'
-      : 'bg-card text-fg hover:text-accent',
-  ].join(' ')
+    isActive ? 'bg-neutral text-white' : 'bg-card text-fg hover:text-accent',
+  )
 }
 
 function resultsLabel(count: number) {
