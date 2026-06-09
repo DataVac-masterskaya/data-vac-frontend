@@ -26,3 +26,12 @@ export async function fetchInfections(params: InfectionsParams = {}): Promise<Pa
 
   return { count: MOCK_INFECTIONS.length, results }
 }
+
+export async function fetchInfectionById(id: number): Promise<Infection | null> {
+  await new Promise((r) => setTimeout(r, 0))
+  return MOCK_INFECTIONS.find((infection) => infection.id === id) ?? null
+}
+
+export async function fetchAllInfectionIds(): Promise<number[]> {
+  return MOCK_INFECTIONS.map((infection) => infection.id)
+}

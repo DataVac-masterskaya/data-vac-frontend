@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { PillActionButton } from '@/shared/ui/PillActionButton';
 
 export function CopyLinkButton() {
   const [feedback, setFeedback] = useState(false);
@@ -17,15 +18,12 @@ export function CopyLinkButton() {
       document.body.removeChild(ta)
     }
     setFeedback(true)
-    setTimeout(() => setFeedback(false), 1500)
+    setTimeout(() => setFeedback(false), 2000)
   }
 
   return (
-    <button
-      onClick={handleCopy}
-      className="h-8 px-3 rounded-full bg-subtle text-fg text-base font-medium transition-colors"
-    >
-      {feedback ? 'Скопировано!' : 'Скопировать ссылку'}
-    </button>
+    <PillActionButton type="button" onClick={handleCopy} variant={feedback ? 'copied' : 'default'}>
+      {feedback ? 'Ссылка скопирована' : 'Скопировать ссылку'}
+    </PillActionButton>
   );
 }
