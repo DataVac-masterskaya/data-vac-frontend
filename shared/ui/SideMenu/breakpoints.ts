@@ -1,9 +1,7 @@
-/** Tailwind md */
-export const SIDE_MENU_TABLET_MIN_PX = 768
-
-/** Tailwind xl */
-export const SIDE_MENU_DESKTOP_MIN_PX = 1280
-
-export const SIDE_MENU_WIDTH_PX = 216
+export {
+  BREAKPOINT_DESKTOP_MIN_PX as SIDE_MENU_DESKTOP_MIN_PX,
+  BREAKPOINT_TABLET_MIN_PX as SIDE_MENU_TABLET_MIN_PX,
+  SIDE_MENU_WIDTH_PX,
+} from '@/shared/config/breakpoints'
 
 export type SideMenuMode = 'mobile' | 'tablet' | 'desktop'

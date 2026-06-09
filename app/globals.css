@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* summary-wide = BREAKPOINT_SUMMARY_WIDE_MIN_PX. Менять вместе с shared/config/breakpoints.ts */
+@custom-variant summary-wide (@media (width >= 1600px));
+
 /* Пробрасываем токены ui-kit в Tailwind-утилиты (bg-page, text-fg и т.д.)
    Сами значения переменных задаёт @datavac/ui-kit/style.css + ThemeProvider */
 @theme inline {
