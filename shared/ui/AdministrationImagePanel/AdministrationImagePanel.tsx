@@ -3,6 +3,7 @@
 import { ReactNode, useState, useEffect } from "react";
 import Image from "next/image";
 import { Drawer, Text, ErrorState } from "@datavac/ui-kit";
+import { cn } from "@datavac/ui-kit";
 
 interface AdministrationImagePanelProps {
   trigger: ReactNode;
@@ -29,18 +30,11 @@ export function AdministrationImagePanel({
     <Drawer trigger={trigger} title={title}>
       <div className="flex flex-col w-full gap-5">
         <div
-          className="
-            relative
-            max-w-[328px]
-            aspect-square
-            border-[1px]
-            border-accent
-            overflow-hidden
-            flex
-            items-center
-            justify-center
-            md:max-w-[400px]
-          "
+          className={cn(
+            "relative aspect-square border border-accent overflow-hidden",
+            "flex items-center justify-center",
+            "max-w-[328px] md:max-w-[400px]",
+          )}
         >
           {!imageError ? (
             <Image
@@ -54,7 +48,7 @@ export function AdministrationImagePanel({
             <ErrorState message="Не удалось загрузить данные. Попробуйте позже." />
           )}
         </div>
-        {caption && <Text className="">{caption}</Text>}
+        {caption && <Text className="text-md text-fg">{caption}</Text>}
       </div>
     </Drawer>
   );
