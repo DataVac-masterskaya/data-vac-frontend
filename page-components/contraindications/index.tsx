@@ -1,5 +1,5 @@
 import { fetchContraindications } from '@/shared/api/contraindications';
-import { ContraIndicationRow } from './ui/ContraIndicationRow/ContraIndicationRow';
+import { ContraIndicationGroupCard } from './ui/ContraIndicationGroupCard/ContraIndicationGroupCard';
 
 const CATEGORIES = [
   { value: '', label: 'Все' },
@@ -18,6 +18,32 @@ export default async function ContraindicationsPage({
     sort: 'popularity',
     category: category || undefined,
   });
+
+  const groupedCards = Object.entries(
+    results.reduce<Record<string, typeof results>>((acc, contraindication) => {
+      const groupKey = contraindication.category;
+
+      if (!acc[groupKey]) {
+        acc[groupKey] = [];
+      }
+
+      acc[groupKey].push(contraindication);
+
+      return acc;
+    }, {}),
+  ).map(([title, items]) => ({
+    title,
+    groups: [
+      {
+        category: title,
+        items: items.map((item, index) => ({
+          text: item.name,
+          isActive: index === 0,
+          linkText: 'Перейти к списку ингредиентов',
+        })),
+      },
+    ],
+  }));
 
   return (
     <div>
@@ -44,22 +70,14 @@ export default async function ContraindicationsPage({
         ))}
       </div>
 
-      <div className="bg-card rounded-2xl overflow-hidden">
-        <ul>
-          {results.map((contraindication, i) => (
-            <li
-              key={contraindication.id}
-              className={i > 0 ? 'border-t border-subtle' : ''}
-            >
-              <ContraIndicationRow
-                category={contraindication.category}
-                text={contraindication.name}
-                isActive={i === 0}
-                linkText='Перейти к списку ингредиентов'
-              />
-            </li>
-          ))}
-        </ul>
+      <div className="flex flex-col gap-4">
+        {groupedCards.map((card) => (
+          <ContraIndicationGroupCard
+            key={card.title}
+            title={card.title}
+            groups={card.groups}
+          />
+        ))}
       </div>
     </div>
   );
