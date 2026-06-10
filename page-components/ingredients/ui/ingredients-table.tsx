@@ -15,6 +15,7 @@ type Props = {
   sortField: string;
   sortDirection: SortDirection;
   type?: string;
+  q?: string;
   className?: string;
 };
 
@@ -23,6 +24,7 @@ export function IngredientsTable({
   sortField,
   sortDirection,
   type,
+  q,
   className,
 }: Props) {
   const router = useRouter();
@@ -40,6 +42,7 @@ export function IngredientsTable({
           buildIngredientsPageHref({
             type,
             sort: tableSortToIngredient(field, dir),
+            q,
           }),
         );
       }}

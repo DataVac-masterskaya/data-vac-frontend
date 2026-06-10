@@ -7,11 +7,16 @@ import './globals.css'
 import '@datavac/ui-kit/style.css'
 
 export const metadata: Metadata = {
-  title: 'DataVac — справочник вакцин',
-  description: 'Справочная информация о вакцинах, инфекциях, противопоказаниях и ингредиентах',
-}
+  title: "DataVac — справочник вакцин",
+  description:
+    "Справочная информация о вакцинах, инфекциях, противопоказаниях и ингредиентах",
+};
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="ru" className="h-full" suppressHydrationWarning>
       <head>
@@ -29,5 +34,5 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </UIKitProvider>
       </body>
     </html>
-  )
+  );
 }
