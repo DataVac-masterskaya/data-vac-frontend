@@ -9,9 +9,10 @@ import { INGREDIENT_FILTER_TAGS } from '../model/filter-tags'
 type Props = {
   activeType?: string
   sort: IngredientSortValue
+  q?: string
 }
 
-export function IngredientsFilter({ activeType, sort }: Props) {
+export function IngredientsFilter({ activeType, sort, q }: Props) {
   const router = useRouter()
 
   const active =
@@ -24,7 +25,7 @@ export function IngredientsFilter({ activeType, sort }: Props) {
       tags={[...INGREDIENT_FILTER_TAGS]}
       active={active}
       onChange={(tag) => {
-        router.push(buildIngredientsPageHref({ type: tag ?? undefined, sort }))
+        router.push(buildIngredientsPageHref({ type: tag ?? undefined, sort, q }))
       }}
       className="min-w-0 flex-1"
     />
