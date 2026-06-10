@@ -2,7 +2,7 @@ import type { Ingredient, PaginatedResponse } from '@/shared/types/api'
 import { MOCK_INGREDIENTS } from './mock-data'
 
 interface IngredientsParams {
-  sort?: 'popularity' | 'name' | 'name_desc'
+  sort?: 'popularity' | 'name' | 'name_desc' | 'type' | 'type_desc'
   limit?: number
   type?: string
 }
@@ -21,6 +21,10 @@ export async function fetchIngredients(params: IngredientsParams = {}): Promise<
     results.sort((a, b) => a.name.localeCompare(b.name, 'ru'))
   } else if (params.sort === 'name_desc') {
     results.sort((a, b) => b.name.localeCompare(a.name, 'ru'))
+  } else if (params.sort === 'type') {
+    results.sort((a, b) => a.type.localeCompare(b.type, 'ru'))
+  } else if (params.sort === 'type_desc') {
+    results.sort((a, b) => b.type.localeCompare(a.type, 'ru'))
   }
   if (params.limit) {
     results = results.slice(0, params.limit)

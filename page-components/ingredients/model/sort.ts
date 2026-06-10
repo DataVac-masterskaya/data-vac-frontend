@@ -1,16 +1,19 @@
 import type { SortDirection } from '@datavac/ui-kit'
 
-export type IngredientSortValue = 'name' | 'name_desc' | 'popularity'
+export type IngredientSortValue =
+  | 'name'
+  | 'name_desc'
+  | 'type'
+  | 'type_desc'
+  | 'popularity'
 
 export const POPULARITY_SORT_LABEL = 'Сначала популярные'
 
 export function normalizeIngredientSort(sort?: string): IngredientSortValue {
-  if (sort === 'name_desc') {
-    return 'name_desc'
-  }
-  if (sort === 'popularity') {
-    return 'popularity'
-  }
+  if (sort === 'name_desc') return 'name_desc'
+  if (sort === 'type') return 'type'
+  if (sort === 'type_desc') return 'type_desc'
+  if (sort === 'popularity') return 'popularity'
   return 'name'
 }
 
@@ -18,6 +21,15 @@ export function ingredientSortToTable(sort: IngredientSortValue): {
   sortField: string
   sortDirection: SortDirection
 } {
+  if (sort === 'type' || sort === 'type_desc') {
+    return {
+      sortField: 'type',
+      sortDirection: sort === 'type_desc' ? 'desc' : 'asc',
+    }
+  }
+  if (sort === 'popularity') {
+    return { sortField: 'name', sortDirection: 'asc' }
+  }
   return {
     sortField: 'name',
     sortDirection: sort === 'name_desc' ? 'desc' : 'asc',
@@ -28,10 +40,13 @@ export function tableSortToIngredient(
   field: string,
   direction: SortDirection,
 ): IngredientSortValue {
-  if (field !== 'name') {
-    return 'name'
+  if (field === 'type') {
+    return direction === 'desc' ? 'type_desc' : 'type'
   }
-  return direction === 'desc' ? 'name_desc' : 'name'
+  if (field === 'name') {
+    return direction === 'desc' ? 'name_desc' : 'name'
+  }
+  return 'name'
 }
 
 export function buildIngredientsPageHref({
