@@ -1,38 +1,22 @@
-'use client'
+"use client";
 
-import { useRouter } from 'next/navigation'
-import { DataTable } from '@datavac/ui-kit'
-import type { DataTableColumn, SortDirection } from '@datavac/ui-kit'
-import type { Ingredient } from '@/shared/types/api'
-import { buildIngredientsPageHref, tableSortToIngredient } from '../model/sort'
-import { ingredientVaccinesHref } from './ingredient-links'
-import { INGREDIENT_FIELD_LABELS } from './labels'
+import { useRouter } from "next/navigation";
+import { DataTable } from "@datavac/ui-kit";
+import type { Ingredient } from "@/shared/types/api";
+import { buildIngredientsPageHref, tableSortToIngredient } from "../model/sort";
+import type { SortDirection } from "@datavac/ui-kit";
+import { getIngredientColumns } from "./ingredient-card/ingredient-columns";
 
 export const INGREDIENT_TABLE_WIDTH_CLASS =
-  'w-full max-w-[720px] md:max-w-[1016px] xl:max-w-[1312px]'
-
-const COLUMNS: DataTableColumn<Ingredient>[] = [
-  {
-    key: 'name',
-    label: INGREDIENT_FIELD_LABELS.name,
-    flex: 2,
-    sortable: true,
-    render: (row) => <span className="font-semibold">{row.name}</span>,
-  },
-  {
-    key: 'type',
-    label: INGREDIENT_FIELD_LABELS.class,
-    flex: 1,
-  },
-]
+  "w-full max-w-[720px] md:max-w-[1016px] xl:max-w-[1312px]";
 
 type Props = {
-  ingredients: Ingredient[]
-  sortField: string
-  sortDirection: SortDirection
-  type?: string
-  className?: string
-}
+  ingredients: Ingredient[];
+  sortField: string;
+  sortDirection: SortDirection;
+  type?: string;
+  className?: string;
+};
 
 export function IngredientsTable({
   ingredients,
@@ -41,21 +25,24 @@ export function IngredientsTable({
   type,
   className,
 }: Props) {
-  const router = useRouter()
+  const router = useRouter();
 
   return (
     <DataTable
       className={className}
-      columns={COLUMNS}
+      columns={getIngredientColumns()}
       rows={ingredients}
       getRowKey={(row) => String(row.id)}
       sortField={sortField}
       sortDirection={sortDirection}
       onSortChange={(field, dir) => {
-        router.push(buildIngredientsPageHref({ type, sort: tableSortToIngredient(field, dir) }))
+        router.push(
+          buildIngredientsPageHref({
+            type,
+            sort: tableSortToIngredient(field, dir),
+          }),
+        );
       }}
-      onRowClick={(row) => router.push(ingredientVaccinesHref(row.id))}
-      mobileActionLabel="Подробнее"
     />
-  )
+  );
 }
