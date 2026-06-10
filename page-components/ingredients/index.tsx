@@ -27,54 +27,59 @@ function resultsLabel(count: number) {
 export default async function IngredientsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ type?: string; sort?: string }>;
+  searchParams: Promise<{ type?: string; sort?: string; q?: string }>;
 }) {
-  const { type, sort } = await searchParams;
+  const { type, sort, q } = await searchParams;
   const sortValue = normalizeIngredientSort(sort);
   const { results } = await fetchIngredients({
     sort: sortValue,
     type: type || undefined,
+    q: q || undefined,
   });
   const { sortField, sortDirection } = ingredientSortToTable(sortValue);
 
   return (
     <div className="flex flex-col">
       <BackLink href="/" />
-  
+
       <h1
         className={`${sideMenuFont.className} pt-4 pb-4 text-2xl font-normal text-fg`}
       >
         Компоненты
       </h1>
-  
+
       <div className="flex min-h-8 flex-wrap items-center justify-between gap-4">
-        <IngredientsFilter activeType={type} sort={sortValue} />
+        <IngredientsFilter activeType={type} sort={sortValue} q={q} />
         <p className="shrink-0 text-xs font-normal text-fg-muted">
           {resultsLabel(results.length)}
         </p>
       </div>
-  
+
       <Separator className="mt-4" />
-  
-      <div className={`${INGREDIENT_TABLE_WIDTH_CLASS} mt-4 flex flex-col gap-4`}>
+
+      <div
+        className={`${INGREDIENT_TABLE_WIDTH_CLASS} mt-4 flex flex-col gap-4`}
+      >
         <div className="flex flex-wrap gap-2">
           <a
-            href={buildIngredientsPageHref({ type, sort: 'popularity' })}
+            href={buildIngredientsPageHref({ type, sort: "popularity", q })}
             className={`inline-flex h-8 items-center rounded-full px-3 text-sm font-normal transition-colors whitespace-nowrap ${
-              sortValue === 'popularity' ? 'bg-neutral text-white' : 'bg-card text-fg hover:text-accent'
+              sortValue === "popularity"
+                ? "bg-neutral text-white"
+                : "bg-card text-fg hover:text-accent"
             }`}
           >
             {POPULARITY_SORT_LABEL}
           </a>
         </div>
-  
         <IngredientsTable
           ingredients={results}
           sortField={sortField}
           sortDirection={sortDirection}
           type={type}
+          q={q}
         />
       </div>
     </div>
-  )
+  );
 }

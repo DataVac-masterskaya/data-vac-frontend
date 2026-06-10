@@ -52,9 +52,11 @@ export function tableSortToIngredient(
 export function buildIngredientsPageHref({
   type,
   sort,
+  q,
 }: {
   type?: string
   sort?: IngredientSortValue
+  q?: string
 }): string {
   const params = new URLSearchParams()
   if (type) {
@@ -62,6 +64,9 @@ export function buildIngredientsPageHref({
   }
   if (sort && sort !== 'name') {
     params.set('sort', sort)
+  }
+  if (q?.trim()) {
+    params.set('q', q.trim())
   }
   const query = params.toString()
   return query ? `/ingredients?${query}` : '/ingredients'
