@@ -8,7 +8,7 @@ import type { SortDirection } from "@datavac/ui-kit";
 import { getIngredientColumns } from "./ingredient-card/ingredient-columns";
 
 export const INGREDIENT_TABLE_WIDTH_CLASS =
-  "w-full max-w-[720px] md:max-w-[1016px] xl:max-w-[1312px]";
+  "w-full max-w-[720px] xl:max-w-[1016px] min-[1920px]:max-w-[1312px]";
 
 type Props = {
   ingredients: Ingredient[];

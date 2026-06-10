@@ -39,7 +39,7 @@ export default async function IngredientsPage({
   const { sortField, sortDirection } = ingredientSortToTable(sortValue);
 
   return (
-    <div className="flex flex-col">
+    <div className={`${INGREDIENT_TABLE_WIDTH_CLASS} flex flex-col`}>
       <BackLink href="/" />
 
       <h1
@@ -57,9 +57,7 @@ export default async function IngredientsPage({
 
       <Separator className="mt-4" />
 
-      <div
-        className={`${INGREDIENT_TABLE_WIDTH_CLASS} mt-4 flex flex-col gap-4`}
-      >
+      <div className="mt-4 flex flex-col gap-4">
         <div className="flex flex-wrap gap-2">
           <a
             href={buildIngredientsPageHref({ type, sort: "popularity", q })}
