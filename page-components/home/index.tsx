@@ -65,7 +65,6 @@ export default async function HomePage() {
 
   return (
       <div>
-        {/* <h1 className="text-2xl font-semibold text-fg mb-6">Главная</h1> */}
         <div className="grid grid-cols-1 min-[500px]:grid-cols-2 gap-6">
           {sections.map(({ title, viewAllHref, decorationImage, items }) => (
             <CategoryCard

@@ -22,10 +22,8 @@ export function PageLayout({ children }: PageLayoutProps) {
         <div className="shrink-0" style={{ width: SIDE_MENU_WIDTH_PX }} aria-hidden />
       )}
 
-      <main className="flex min-w-0 flex-1 flex-col w-full max-w-[1312px] mx-auto px-2 sm:!px-4 md:px-6 lg:!px-8">
-        <div className="">
-          <Header />
-        </div>
+      <main className="flex min-w-0 flex-1 flex-col w-full max-w-[1312px] mx-auto px-2 sm:px-4 md:px-6 lg:px-8">
+        <Header />
 
         {mode === 'tablet' && (
           <div className="pt-6">
