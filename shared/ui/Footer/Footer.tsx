@@ -11,7 +11,7 @@ const TABLET_FOOTER_LINKS = [
   { href: '#', label: 'Все права защищены' },
 ];
 
-const MOBULE_FOOTER_LINKS = [
+const MOBILE_FOOTER_LINKS = [
   { href: '#', label: 'Структурированная информация с сайта Государственного реестра лекарственных средств' },
   { href: '#', label: 'Политика конфиденциальности' },
   { href: '#', label: 'АНО «Коллективный иммунитет»' },
@@ -42,7 +42,7 @@ export function Footer() {
   if (mode === 'mobile') {
     return (
       <footer className="flex flex-col gap-2 text-xs text-fg-secondary text-center">
-        {MOBULE_FOOTER_LINKS.map(({ href, label }) => (
+        {MOBILE_FOOTER_LINKS.map(({ href, label }) => (
           <Link key={label} href={href}>
             {label}
           </Link>

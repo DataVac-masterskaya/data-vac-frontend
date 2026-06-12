@@ -23,11 +23,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-dvh flex bg-page text-fg">
         <UIKitProvider>
-          {/* <AppShell> */}
           <PageLayout>
             <QueryProvider>{children}</QueryProvider>
           </PageLayout>
-          {/* </AppShell> */}
         </UIKitProvider>
       </body>
     </html>

@@ -33,7 +33,7 @@ export function Header() {
   }
 
   return (
-    <div>
+    <header>
       <div className="h-14 bg-page flex items-center justify-between gap-4 w-full">
         <DataVacLogo placement="sidebar" showText={true} />
         <ThemeToggle />
@@ -41,6 +41,6 @@ export function Header() {
       <div className="bg-page pt-4">
         <SearchBar placeholder="Введите запрос поиска" />
       </div>
-    </div>
+    </header>
   );
 }
