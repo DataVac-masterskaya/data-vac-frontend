@@ -1,0 +1,1 @@
+export { QRPaymentBlock } from './QRPaymentBlock';
