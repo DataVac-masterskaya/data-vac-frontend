@@ -1,38 +1,52 @@
 'use client'
 
-import {
-  AdministrationIcon,
-  Badge,
-  type DataTableColumn,
-} from '@datavac/ui-kit'
+import { Badge, type DataTableColumn } from '@datavac/ui-kit'
 import type { VaccineData } from '../../model/types'
 import { formatPermissibility, VACCINE_FIELD_LABELS } from './labels'
+import {
+  VACCINE_COUNT_BADGE_CLASS_NAME,
+  VaccineRoutesCell,
+} from './vaccine-routes-cell'
+import {
+  VACCINE_NAME_CELL_TEXT_CLASS_NAME,
+  VaccineDataCellText,
+} from './vaccine-table-text'
 
-const cellTextClassName =
-  'min-w-0 break-words text-base font-normal leading-5 text-fg'
+/** Пропорции ширин колонок по Figma 1920 (180:180:128:351:180:136). routes +3 к Figma 128 — место под 3 иконки + badge при ≥1600. */
+const COLUMN_FLEX = {
+  name: 18,
+  infections: 18,
+  routes: 21,
+  contraindications: 29,
+  ageRange: 18,
+  pregnancy: 14,
+} as const
+
+export const VACCINE_TABLE_WIDTH_CLASS =
+  'w-full max-w-[1016px] xl:max-w-[1312px]'
 
 export function getVaccineColumns(): DataTableColumn<VaccineData>[] {
   return [
     {
       key: 'name',
       label: VACCINE_FIELD_LABELS.name,
-      width: 118,
+      flex: COLUMN_FLEX.name,
       sortable: true,
       render: (row) => (
-        <span className="min-w-0 break-words text-base font-semibold leading-5 text-fg">
-          {row.name}
-        </span>
+        <span className={VACCINE_NAME_CELL_TEXT_CLASS_NAME}>{row.name}</span>
       ),
     },
     {
       key: 'infections',
       label: VACCINE_FIELD_LABELS.infections,
-      width: 110,
+      flex: COLUMN_FLEX.infections,
       render: (row) => (
-        <span className="inline-flex min-w-0 items-center gap-1 text-base font-normal leading-5 text-fg">
-          {row.infections[0] ?? '—'}
+        <span className="inline-flex min-w-0 items-start gap-1">
+          <VaccineDataCellText>{row.infections[0] ?? '—'}</VaccineDataCellText>
           {row.infections.length > 1 && (
-            <Badge>+{row.infections.length - 1}</Badge>
+            <Badge className={VACCINE_COUNT_BADGE_CLASS_NAME}>
+              +{row.infections.length - 1}
+            </Badge>
           )}
         </span>
       ),
@@ -40,54 +54,45 @@ export function getVaccineColumns(): DataTableColumn<VaccineData>[] {
     {
       key: 'routes',
       label: VACCINE_FIELD_LABELS.routes,
-      width: 128,
-      render: (row) => (
-        <div className="flex items-center gap-1">
-          {row.routes.map((method, index) => (
-            <AdministrationIcon key={`${method}-${index}`} method={method} />
-          ))}
-        </div>
-      ),
+      flex: COLUMN_FLEX.routes,
+      render: (row) => <VaccineRoutesCell routes={row.routes} />,
     },
     {
       key: 'contraindications',
       label: VACCINE_FIELD_LABELS.contraindications,
-      flex: 1,
+      flex: COLUMN_FLEX.contraindications,
       desktopOnly: true,
       render: (row) => (
-        <span className={`${cellTextClassName} truncate`}>
-          {row.contraindications[0] ?? '—'}
+        <span className="inline-flex min-w-0 flex-wrap items-start gap-1">
+          <VaccineDataCellText>
+            {row.contraindications[0] ?? '—'}
+          </VaccineDataCellText>
+          {row.contraindications.length > 1 && (
+            <Badge className={VACCINE_COUNT_BADGE_CLASS_NAME}>
+              +{row.contraindications.length - 1}
+            </Badge>
+          )}
         </span>
       ),
     },
     {
       key: 'ageRange',
       label: VACCINE_FIELD_LABELS.ageRange,
-      width: 152,
+      flex: COLUMN_FLEX.ageRange,
       mobileHalf: true,
       render: (row) => (
-        <span className={cellTextClassName}>{row.ageRange}</span>
-      ),
-    },
-    {
-      key: 'permissibility',
-      label: VACCINE_FIELD_LABELS.permissibility,
-      width: 121,
-      render: (row) => (
-        <span className={cellTextClassName}>
-          {formatPermissibility(row.permissibility)}
-        </span>
+        <VaccineDataCellText>{row.ageRange}</VaccineDataCellText>
       ),
     },
     {
       key: 'pregnancyPermissibility',
       label: VACCINE_FIELD_LABELS.pregnancyPermissibility,
-      width: 80,
+      flex: COLUMN_FLEX.pregnancy,
       mobileHalf: true,
       render: (row) => (
-        <span className={cellTextClassName}>
+        <VaccineDataCellText>
           {formatPermissibility(row.pregnancyPermissibility)}
-        </span>
+        </VaccineDataCellText>
       ),
     },
   ]
