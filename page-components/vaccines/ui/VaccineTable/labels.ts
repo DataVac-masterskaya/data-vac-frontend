@@ -1,12 +1,11 @@
 import type { Permissibility } from '../../model/types'
 
 export const VACCINE_FIELD_LABELS = {
-  name: 'Название',
-  infections: 'Инфекция',
+  name: 'Название вакцины',
+  infections: 'Инфекции',
   routes: 'Способ введения',
   contraindications: 'Противопоказания',
-  ageRange: 'Возраст',
-  permissibility: 'Допустимость',
+  ageRange: 'Допустимый возраст',
   pregnancyPermissibility: 'При беременности и ГВ',
 } as const
 
