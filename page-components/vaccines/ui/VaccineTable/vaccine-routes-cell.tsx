@@ -5,10 +5,9 @@ import {
   Badge,
   type AdministrationMethod,
 } from '@datavac/ui-kit'
+import { VACCINE_COUNT_BADGE_CLASS_NAME } from './vaccine-column-meta'
 import { useRoutesMaxVisible } from './use-routes-max-visible'
-
-export const VACCINE_COUNT_BADGE_CLASS_NAME =
-  'inline-flex h-4 min-w-[23px] shrink-0 items-center justify-center rounded-pill bg-subtle px-1 text-sm font-medium leading-none text-accent'
+import { useVaccineTableLayout } from './use-vaccine-table-layout'
 
 type VaccineRoutesCellProps = {
   routes: AdministrationMethod[]
@@ -16,6 +15,7 @@ type VaccineRoutesCellProps = {
 
 export function VaccineRoutesCell({ routes }: VaccineRoutesCellProps) {
   const maxVisible = useRoutesMaxVisible()
+  const layout = useVaccineTableLayout()
 
   if (routes.length === 0) {
     return null
@@ -25,7 +25,13 @@ export function VaccineRoutesCell({ routes }: VaccineRoutesCellProps) {
   const visibleRoutes = routes.slice(0, maxVisible)
 
   return (
-    <div className="flex items-start gap-1">
+    <div
+      className={
+        layout !== 'desktop'
+          ? 'flex flex-wrap items-start gap-1'
+          : 'flex items-start gap-1'
+      }
+    >
       {visibleRoutes.map((method, index) => {
         const isLastIcon = index === visibleRoutes.length - 1
         const needsRightPadding = isLastIcon && extraRoutesCount === 0

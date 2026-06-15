@@ -1,99 +1,80 @@
 'use client'
 
-import { Badge, type DataTableColumn } from '@datavac/ui-kit'
+import { useMemo } from 'react'
+import type { DataTableColumn } from '@datavac/ui-kit'
 import type { VaccineData } from '../../model/types'
-import { formatPermissibility, VACCINE_FIELD_LABELS } from './labels'
+import { vaccineCellRenderers } from './vaccine-cells'
+import { VACCINE_COLUMN_META } from './vaccine-column-meta'
 import {
-  VACCINE_COUNT_BADGE_CLASS_NAME,
-  VaccineRoutesCell,
-} from './vaccine-routes-cell'
+  VACCINE_DESKTOP_COLUMN_ORDER,
+  VACCINE_MOBILE_COLUMN_ORDER,
+  VACCINE_TABLET_COLUMN_ORDER,
+  type VaccineColumnKey,
+} from './vaccine-column-keys'
+import { getVaccineTableMaxWidthPx } from './vaccine-table-width'
+import { useVaccineTableDesktop } from './use-vaccine-table-desktop'
 import {
-  VACCINE_NAME_CELL_TEXT_CLASS_NAME,
-  VaccineDataCellText,
-} from './vaccine-table-text'
+  useVaccineTableLayout,
+  type VaccineTableLayout,
+} from './use-vaccine-table-layout'
 
-/** Пропорции ширин колонок по Figma 1920 (180:180:128:351:180:136). routes +3 к Figma 128 — место под 3 иконки + badge при ≥1600. */
-const COLUMN_FLEX = {
-  name: 18,
-  infections: 18,
-  routes: 21,
-  contraindications: 29,
-  ageRange: 18,
-  pregnancy: 14,
-} as const
+export type { VaccineTableLayout }
+export {
+  getVaccineTableMaxWidthPx,
+  VACCINE_TABLE_MAX_WIDTH_PX,
+} from './vaccine-table-width'
 
-export const VACCINE_TABLE_WIDTH_CLASS =
-  'w-full max-w-[1016px] xl:max-w-[1312px]'
+function buildVaccineColumns(
+  order: readonly VaccineColumnKey[],
+): DataTableColumn<VaccineData>[] {
+  return order.map((key) => ({
+    key,
+    ...VACCINE_COLUMN_META[key],
+    render: vaccineCellRenderers[key],
+  }))
+}
+
+export function getVaccineDesktopColumns(): DataTableColumn<VaccineData>[] {
+  return buildVaccineColumns(VACCINE_DESKTOP_COLUMN_ORDER)
+}
+
+export function getVaccineTabletColumns(): DataTableColumn<VaccineData>[] {
+  return buildVaccineColumns(VACCINE_TABLET_COLUMN_ORDER)
+}
+
+export function getVaccineMobileColumns(): DataTableColumn<VaccineData>[] {
+  return buildVaccineColumns(VACCINE_MOBILE_COLUMN_ORDER)
+}
+
+export function getVaccineColumnsForLayout(
+  layout: VaccineTableLayout,
+): DataTableColumn<VaccineData>[] {
+  switch (layout) {
+    case 'desktop':
+      return getVaccineDesktopColumns()
+    case 'tablet':
+      return getVaccineTabletColumns()
+    case 'mobile':
+      return getVaccineMobileColumns()
+  }
+}
 
 export function getVaccineColumns(): DataTableColumn<VaccineData>[] {
-  return [
-    {
-      key: 'name',
-      label: VACCINE_FIELD_LABELS.name,
-      flex: COLUMN_FLEX.name,
-      sortable: true,
-      render: (row) => (
-        <span className={VACCINE_NAME_CELL_TEXT_CLASS_NAME}>{row.name}</span>
-      ),
-    },
-    {
-      key: 'infections',
-      label: VACCINE_FIELD_LABELS.infections,
-      flex: COLUMN_FLEX.infections,
-      render: (row) => (
-        <span className="inline-flex min-w-0 items-start gap-1">
-          <VaccineDataCellText>{row.infections[0] ?? '—'}</VaccineDataCellText>
-          {row.infections.length > 1 && (
-            <Badge className={VACCINE_COUNT_BADGE_CLASS_NAME}>
-              +{row.infections.length - 1}
-            </Badge>
-          )}
-        </span>
-      ),
-    },
-    {
-      key: 'routes',
-      label: VACCINE_FIELD_LABELS.routes,
-      flex: COLUMN_FLEX.routes,
-      render: (row) => <VaccineRoutesCell routes={row.routes} />,
-    },
-    {
-      key: 'contraindications',
-      label: VACCINE_FIELD_LABELS.contraindications,
-      flex: COLUMN_FLEX.contraindications,
-      desktopOnly: true,
-      render: (row) => (
-        <span className="inline-flex min-w-0 flex-wrap items-start gap-1">
-          <VaccineDataCellText>
-            {row.contraindications[0] ?? '—'}
-          </VaccineDataCellText>
-          {row.contraindications.length > 1 && (
-            <Badge className={VACCINE_COUNT_BADGE_CLASS_NAME}>
-              +{row.contraindications.length - 1}
-            </Badge>
-          )}
-        </span>
-      ),
-    },
-    {
-      key: 'ageRange',
-      label: VACCINE_FIELD_LABELS.ageRange,
-      flex: COLUMN_FLEX.ageRange,
-      mobileHalf: true,
-      render: (row) => (
-        <VaccineDataCellText>{row.ageRange}</VaccineDataCellText>
-      ),
-    },
-    {
-      key: 'pregnancyPermissibility',
-      label: VACCINE_FIELD_LABELS.pregnancyPermissibility,
-      flex: COLUMN_FLEX.pregnancy,
-      mobileHalf: true,
-      render: (row) => (
-        <VaccineDataCellText>
-          {formatPermissibility(row.pregnancyPermissibility)}
-        </VaccineDataCellText>
-      ),
-    },
-  ]
+  return getVaccineDesktopColumns()
+}
+
+export function useVaccineTableColumns(): {
+  layout: VaccineTableLayout
+  columns: DataTableColumn<VaccineData>[]
+  maxWidthPx: number
+} {
+  const layout = useVaccineTableLayout()
+  const isWideDesktop = useVaccineTableDesktop()
+  const columns = useMemo(
+    () => getVaccineColumnsForLayout(layout),
+    [layout],
+  )
+  const maxWidthPx = getVaccineTableMaxWidthPx(layout, isWideDesktop)
+
+  return { layout, columns, maxWidthPx }
 }
