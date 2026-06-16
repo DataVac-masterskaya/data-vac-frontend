@@ -1,7 +1,7 @@
 'use client'
 
 import type { ReactNode } from 'react'
-import { useVaccineTableDesktop } from './use-vaccine-table-desktop'
+import { useVaccineTableDesktop } from './use-vaccine-table-media'
 
 export const VACCINE_NAME_CELL_TEXT_CLASS_NAME =
   'min-w-0 break-words font-semibold text-fg text-[14px] leading-5'

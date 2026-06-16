@@ -6,23 +6,21 @@ import {
   type AdministrationMethod,
 } from '@datavac/ui-kit'
 import { VACCINE_COUNT_BADGE_CLASS_NAME } from './vaccine-column-meta'
-import { useRoutesMaxVisible } from './use-routes-max-visible'
-import { useVaccineTableLayout } from './use-vaccine-table-layout'
+import { useVaccineTableMedia } from './use-vaccine-table-media'
 
 type VaccineRoutesCellProps = {
   routes: AdministrationMethod[]
 }
 
 export function VaccineRoutesCell({ routes }: VaccineRoutesCellProps) {
-  const maxVisible = useRoutesMaxVisible()
-  const layout = useVaccineTableLayout()
+  const { layout, routesMaxVisible } = useVaccineTableMedia()
 
   if (routes.length === 0) {
     return null
   }
 
-  const extraRoutesCount = routes.length - maxVisible
-  const visibleRoutes = routes.slice(0, maxVisible)
+  const extraRoutesCount = routes.length - routesMaxVisible
+  const visibleRoutes = routes.slice(0, routesMaxVisible)
 
   return (
     <div
