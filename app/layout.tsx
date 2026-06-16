@@ -1,10 +1,9 @@
-import type { Metadata } from 'next'
-import { QueryProvider } from '@/shared/providers/query-provider'
-import { UIKitProvider } from '@/shared/providers/ui-kit-provider'
-import { AppShell } from '@/shared/ui/SideMenu/app-shell'
-import { PageLayout } from '@/shared/ui/PageLayout'
-import './globals.css'
-import '@datavac/ui-kit/style.css'
+import type { Metadata } from "next";
+import { QueryProvider } from "@/shared/providers/query-provider";
+import { UIKitProvider } from "@/shared/providers/ui-kit-provider";
+import { PageLayout } from "@/shared/ui/PageLayout";
+import "./globals.css";
+import "@datavac/ui-kit/style.css";
 
 export const metadata: Metadata = {
   title: "DataVac — справочник вакцин",
@@ -28,9 +27,9 @@ export default function RootLayout({
       </head>
       <body className="min-h-dvh flex bg-page text-fg">
         <UIKitProvider>
-          <PageLayout>
-            <QueryProvider>{children}</QueryProvider>
-          </PageLayout>
+          <QueryProvider>
+            <PageLayout>{children}</PageLayout>
+          </QueryProvider>
         </UIKitProvider>
       </body>
     </html>

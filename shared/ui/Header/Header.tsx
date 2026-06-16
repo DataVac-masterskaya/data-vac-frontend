@@ -1,8 +1,21 @@
 'use client';
 
+import { Suspense } from 'react';
 import { SearchBar, ThemeToggle } from '@datavac/ui-kit';
 import { DataVacLogo } from '@/shared/ui/Logo';
+import { AppSearchBar } from '@/shared/ui/app-search-bar';
 import { useSideMenuMode } from '@/shared/ui/SideMenu/use-side-menu-mode';
+
+const SEARCH_PLACEHOLDER =
+  'Для поиска введите название вакцины, противопоказания, инфекции';
+
+function HeaderSearchBar() {
+  return (
+    <Suspense fallback={<SearchBar placeholder={SEARCH_PLACEHOLDER} />}>
+      <AppSearchBar />
+    </Suspense>
+  );
+}
 
 export function Header() {
   const mode = useSideMenuMode();
@@ -11,7 +24,7 @@ export function Header() {
     return (
       <header className="h-14 bg-page flex items-center justify-between w-full">
         <div className="max-w-[572px] w-full">
-          <SearchBar placeholder="Для поиска введите название вакцины, противопоказания, инфекции" />
+          <HeaderSearchBar />
         </div>
         <ThemeToggle />
       </header>
@@ -23,9 +36,7 @@ export function Header() {
       <header className="h-14 bg-page flex items-center gap-7 w-full">
         <DataVacLogo placement="sidebar" showText={true} />
         <div className="flex-1">
-        <SearchBar
-          placeholder="Для поиска введите название вакцины, противопоказания, инфекции"
-        />
+          <HeaderSearchBar />
         </div>
         <ThemeToggle />
       </header>
@@ -39,7 +50,7 @@ export function Header() {
         <ThemeToggle />
       </div>
       <div className="bg-page pt-4">
-        <SearchBar placeholder="Введите запрос поиска" />
+        <HeaderSearchBar />
       </div>
     </header>
   );
