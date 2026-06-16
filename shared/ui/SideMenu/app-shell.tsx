@@ -1,6 +1,6 @@
 'use client'
 
-import { AppHeader } from '@/shared/ui/app-header'
+import { Header } from '@/shared/ui/Header'
 import { SIDE_MENU_WIDTH_PX } from './breakpoints'
 import { SideMenuDesktop, SideMenuTablet } from './side-menu'
 import { SideMenuMobile } from './side-menu-mobile'
@@ -21,7 +21,7 @@ export function AppShell({ children }: AppShellProps) {
       ) : null}
 
       <main className="flex min-w-0 flex-1 flex-col">
-        <AppHeader />
+        <Header />
         {mode === 'tablet' ? (
           <div className="px-6 pt-4">
             <SideMenuTablet />
