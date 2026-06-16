@@ -12,13 +12,12 @@ import {
   type VaccineColumnKey,
 } from './vaccine-column-keys'
 import { getVaccineTableMaxWidthPx } from './vaccine-table-width'
-import { useVaccineTableDesktop } from './use-vaccine-table-desktop'
 import {
-  useVaccineTableLayout,
+  useVaccineTableMedia,
   type VaccineTableLayout,
-} from './use-vaccine-table-layout'
+} from './use-vaccine-table-media'
 
-export type { VaccineTableLayout }
+export type { VaccineTableLayout } from './use-vaccine-table-media'
 export {
   getVaccineTableMaxWidthPx,
   VACCINE_TABLE_MAX_WIDTH_PX,
@@ -68,8 +67,7 @@ export function useVaccineTableColumns(): {
   columns: DataTableColumn<VaccineData>[]
   maxWidthPx: number
 } {
-  const layout = useVaccineTableLayout()
-  const isWideDesktop = useVaccineTableDesktop()
+  const { layout, isWideDesktop } = useVaccineTableMedia()
   const columns = useMemo(
     () => getVaccineColumnsForLayout(layout),
     [layout],

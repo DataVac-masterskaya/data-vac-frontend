@@ -1,4 +1,4 @@
-import type { VaccineTableLayout } from './use-vaccine-table-layout'
+import type { VaccineTableLayout } from './use-vaccine-table-media'
 
 /** Figma: tablet/mobile 720; desktop 1016 (1024–1279); desktop wide 1312 (≥1280). */
 export const VACCINE_TABLE_MAX_WIDTH_PX = {
