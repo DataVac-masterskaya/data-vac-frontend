@@ -15,7 +15,7 @@ export const VACCINE_COLUMN_FLEX: Record<VaccineColumnKey, number> = {
 
 type ColumnMeta = Pick<
   DataTableColumn<VaccineData>,
-  'label' | 'flex' | 'sortable' | 'mobileHalf'
+  'label' | 'flex' | 'sortable' | 'mobileHalf' | 'tooltip'
 >
 
 export const VACCINE_COLUMN_META: Record<VaccineColumnKey, ColumnMeta> = {
@@ -40,6 +40,7 @@ export const VACCINE_COLUMN_META: Record<VaccineColumnKey, ColumnMeta> = {
     label: VACCINE_FIELD_LABELS.ageRange,
     flex: VACCINE_COLUMN_FLEX.ageRange,
     mobileHalf: true,
+    tooltip: 'Возрастные ограничения применения вакцины',
   },
   pregnancyPermissibility: {
     label: VACCINE_FIELD_LABELS.pregnancyPermissibility,
@@ -49,4 +50,4 @@ export const VACCINE_COLUMN_META: Record<VaccineColumnKey, ColumnMeta> = {
 }
 
 export const VACCINE_COUNT_BADGE_CLASS_NAME =
-  'inline-flex h-4 min-w-[23px] shrink-0 items-center justify-center rounded-pill bg-subtle px-1 text-sm font-medium leading-none text-accent'
+  'inline-flex h-5 min-w-[23px] shrink-0 items-center justify-center rounded-pill bg-subtle px-1 text-sm font-medium leading-4 text-accent'

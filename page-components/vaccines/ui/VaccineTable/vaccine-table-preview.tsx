@@ -1,32 +1,42 @@
 'use client'
 
+import { useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { DataTable } from '@datavac/ui-kit'
-import { useVaccineTableColumns } from './vaccineColumns'
+import type { SortDirection } from '@datavac/ui-kit'
+import { VaccineTable } from './VaccineTable'
 import { MOCK_VACCINE_DATA_ROWS } from './mock-vaccine-data'
 
 export function VaccineTablePreview() {
   const router = useRouter()
-  const { layout, columns, maxWidthPx } = useVaccineTableColumns()
+  const [sortField, setSortField] = useState('name')
+  const [sortDirection, setSortDirection] = useState<SortDirection>('asc')
+
+  const sortedVaccines = useMemo(() => {
+    const rows = [...MOCK_VACCINE_DATA_ROWS]
+
+    if (sortField !== 'name') {
+      return rows
+    }
+
+    rows.sort((a, b) =>
+      sortDirection === 'asc'
+        ? a.name.localeCompare(b.name, 'ru')
+        : b.name.localeCompare(a.name, 'ru'),
+    )
+
+    return rows
+  }, [sortField, sortDirection])
 
   return (
-    <div className="w-full" style={{ maxWidth: maxWidthPx }}>
-      <DataTable
-        key={layout}
-        className="w-full"
-        columns={columns}
-        rows={MOCK_VACCINE_DATA_ROWS}
-        getRowKey={(row) => row.id}
-        desktopBreakpoint="lg"
-        tabletColumns={3}
-        mobileActionLabel="Подробнее"
-      mobileDisabledLabel="Нет сведений"
-        isRowDisabled={(row) => !!row.isIncompatible}
-        onRowClick={(row) => router.push(`/vaccines/${row.id}`)}
-        sortField="name"
-        sortDirection="asc"
-        onSortChange={() => {}}
-      />
-    </div>
+    <VaccineTable
+      vaccines={sortedVaccines}
+      sortField={sortField}
+      sortDirection={sortDirection}
+      onSortChange={(field, direction) => {
+        setSortField(field)
+        setSortDirection(direction)
+      }}
+      onRowClick={(row) => router.push(`/vaccines/${row.id}`)}
+    />
   )
 }

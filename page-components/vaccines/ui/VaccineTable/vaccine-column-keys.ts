@@ -36,5 +36,4 @@ export const VACCINE_MOBILE_COLUMN_ORDER = [
   'pregnancyPermissibility',
 ] as const satisfies readonly VaccineColumnKey[]
 
-/** @deprecated Используй VACCINE_TABLET_COLUMN_ORDER */
-export const VACCINE_CARD_COLUMN_ORDER = VACCINE_TABLET_COLUMN_ORDER
+
