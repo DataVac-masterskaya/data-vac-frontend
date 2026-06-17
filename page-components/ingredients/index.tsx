@@ -6,7 +6,6 @@ import {
   buildIngredientsPageHref,
   ingredientSortToTable,
   normalizeIngredientSort,
-  POPULARITY_SORT_LABEL,
 } from "./model/sort";
 import {
   INGREDIENT_TABLE_WIDTH_CLASS,
@@ -57,19 +56,7 @@ export default async function IngredientsPage({
 
       <Separator className="mt-4" />
 
-      <div className="mt-4 flex flex-col gap-4">
-        <div className="flex flex-wrap gap-2">
-          <a
-            href={buildIngredientsPageHref({ type, sort: "popularity", q })}
-            className={`inline-flex h-8 items-center rounded-full px-3 text-sm font-normal transition-colors whitespace-nowrap ${
-              sortValue === "popularity"
-                ? "bg-neutral text-white"
-                : "bg-card text-fg hover:text-accent"
-            }`}
-          >
-            {POPULARITY_SORT_LABEL}
-          </a>
-        </div>
+      <div className="mt-4">
         <IngredientsTable
           ingredients={results}
           sortField={sortField}

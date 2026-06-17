@@ -7,8 +7,6 @@ export type IngredientSortValue =
   | 'type_desc'
   | 'popularity'
 
-export const POPULARITY_SORT_LABEL = 'Сначала популярные'
-
 export function normalizeIngredientSort(sort?: string): IngredientSortValue {
   if (sort === 'name_desc') return 'name_desc'
   if (sort === 'type') return 'type'
