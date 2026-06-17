@@ -30,7 +30,7 @@ export default function RootLayout({
           <QueryProvider>
             <PageLayout>{children}</PageLayout>
           </QueryProvider>
-        </UIKitProvider>
+          </UIKitProvider>
       </body>
     </html>
   );
