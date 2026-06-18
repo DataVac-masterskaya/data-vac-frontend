@@ -6,7 +6,7 @@ import { CustomAmountInput } from './CustomAmountInput';
 import { SubscriptionToggle } from './SubscriptionToggle';
 import { EmailField } from './EmailField';
 import { Checkbox } from "../Checkbox";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export type DonationAmountPickerItemPresets = {
   sum: number
@@ -109,7 +109,7 @@ export function DonationAmountPicker({ presets, onDataChange }: DonationAmountPi
                 }}
               >
                 обработку персональных данных
-              </a>
+              </a>{/* TODO: заменить на реальный путь */}
             </span>
           }
         />
@@ -129,7 +129,7 @@ export function DonationAmountPicker({ presets, onDataChange }: DonationAmountPi
                 }}
               >
                 оферты
-              </a>
+              </a>{/* TODO: заменить на реальный путь */}
             </span>
           }
         />

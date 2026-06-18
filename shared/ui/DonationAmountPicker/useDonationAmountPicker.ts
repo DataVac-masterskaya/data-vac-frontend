@@ -48,7 +48,7 @@ export function useDonationAmountPicker() {
     return {
       amount: amount,
       email: email ? debouncedEmail : '',
-      isMonthly: email ? true : false,
+      isMonthly: isEmailEnabled,
       isPersonalDataAgreed: isAgreedToPersonalData,
       isOfferAgreed: isAgreedToOffer,
       isValid: isValid
