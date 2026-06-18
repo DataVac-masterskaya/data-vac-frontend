@@ -7,6 +7,8 @@ import { buildIngredientsPageHref, tableSortToIngredient } from "../model/sort";
 import type { SortDirection } from "@datavac/ui-kit";
 import { getIngredientColumns } from "./ingredient-card/ingredient-columns";
 
+const INGREDIENT_COLUMNS = getIngredientColumns();
+
 export const INGREDIENT_TABLE_WIDTH_CLASS =
   "w-full max-w-[720px] xl:max-w-[1016px] min-[1920px]:max-w-[1312px]";
 
@@ -32,7 +34,7 @@ export function IngredientsTable({
   return (
     <DataTable
       className={className}
-      columns={getIngredientColumns()}
+      columns={INGREDIENT_COLUMNS}
       rows={ingredients}
       getRowKey={(row) => String(row.id)}
       sortField={sortField}
