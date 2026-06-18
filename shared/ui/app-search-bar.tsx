@@ -48,12 +48,12 @@ export function AppSearchBar() {
   const { data = [], isLoading } = useSearchSuggestions(query)
 
   const handleSubmit = (value: string) => {
-    if (!isIngredientsPage) return
-
     router.push(
       buildIngredientsPageHref({
-        type: searchParams.get('type') ?? undefined,
-        sort: normalizeIngredientSort(searchParams.get('sort') ?? undefined),
+        type: isIngredientsPage ? (searchParams.get('type') ?? undefined) : undefined,
+        sort: isIngredientsPage
+          ? normalizeIngredientSort(searchParams.get('sort') ?? undefined)
+          : undefined,
         q: value.trim() || undefined,
       }),
     )
