@@ -17,7 +17,7 @@ export function InfectionsList({ infections }: InfectionsListProps) {
   const router = useRouter()
 
   return (
-    <ul className="flex flex-col gap-1">
+    <ul className="grid grid-cols-1 gap-1 md:grid-cols-2 md:!gap-2">
       {infections.map((infection) => (
         <li key={infection.id}>
           <InfectionCard

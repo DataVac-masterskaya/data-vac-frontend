@@ -2,7 +2,7 @@ import type { Infection, PaginatedResponse } from '@/shared/types/api'
 import { MOCK_INFECTIONS } from './mock-data'
 
 interface InfectionsParams {
-  sort?: 'popularity' | 'name'
+  sort?: string // 'name_asc' | 'name_desc'
   limit?: number
   category?: string
 }
@@ -15,16 +15,19 @@ export async function fetchInfections(params: InfectionsParams = {}): Promise<Pa
   if (params.category) {
     results = results.filter((i) => i.category === params.category)
   }
-  if (params.sort === 'popularity') {
-    results.sort((a, b) => b.popularity - a.popularity)
-  } else if (params.sort === 'name') {
+
+  const count = results.length
+
+  if (params.sort === 'name_asc') {
     results.sort((a, b) => a.name.localeCompare(b.name, 'ru'))
+  } else if (params.sort === 'name_desc') {
+    results.sort((a, b) => b.name.localeCompare(a.name, 'ru'))
   }
   if (params.limit) {
     results = results.slice(0, params.limit)
   }
 
-  return { count: MOCK_INFECTIONS.length, results }
+  return { count, results }
 }
 
 export async function fetchInfectionById(id: number): Promise<Infection | null> {
