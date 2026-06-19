@@ -1,5 +1,6 @@
 import { FAQSection } from "./ui/FAQSection";
 import { DonationAmountPicker } from "@/shared/ui/DonationAmountPicker";
+import { QRPaymentBlock } from "@/shared/ui/QRPaymentBlock";
 
 const DONATION_PRESETS = [
   { sum: 100, popular: false },
@@ -22,6 +23,10 @@ export default function SupportPage() {
           DataVac — бесплатная база знаний о вакцинах для всех. Если проект полезен для вас, вы можете поддержать его развитие.
         </p>
         <DonationAmountPicker presets={DONATION_PRESETS} />
+      </div>
+
+      <div className="bg-card rounded-2xl p-6 mb-6">
+        <QRPaymentBlock qrSrc="/qr-payment.png" />
       </div>
 
       <div className="bg-card rounded-2xl p-6">
