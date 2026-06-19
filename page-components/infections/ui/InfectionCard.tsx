@@ -28,11 +28,7 @@ export const InfectionCard = ({
     >
       <Text
         size="sm"
-        className="
-          line-clamp-2
-          2xl:text-base!
-          max-w-[344px]
-        "
+        className="line-clamp-2 2xl:text-base! max-w-[344px]"
       >
         {name}
       </Text>
@@ -44,8 +40,8 @@ export const InfectionCard = ({
       </Text>
       <span
         className={cn(
-          "rounded-full size-[20px] self-center justify-self-end flex", 
-          "items-center transition-colors justify-center", 
+          "rounded-full size-[20px] self-center justify-self-end flex",
+          "items-center transition-colors justify-center",
           "group-hover:bg-accent group-hover:text-interactive",
           isActive ? "bg-accent text-interactive" : "bg-subtle text-fg",
         )}

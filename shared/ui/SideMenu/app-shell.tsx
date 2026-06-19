@@ -27,7 +27,7 @@ export function AppShell({ children }: AppShellProps) {
             <SideMenuTablet />
           </div>
         ) : null}
-        <div className="flex-1 p-6">{children}</div>
+        <div className="flex-1 pt-6 px-4">{children}</div>
       </main>
 
       {mode === 'mobile' ? <SideMenuMobile /> : null}
