@@ -38,7 +38,8 @@ export default async function ContraindicationsPage({
         category: title,
         items: items.map((item, index) => ({
           text: item.name,
-          isActive: index === 0,
+          // TODO: заменить на реальный признак активности из ответа API
+          isActive: false,
           linkText: 'Перейти к списку ингредиентов',
         })),
       },
