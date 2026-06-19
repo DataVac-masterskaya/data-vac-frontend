@@ -103,7 +103,7 @@ export function DonationAmountPicker({ presets, onDataChange }: DonationAmountPi
                 href="/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#40a3ff] hover:text-accent focus:outline-none transition-colors"
+                className="text-link hover:text-accent focus:outline-none transition-colors"
                 onClick={(e) => {
                   e.stopPropagation();
                 }}
@@ -123,7 +123,7 @@ export function DonationAmountPicker({ presets, onDataChange }: DonationAmountPi
                 href="/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#40a3ff] hover:text-accent focus:outline-none transition-colors"
+                className="text-link hover:text-accent focus:outline-none transition-colors"
                 onClick={(e) => {
                   e.stopPropagation();
                 }}
@@ -133,6 +133,23 @@ export function DonationAmountPicker({ presets, onDataChange }: DonationAmountPi
             </span>
           }
         />
+      </div>
+      <div className="flex flex-col gap-y-3">
+        <button
+          type="button"
+          disabled={!donationData.isValid}
+          className="w-full py-4 rounded-full bg-accent text-white font-medium text-base transition-colors hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          Оформить пожертвование
+        </button>
+        {isEmailEnabled && (
+          <button
+            type="button"
+            className="w-full py-3 rounded-full border border-border text-fg text-sm font-medium transition-colors hover:bg-subtle"
+          >
+            Изменить условия или отменить подписку
+          </button>
+        )}
       </div>
     </div>
   );

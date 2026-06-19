@@ -12,8 +12,8 @@ export function SubscriptionToggle({ checked, onChange }: SubscriptionToggleProp
         checked={checked}
         onChange={onChange}
         size={'sm'}
-        trackClassName={checked ? 'bg-accent' : 'bg-white'}
-        thumbClassName={checked ? 'bg-white' : 'bg-accent dark:bg-neutral'}
+        trackClassName={checked ? 'bg-accent' : 'bg-fg-muted'}
+        thumbClassName="bg-white"
         aria-label={checked ? 'Отключить поле email' : 'Включить поле email'}
       />
       <p>Переводить ежемесячно</p>
