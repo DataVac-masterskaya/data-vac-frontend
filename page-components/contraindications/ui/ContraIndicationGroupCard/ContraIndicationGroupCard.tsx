@@ -1,7 +1,4 @@
-'use client';
-
 import { Fragment } from 'react';
-import { cn } from '@datavac/ui-kit';
 import { ContraIndicationRow } from '../ContraIndicationRow';
 import { ContraIndicationGroupCardProps } from './ContraIndicationGroupCard.types';
 
@@ -11,10 +8,12 @@ export function ContraIndicationGroupCard({
   className,
 }: ContraIndicationGroupCardProps) {
   return (
-    <section className={cn('rounded-xl bg-card px-3 py-[11px]', className)}>
-      <h2 className="text-sm font-semibold text-fg">{title}</h2>
+    <section
+      className={`rounded-xl bg-card px-3 py-[11px]${className ? ` ${className}` : ''}`}
+    >
+      <h2 className="text-sm font-semibold text-fg w-[200px] md:w-[280px]">{title}</h2>
 
-      <div className="mt- border-t border-subtle" />
+      <div className="mt-3 border-t border-subtle" />
 
       <div className="mt-[13px] flex flex-col gap-[13px]">
         {groups.map((group, groupIndex) => (
