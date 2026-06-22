@@ -2,7 +2,7 @@ import type { Infection, PaginatedResponse } from '@/shared/types/api'
 import { MOCK_INFECTIONS } from './mock-data'
 
 interface InfectionsParams {
-  sort?: string // 'name_asc' | 'name_desc'
+  sort?: 'name_asc' | 'name_desc'
   limit?: number
   category?: string
 }

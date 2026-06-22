@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams, usePathname } from 'next/navigation'
 import { ArrowDownArrowUpIcon, Select, SortControl } from '@datavac/ui-kit'
-import { useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
 
 type SortDirection = 'asc' | 'desc'
 type SortValue = 'name_asc' | 'name_desc'
@@ -49,8 +49,6 @@ export function SortControlWrapper() {
     ? 'Сортировать по алфавиту(А–Я)'
     : 'Сортировать по алфавиту (Я–А)';
 
-  const mobileOptions = useMemo(() => MOBILE_OPTIONS, []);
-
   return (
     <>
       <div className="hidden md:flex">
@@ -65,7 +63,7 @@ export function SortControlWrapper() {
       </div>
       <div className="md:hidden">
         <Select
-          options={mobileOptions}
+          options={MOBILE_OPTIONS}
           value={currentSort}
           onChange={handleMobileChange}
           icon={<ArrowDownArrowUpIcon width={16} height={16} className="text-accent" />}

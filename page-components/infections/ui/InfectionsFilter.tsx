@@ -13,7 +13,7 @@ interface InfectionsFilterProps {
   categories: Category[];
 }
 
-export default function InfectionsFilter({ activeCategory, categories }: InfectionsFilterProps) {
+export function InfectionsFilter({ activeCategory, categories }: InfectionsFilterProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
