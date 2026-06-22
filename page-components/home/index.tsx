@@ -11,7 +11,7 @@ import shape3 from './ui/assets/shape-3.webp'
 export default async function HomePage() {
   const [vaccines, infections, ingredients, contraindications] = await Promise.all([
     fetchVaccines({ sort: 'popularity', limit: 5 }),
-    fetchInfections({ sort: 'popularity', limit: 5 }),
+    fetchInfections({ sort: 'name_asc', limit: 5 }),
     fetchIngredients({ sort: 'popularity', limit: 5 }),
     fetchContraindications({ sort: 'popularity', limit: 5 }),
   ])
