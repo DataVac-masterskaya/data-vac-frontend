@@ -6,7 +6,7 @@ import { queryKeys } from '@/shared/query/keys'
 
 interface InfectionsParams {
   category?: string
-  sort?: 'popularity' | 'name'
+  sort?: 'name_asc' | 'name_desc'
 }
 
 export function useInfections(params: InfectionsParams = {}) {
