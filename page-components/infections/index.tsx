@@ -1,9 +1,10 @@
 import { fetchInfections } from '@/shared/api/infections'
 import { InfectionsList } from './ui/InfectionsList'
-import InfectionsFilter from './ui/InfectionsFilter'
+import { InfectionsFilter } from './ui/InfectionsFilter'
 import { Separator } from '@/shared/ui/separator'
 import { SortControlWrapper } from './ui/SortControlWrapper'
 import { BackLink } from '@/shared/ui/back-link'
+import { Suspense } from 'react'
 
 const CATEGORIES = [
   { value: '', label: 'Все' },
@@ -28,8 +29,10 @@ export default async function InfectionsPage({
       <div className="flex flex-col gap-y-4">
         <BackLink href="/" />
         <h1 className="text-2xl font-normal text-fg">Инфекции</h1>
-        <div className="flex flex-col items-start gap-[19px] min-[768px]:!flex-row min-[768px]:justify-between min-[768px]:items-center">
-          <InfectionsFilter categories={CATEGORIES} activeCategory={category || ''} />
+        <div className="flex flex-col items-start gap-[19px] md:!flex-row md:!justify-between md:!items-center">
+          <Suspense fallback={null}>
+            <InfectionsFilter categories={CATEGORIES} activeCategory={category || ''} />
+          </Suspense>
           <span className="text-fg-secondary font-normal text-base">{count} результатов</span>
         </div>
       </div>
