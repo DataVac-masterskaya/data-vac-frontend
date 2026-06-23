@@ -2,7 +2,7 @@ import type { PaginatedResponse, Vaccine } from '@/shared/types/api'
 import { MOCK_VACCINES } from './mock-data'
 
 interface VaccinesParams {
-  sort?: 'popularity' | 'name'
+  sort?: 'popularity' | 'name' | 'name_desc'
   limit?: number
   letter?: string
   infection_id?: number
@@ -26,6 +26,8 @@ export async function fetchVaccines(params: VaccinesParams = {}): Promise<Pagina
     results.sort((a, b) => b.popularity - a.popularity)
   } else if (params.sort === 'name') {
     results.sort((a, b) => a.name.localeCompare(b.name, 'ru'))
+  } else if (params.sort === 'name_desc') {
+    results.sort((a, b) => b.name.localeCompare(a.name, 'ru'))
   }
   if (params.limit) {
     results = results.slice(0, params.limit)
