@@ -2,7 +2,7 @@
 
 import { Header } from '@/shared/ui/Header'
 import { SIDE_MENU_WIDTH_PX } from './breakpoints'
-import { SideMenuDesktop, SideMenuTablet } from './side-menu'
+import { SideMenuDesktop } from './side-menu'
 import { SideMenuMobile } from './side-menu-mobile'
 import { useSideMenuMode } from './use-side-menu-mode'
 
@@ -22,12 +22,8 @@ export function AppShell({ children }: AppShellProps) {
 
       <main className="flex min-w-0 flex-1 flex-col">
         <Header />
-        {mode === 'tablet' ? (
-          <div className="px-6 pt-4">
-            <SideMenuTablet />
-          </div>
-        ) : null}
-        <div className="flex-1 pt-6 px-4">{children}</div>
+
+        <div className="flex-1 p-6">{children}</div>
       </main>
 
       {mode === 'mobile' ? <SideMenuMobile /> : null}
