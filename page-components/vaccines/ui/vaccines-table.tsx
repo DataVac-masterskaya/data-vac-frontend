@@ -6,6 +6,9 @@ import type { VaccineData } from "../model/types";
 import { buildVaccinesPageHref, tableSortToVaccine } from "../model/sort";
 import { VaccineTable } from "./VaccineTable/VaccineTable";
 
+export const VACCINE_PAGE_WIDTH_CLASS =
+  "w-full max-w-[720px] xl:max-w-[1016px] min-[1920px]:max-w-[1312px]";
+
 type VaccinesTableProps = {
   vaccines: VaccineData[];
   sortField: string;
