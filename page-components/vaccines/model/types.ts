@@ -13,3 +13,4 @@ export interface VaccineData {
   pregnancyPermissibility: Permissibility
   isIncompatible?: boolean
 }
+
