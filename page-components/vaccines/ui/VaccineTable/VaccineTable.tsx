@@ -7,7 +7,7 @@ import { useVaccineTableColumns } from "./vaccineColumns";
 
 export type VaccineTableProps = {
   vaccines: VaccineData[];
-  sortField: string;
+  sortField?: string;
   sortDirection: SortDirection;
   onSortChange: (field: string, direction: SortDirection) => void;
   onRowClick: (vaccine: VaccineData) => void;

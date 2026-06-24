@@ -11,7 +11,7 @@ export const VACCINE_PAGE_WIDTH_CLASS =
 
 type VaccinesTableProps = {
   vaccines: VaccineData[];
-  sortField: string;
+  sortField?: string;
   sortDirection: SortDirection;
   className?: string;
 };

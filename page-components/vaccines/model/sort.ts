@@ -10,11 +10,11 @@ export function normalizeVaccineSort(sort?: string): VaccineSortValue {
 }
 
 export function vaccineSortToTable(sort: VaccineSortValue): {
-  sortField: string;
+  sortField: string | undefined;
   sortDirection: SortDirection;
 } {
   if (sort === "popularity") {
-    return { sortField: "name", sortDirection: "asc" };
+    return { sortField: undefined, sortDirection: "asc" };
   }
   return {
     sortField: "name",
