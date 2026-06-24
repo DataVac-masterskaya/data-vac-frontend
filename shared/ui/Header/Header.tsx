@@ -54,10 +54,14 @@ export function Header() {
       <header
         className={cn(
           STICKY_HEADER_CLASS,
-          'flex h-14 items-center justify-between',
+          'flex items-center transition-[height] duration-200 ease-out',
+          isCompact ? 'h-16 justify-end' : 'h-14 justify-between',
         )}
       >
-        <CollapsibleRow hidden={isCompact} className="max-w-[572px] w-full flex-1">
+        <CollapsibleRow
+          hidden={isCompact}
+          className={cn('max-w-[572px] w-full', !isCompact && 'flex-1')}
+        >
           <div className="h-14 flex items-center">
             <HeaderSearchBar />
           </div>
@@ -72,6 +76,7 @@ export function Header() {
       <header
         className={cn(
           STICKY_HEADER_CLASS,
+          'transition-[height,padding] duration-200 ease-out',
           isCompact ? 'h-16' : 'pb-4',
         )}
       >

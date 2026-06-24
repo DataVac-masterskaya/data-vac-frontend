@@ -23,6 +23,7 @@ export function useStickyHeader(): StickyHeaderVariant {
       lastScrollY.current = y
     }
 
+    onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
