@@ -287,13 +287,19 @@ export default async function VaccinesPage({
 
       <Separator />
 
-      <div className="mt-4">
-        <VaccinesTable
-          vaccines={MOCK_VACCINES}
-          sortField={sortField}
-          sortDirection={sortDirection}
-        />
-      </div>
+      {MOCK_VACCINES.length === 0 ? (
+        <div className="mt-4 bg-card rounded-2xl p-10 text-center text-fg-secondary">
+          Ничего не найдено
+        </div>
+      ) : (
+        <div className="mt-4">
+          <VaccinesTable
+            vaccines={MOCK_VACCINES}
+            sortField={sortField}
+            sortDirection={sortDirection}
+          />
+        </div>
+      )}
     </div>
   )
 }
