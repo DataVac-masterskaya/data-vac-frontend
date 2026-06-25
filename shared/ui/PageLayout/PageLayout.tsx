@@ -1,20 +1,20 @@
-'use client';
+'use client'
 
-import { ReactNode } from 'react';
-import { Header } from '@/shared/ui/Header';
-import { Footer } from '@/shared/ui/Footer';
-import { ScrollToTopButton } from '@/shared/ui/ScrollToTopButton';
-import { SideMenuDesktop } from '@/shared/ui/SideMenu/side-menu';
-import { SideMenuMobile } from '@/shared/ui/SideMenu/side-menu-mobile';
-import { useSideMenuMode } from '@/shared/ui/SideMenu/use-side-menu-mode';
-import { SIDE_MENU_WIDTH_PX } from '@/shared/ui/SideMenu/breakpoints';
+import { ReactNode } from 'react'
+import { Header } from '@/shared/ui/Header'
+import { Footer } from '@/shared/ui/Footer'
+import { ScrollToTopButton } from '@/shared/ui/ScrollToTopButton'
+import { SideMenuDesktop } from '@/shared/ui/SideMenu/side-menu'
+import { SideMenuMobile } from '@/shared/ui/SideMenu/side-menu-mobile'
+import { useSideMenuMode } from '@/shared/ui/SideMenu/use-side-menu-mode'
+import { SIDE_MENU_WIDTH_PX } from '@/shared/ui/SideMenu/breakpoints'
 
 export type PageLayoutProps = {
-  children: ReactNode;
-};
+  children: ReactNode
+}
 
 export function PageLayout({ children }: PageLayoutProps) {
-  const mode = useSideMenuMode();
+  const mode = useSideMenuMode()
 
   return (
     <div className="flex min-h-dvh w-full p-2">
@@ -35,5 +35,5 @@ export function PageLayout({ children }: PageLayoutProps) {
         <ScrollToTopButton />
       </main>
     </div>
-  );
+  )
 }
