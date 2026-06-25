@@ -13,6 +13,9 @@ type VaccinesTableProps = {
   vaccines: VaccineData[]
   sortField?: string
   sortDirection: SortDirection
+  q?: string
+  ingredientId?: number
+  infectionId?: number
   className?: string
 }
 
@@ -20,6 +23,9 @@ export function VaccinesTable({
   vaccines,
   sortField,
   sortDirection,
+  q,
+  ingredientId,
+  infectionId,
   className,
 }: VaccinesTableProps) {
   const router = useRouter()
@@ -34,6 +40,9 @@ export function VaccinesTable({
         router.push(
           buildVaccinesPageHref({
             sort: tableSortToVaccine(field, direction),
+            q,
+            ingredientId,
+            infectionId,
           }),
         )
       }}

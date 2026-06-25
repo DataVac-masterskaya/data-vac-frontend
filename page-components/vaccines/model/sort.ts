@@ -34,13 +34,28 @@ export function tableSortToVaccine(
 
 export function buildVaccinesPageHref({
   sort,
+  q,
+  ingredientId,
+  infectionId,
 }: {
   sort?: VaccineSortValue
+  q?: string
+  ingredientId?: number
+  infectionId?: number
 }): string {
   const params = new URLSearchParams()
   if (sort && sort !== 'popularity') {
     params.set('sort', sort)
   }
+  if (q?.trim()) {
+    params.set('q', q.trim())
+  }
+  if (Number.isFinite(ingredientId)) {
+    params.set('ingredient_id', String(ingredientId))
+  }
+  if (Number.isFinite(infectionId)) {
+    params.set('infection_id', String(infectionId))
+  }
   const query = params.toString()
-  return query ? `/vaccines?${query}` : '/vaccines'
+  return query ? `/vaccines/search?${query}` : '/vaccines/search'
 }

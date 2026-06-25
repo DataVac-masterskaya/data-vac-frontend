@@ -1,10 +1,19 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('VaccinesPage (#10)', () => {
-  test('список отображается, клик по строке ведёт на детальную', async ({
+test.describe('Vaccines routes', () => {
+  test('страница /vaccines отображает заглушку', async ({ page }) => {
+    await page.goto('/vaccines')
+    await page.waitForLoadState('networkidle')
+
+    await expect(
+      page.getByRole('heading', { level: 1, name: 'Вакцины (в разработке)' }),
+    ).toBeVisible()
+  })
+
+  test('страница /vaccines/search показывает таблицу и ведёт на детальную', async ({
     page,
   }) => {
-    await page.goto('/vaccines')
+    await page.goto('/vaccines/search')
     await page.waitForLoadState('networkidle')
 
     await expect(
@@ -25,5 +34,13 @@ test.describe('VaccinesPage (#10)', () => {
     await expect(
       page.getByRole('heading', { level: 1, name: vaccineName }),
     ).toBeVisible()
+  })
+
+  test('страница /vaccines/search применяет фильтрацию по q', async ({ page }) => {
+    await page.goto('/vaccines/search?q=пент')
+    await page.waitForLoadState('networkidle')
+
+    await expect(page.getByText('Пентаксим')).toBeVisible()
+    await expect(page.getByText('Инфанрикс Гекса')).not.toBeVisible()
   })
 })

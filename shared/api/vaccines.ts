@@ -3,6 +3,7 @@ import { MOCK_VACCINES } from './mock-data'
 
 interface VaccinesParams {
   sort?: 'popularity' | 'name' | 'name_desc'
+  q?: string
   limit?: number
   letter?: string
   infection_id?: number
@@ -17,6 +18,15 @@ export async function fetchVaccines(params: VaccinesParams = {}): Promise<Pagina
 
   if (params.letter) {
     results = results.filter((v) => v.name.startsWith(params.letter!))
+  }
+  if (params.q?.trim()) {
+    const q = params.q.trim().toLowerCase()
+    results = results.filter(
+      (v) =>
+        v.name.toLowerCase().includes(q) ||
+        v.administration_method.toLowerCase().includes(q) ||
+        v.infections.some((infection) => infection.toLowerCase().includes(q)),
+    )
   }
   if (params.infection_id) {
     const infection = results.find((_, i) => i === params.infection_id! - 1)

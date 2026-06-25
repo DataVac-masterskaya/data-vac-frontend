@@ -8,6 +8,10 @@ import {
   buildIngredientsPageHref,
   normalizeIngredientSort,
 } from '@/page-components/ingredients/model/sort'
+import {
+  buildVaccinesPageHref,
+  normalizeVaccineSort,
+} from '@/page-components/vaccines/model/sort'
 import type { SearchSuggestion } from '@/shared/types/api'
 
 const GROUP_LABELS: Record<SearchSuggestion['type'], string> = {
@@ -41,29 +45,56 @@ export function AppSearchBar() {
   const searchParams = useSearchParams()
 
   const isIngredientsPage = pathname === '/ingredients'
-  const qFromUrl = isIngredientsPage ? (searchParams.get('q') ?? '') : ''
+  const isVaccinesSearchPage = pathname === '/vaccines/search'
+  const qFromUrl =
+    isIngredientsPage || isVaccinesSearchPage ? (searchParams.get('q') ?? '') : ''
 
   const [query, setQuery] = useState(qFromUrl)
 
   const { data = [], isLoading } = useSearchSuggestions(query)
 
   const handleSubmit = (value: string) => {
+    const normalizedQuery = value.trim() || undefined
+
+    if (isVaccinesSearchPage) {
+      router.push(
+        buildVaccinesPageHref({
+          sort: normalizeVaccineSort(searchParams.get('sort') ?? undefined),
+          q: normalizedQuery,
+          ingredientId: Number(searchParams.get('ingredient_id')),
+          infectionId: Number(searchParams.get('infection_id')),
+        }),
+      )
+      return
+    }
+
+    if (!isIngredientsPage) {
+      router.push(buildVaccinesPageHref({ q: normalizedQuery }))
+      return
+    }
+
     router.push(
       buildIngredientsPageHref({
         type: isIngredientsPage ? (searchParams.get('type') ?? undefined) : undefined,
         sort: isIngredientsPage
           ? normalizeIngredientSort(searchParams.get('sort') ?? undefined)
           : undefined,
-        q: value.trim() || undefined,
+        q: normalizedQuery,
       }),
     )
   }
 
   return (
     <SearchBar
-      key={isIngredientsPage ? `ingredients-${qFromUrl}` : 'global'}
+      key={
+        isIngredientsPage
+          ? `ingredients-${qFromUrl}`
+          : isVaccinesSearchPage
+            ? `vaccines-search-${qFromUrl}`
+            : 'global'
+      }
       placeholder="Поиск вакцины, инфекции, ингредиента..."
-      defaultValue={isIngredientsPage ? qFromUrl : undefined}
+      defaultValue={isIngredientsPage || isVaccinesSearchPage ? qFromUrl : undefined}
       onSearch={setQuery}
       onSubmit={handleSubmit}
       results={mapSuggestionsToGroups(data)}
