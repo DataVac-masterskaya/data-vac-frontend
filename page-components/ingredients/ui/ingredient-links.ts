@@ -1,3 +1,3 @@
 export function ingredientVaccinesHref(ingredientId: number): string {
-  return `/vaccines?ingredient_id=${ingredientId}`
+  return `/vaccines/search?ingredient_id=${ingredientId}`
 }

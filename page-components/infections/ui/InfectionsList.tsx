@@ -23,7 +23,7 @@ export function InfectionsList({ infections }: InfectionsListProps) {
           <InfectionCard
             name={infection.name}
             category={infection.categoryLabel}
-            onClick={() => router.push(`/vaccines?infection_id=${infection.id}`)}
+            onClick={() => router.push(`/vaccines/search?infection_id=${infection.id}`)}
           />
         </li>
       ))}
