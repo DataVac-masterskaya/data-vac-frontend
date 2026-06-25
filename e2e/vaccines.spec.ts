@@ -40,7 +40,11 @@ test.describe('Vaccines routes', () => {
     await page.goto('/vaccines/search?q=пент')
     await page.waitForLoadState('networkidle')
 
-    await expect(page.getByText('Пентаксим')).toBeVisible()
-    await expect(page.getByText('Инфанрикс Гекса')).not.toBeVisible()
+    const rows = page.locator('[role="button"][tabindex="0"]')
+
+    await expect(
+      rows.filter({ hasText: /^Пентаксим/ }).first(),
+    ).toBeVisible()
+    await expect(rows.filter({ hasText: /^Инфанрикс Гекса/ })).toHaveCount(0)
   })
 })
