@@ -1,20 +1,20 @@
-"use client";
+'use client'
 
-import { useRouter } from "next/navigation";
-import type { SortDirection } from "@datavac/ui-kit";
-import type { VaccineData } from "../model/types";
-import { buildVaccinesPageHref, tableSortToVaccine } from "../model/sort";
-import { VaccineTable } from "./VaccineTable/VaccineTable";
+import { useRouter } from 'next/navigation'
+import type { SortDirection } from '@datavac/ui-kit'
+import type { VaccineData } from '../model/types'
+import { buildVaccinesPageHref, tableSortToVaccine } from '../model/sort'
+import { VaccineTable } from './VaccineTable/VaccineTable'
 
 export const VACCINE_PAGE_WIDTH_CLASS =
-  "w-full max-w-[720px] xl:max-w-[1016px] min-[1920px]:max-w-[1312px]";
+  'w-full max-w-[720px] xl:max-w-[1016px] min-[1920px]:max-w-[1312px]'
 
 type VaccinesTableProps = {
-  vaccines: VaccineData[];
-  sortField?: string;
-  sortDirection: SortDirection;
-  className?: string;
-};
+  vaccines: VaccineData[]
+  sortField?: string
+  sortDirection: SortDirection
+  className?: string
+}
 
 export function VaccinesTable({
   vaccines,
@@ -22,7 +22,7 @@ export function VaccinesTable({
   sortDirection,
   className,
 }: VaccinesTableProps) {
-  const router = useRouter();
+  const router = useRouter()
 
   return (
     <VaccineTable
@@ -35,11 +35,11 @@ export function VaccinesTable({
           buildVaccinesPageHref({
             sort: tableSortToVaccine(field, direction),
           }),
-        );
+        )
       }}
       onRowClick={(vaccine) => {
-        router.push(`/vaccines/${vaccine.id}`);
+        router.push(`/vaccines/${vaccine.id}`)
       }}
     />
-  );
+  )
 }
