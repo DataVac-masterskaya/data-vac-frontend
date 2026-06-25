@@ -4,6 +4,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import supportSpiral from './icons/spiral.svg'
 import { SideMenuSupportButton } from './side-menu-support-button'
+import { PrivacyPolicyPanel } from '../PrivacyPolicyPanel/privacy-policy-panel'
+import { cn } from '@datavac/ui-kit'
 
 const FOOTER_LINK_CLASS_NAME = 'underline underline-offset-2 transition-colors hover:text-fg'
 
@@ -17,7 +19,7 @@ const FOOTER_LINKS: FooterLinkItem[] = [
   { href: '/support', label: 'Обратная связь' },
   { href: '/#about', label: 'АНО «Коллективный иммунитет»' },
   { href: '/#privacy', label: 'Все права защищены' },
-  { href: '/#privacy', label: 'Политика конфиденциальности' },
+  // { href: '/#privacy', label: 'Политика конфиденциальности' },
 ]
 
 type FooterLinkProps = FooterLinkItem
@@ -62,6 +64,7 @@ export function SideMenuFooter({
             {FOOTER_LINKS.map((item) => (
               <FooterLink key={`${item.href}-${item.label}`} href={item.href} label={item.label} />
             ))}
+            <PrivacyPolicyPanel trigger={<button className={cn(FOOTER_LINK_CLASS_NAME, 'w-fit cursor-pointer')} type='button' children='Политика конфиденциальности'/>}/>
           </div>
         ) : null}
       </footer>
