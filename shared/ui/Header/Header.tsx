@@ -1,25 +1,25 @@
-'use client';
+'use client'
 
-import { Suspense, type ReactNode } from 'react';
-import { cn, SearchBar, ThemeToggle } from '@datavac/ui-kit';
-import { DataVacLogo } from '@/shared/ui/Logo';
-import { AppSearchBar } from '@/shared/ui/app-search-bar';
-import { useSideMenuMode } from '@/shared/ui/SideMenu/use-side-menu-mode';
-import { HeaderNavRow } from './header-nav-row';
-import { useStickyHeader } from './use-sticky-header';
+import { Suspense, type ReactNode } from 'react'
+import { cn, SearchBar, ThemeToggle } from '@datavac/ui-kit'
+import { DataVacLogo } from '@/shared/ui/Logo'
+import { AppSearchBar } from '@/shared/ui/app-search-bar'
+import { useSideMenuMode } from '@/shared/ui/SideMenu/use-side-menu-mode'
+import { HeaderNavRow } from './header-nav-row'
+import { useStickyHeader } from './use-sticky-header'
 
 const SEARCH_PLACEHOLDER =
-  'Для поиска введите название вакцины, противопоказания, инфекции';
+  'Для поиска введите название вакцины, противопоказания, инфекции'
 
 const STICKY_HEADER_CLASS =
-  'sticky top-0 z-40 w-full bg-[rgba(243,243,243,0.7)] backdrop-blur-[6px]';
+  'sticky top-0 z-40 w-full bg-overlay backdrop-blur-[6px]'
 
 function HeaderSearchBar() {
   return (
     <Suspense fallback={<SearchBar placeholder={SEARCH_PLACEHOLDER} />}>
       <AppSearchBar />
     </Suspense>
-  );
+  )
 }
 
 function CollapsibleRow({
@@ -27,9 +27,9 @@ function CollapsibleRow({
   children,
   className,
 }: {
-  hidden: boolean;
-  children: ReactNode;
-  className?: string;
+  hidden: boolean
+  children: ReactNode
+  className?: string
 }) {
   return (
     <div
@@ -41,13 +41,13 @@ function CollapsibleRow({
     >
       {children}
     </div>
-  );
+  )
 }
 
 export function Header() {
-  const mode = useSideMenuMode();
-  const variant = useStickyHeader();
-  const isCompact = variant === 'compact';
+  const mode = useSideMenuMode()
+  const variant = useStickyHeader()
+  const isCompact = variant === 'compact'
 
   if (mode === 'desktop') {
     return (
@@ -68,7 +68,7 @@ export function Header() {
         </CollapsibleRow>
         <ThemeToggle />
       </header>
-    );
+    )
   }
 
   if (mode === 'tablet') {
@@ -91,7 +91,7 @@ export function Header() {
         </CollapsibleRow>
         <HeaderNavRow />
       </header>
-    );
+    )
   }
 
   return (
@@ -104,5 +104,5 @@ export function Header() {
         <HeaderSearchBar />
       </CollapsibleRow>
     </header>
-  );
+  )
 }
