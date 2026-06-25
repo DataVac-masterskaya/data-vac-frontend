@@ -278,7 +278,9 @@ export default async function VaccinesPage({
 
       <div className="flex items-baseline justify-between pt-4 pb-4">
         <h1 className={`${sideMenuFont.className} text-2xl font-normal text-fg`}>
-          {MOCK_TITLE}
+
+          Вакцины
+
         </h1>
         <p className="shrink-0 text-xs font-normal text-fg-muted">
           {resultsLabel(MOCK_VACCINES.length)}
