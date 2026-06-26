@@ -1,3 +1,5 @@
+import { VaccineCatalog } from '@/page-components/vaccines/ui/VaccineCatalog'
+
 export default function VaccinesPage() {
-    return <h1>Вакцины (в разработке)</h1>
-  }
+  return <VaccineCatalog />
+}
