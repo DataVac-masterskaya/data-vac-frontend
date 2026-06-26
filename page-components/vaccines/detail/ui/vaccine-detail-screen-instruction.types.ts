@@ -1,4 +1,5 @@
 export type VaccineInstructionSection = {
   title: string;
-  content: string;
+  content: string | string[];
+  isList?: boolean;
 };
