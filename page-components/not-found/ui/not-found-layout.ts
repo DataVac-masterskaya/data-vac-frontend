@@ -25,10 +25,12 @@ export const NOT_FOUND_SPHERE_LAYOUT: NotFoundSphereLayout[] = [
     size: 210,
     className: 'top-[38%] right-[8%] md:right-[12%]',
   },
-  // снизу, пористый — 574px
+  // TODO(#47): добавить honeycomb (нижний шар) после экспорта из Figma
+  /*
   {
     id: 'porous',
     size: 574,
     className: 'bottom-[-180px] left-1/2 -translate-x-1/2',
   },
+  */
 ]
