@@ -3,11 +3,7 @@ import { fetchInfections } from '@/shared/api/infections'
 import { fetchIngredients } from '@/shared/api/ingredients'
 import { fetchVaccines } from '@/shared/api/vaccines'
 import { CategoryCard } from './ui/category-card/category-card'
-import shape from './ui/assets/shape.webp'
-import shape1 from './ui/assets/shape-1.webp'
-import shape2 from './ui/assets/shape-2.webp'
-import shape3 from './ui/assets/shape-3.webp'
-
+import { DECORATIVE_SHAPES } from '@/shared/ui/decorative-shapes'
 export default async function HomePage() {
   const [vaccines, infections, ingredients, contraindications] = await Promise.all([
     fetchVaccines({ sort: 'popularity', limit: 5 }),
@@ -20,7 +16,7 @@ export default async function HomePage() {
     {
       title: 'Вакцины',
       viewAllHref: '/vaccines',
-      decorationImage: shape.src,
+      decorationImage: DECORATIVE_SHAPES.bumpy.src,
       items: vaccines.results.map((v) => ({
         id: v.id,
         name: v.name,
@@ -31,7 +27,7 @@ export default async function HomePage() {
     {
       title: 'Инфекции',
       viewAllHref: '/infections',
-      decorationImage: shape1.src,
+      decorationImage: DECORATIVE_SHAPES.porous.src,
       items: infections.results.map((v) => ({
         id: v.id,
         name: v.name,
@@ -41,8 +37,8 @@ export default async function HomePage() {
     },
     {
       title: 'Ингредиенты',
-      viewAllHref: '/ingredients',
-      decorationImage: shape2.src,
+      viewAllHref: '/ingredients',  
+      decorationImage: DECORATIVE_SHAPES.cluster.src,
       items: ingredients.results.map((v) => ({
         id: v.id,
         name: v.name,
@@ -53,7 +49,7 @@ export default async function HomePage() {
     {
       title: 'Противопоказания',
       viewAllHref: '/contraindications',
-      decorationImage: shape3.src,
+      decorationImage: DECORATIVE_SHAPES.layered.src,
       items: contraindications.results.map((v) => ({
         id: v.id,
         name: v.name,
