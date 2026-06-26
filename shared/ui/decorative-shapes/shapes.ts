@@ -1,7 +1,7 @@
-import shapeCluster from './assets/shape.webp'
-import shapeBumpy from './assets/shape-1.webp'
-import shapeLayered from './assets/shape-2.webp'
-import shapePorous from './assets/shape-3.webp'
+import cluster from './assets/cluster.webp'
+import bumpy from './assets/bumpy.webp'
+import layered from './assets/layered.webp'
+import porous from './assets/porous.webp'
 
 export const DECORATIVE_SHAPE_IDS = [
   'cluster',
@@ -16,8 +16,8 @@ export const DECORATIVE_SHAPES: Record<
   DecorativeShapeId,
   { src: string }
 > = {
-  cluster: { src: shapeCluster.src },
-  bumpy: { src: shapeBumpy.src },
-  layered: { src: shapeLayered.src },
-  porous: { src: shapePorous.src },
+  cluster: { src: cluster.src },
+  bumpy: { src: bumpy.src },
+  layered: { src: layered.src },
+  porous: { src: porous.src },
 }
