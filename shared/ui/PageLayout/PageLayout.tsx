@@ -1,9 +1,9 @@
 'use client'
 
 import { ReactNode } from 'react'
+import { ScrollToTopButton } from '@datavac/ui-kit'
 import { Header } from '@/shared/ui/Header'
 import { Footer } from '@/shared/ui/Footer'
-import { ScrollToTopButton } from '@/shared/ui/ScrollToTopButton'
 import { SideMenuDesktop } from '@/shared/ui/SideMenu/side-menu'
 import { SideMenuMobile } from '@/shared/ui/SideMenu/side-menu-mobile'
 import { useSideMenuMode } from '@/shared/ui/SideMenu/use-side-menu-mode'
