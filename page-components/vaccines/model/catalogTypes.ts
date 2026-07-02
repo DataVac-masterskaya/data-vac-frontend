@@ -1,4 +1,4 @@
-interface VaccineCatalogItem {
+export interface VaccineCatalogItem {
   id: string
   name: string
   officialName: string | null

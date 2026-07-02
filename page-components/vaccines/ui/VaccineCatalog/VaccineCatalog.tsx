@@ -1,16 +1,18 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
-import { DataTable, SortDirection } from "@datavac/ui-kit";
-import { vaccineCatalogColumns } from "./vaccineCatalogColumns";
+import { useRouter } from 'next/navigation';
+import { useMemo, useState } from 'react';
+import { DataTable, SortDirection } from '@datavac/ui-kit';
+import { vaccineCatalogColumns } from './vaccineCatalogColumns';
+import { VaccineCatalogItem } from '../../model/catalogTypes';
 
 //мок данные
 const DEMO_ROWS: VaccineCatalogItem[] = [
   {
     id: '1',
     name: 'Инфанрикс Гекса',
-    officialName: 'Инфанрикс® Гекса (Вакцина для профилактики дифтерии, столбняка, коклюша (бесклеточная), полиомиелита (инактивированная), гепатита B комбинированная, адсорбированная в комплекте с вакциной для профилактики инфекции, вызываемой Haemophilus influenzae тип b конъюгированной, адсорбированной)',
+    officialName:
+      'Инфанрикс® Гекса (Вакцина для профилактики дифтерии, столбняка, коклюша (бесклеточная), полиомиелита (инактивированная), гепатита B комбинированная, адсорбированная в комплекте с вакциной для профилактики инфекции, вызываемой Haemophilus influenzae тип b конъюгированной, адсорбированной)',
     infections: ['Столбняк'],
     isAvailable: true,
   },
@@ -24,7 +26,8 @@ const DEMO_ROWS: VaccineCatalogItem[] = [
   {
     id: '3',
     name: 'Вактривир',
-    officialName: 'ВАКТРИВИР Комбинированная вакцина против кори, краснухи и паротита культуральная живая',
+    officialName:
+      'ВАКТРИВИР Комбинированная вакцина против кори, краснухи и паротита культуральная живая',
     infections: ['Корь', 'Краснуха', 'Паротит'],
     isAvailable: true,
   },
@@ -35,22 +38,22 @@ const DEMO_ROWS: VaccineCatalogItem[] = [
     infections: ['Гемофильная инфекция типа b'],
     isAvailable: false,
   },
-]
+];
 
 export function VaccineCatalog() {
-  const router = useRouter()
-  const [sortField, setSortField] = useState('name')
-  const [sortDirection, setSortDirection] = useState<SortDirection>('asc')
+  const router = useRouter();
+  const [sortField, setSortField] = useState('name');
+  const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
 
   const sortedVaccines = useMemo(() => {
-    const rows = [...DEMO_ROWS]
+    const rows = [...DEMO_ROWS];
 
     // Сортировка по имени
     if (sortField === 'name') {
       rows.sort((a, b) =>
         sortDirection === 'asc'
           ? a.name.localeCompare(b.name, 'ru')
-          : b.name.localeCompare(a.name, 'ru')
+          : b.name.localeCompare(a.name, 'ru'),
       );
     }
     // Сортировка по официальному названию
@@ -71,12 +74,12 @@ export function VaccineCatalog() {
       });
     }
 
-    return rows
-  }, [sortField, sortDirection])
+    return rows;
+  }, [sortField, sortDirection]);
 
   const handleRowClick = (row: VaccineCatalogItem) => {
-    router.push(`/vaccines/${row.id}`)
-  }
+    router.push(`/vaccines/${row.id}`);
+  };
 
   return (
     <DataTable
@@ -87,11 +90,11 @@ export function VaccineCatalog() {
       sortField={sortField}
       sortDirection={sortDirection}
       onSortChange={(field, direction) => {
-        setSortField(field)
-        setSortDirection(direction)
+        setSortField(field);
+        setSortDirection(direction);
       }}
       onRowClick={handleRowClick}
-      className={'gap-6'}
+      className="gap-6"
     />
-  )
+  );
 }
