@@ -31,7 +31,7 @@ export const SIDE_MENU_NAV_ICON_COLOR = '#323335'
 export const SIDE_MENU_NAV_ICON_BASE_CLASS =
   'flex size-6 shrink-0 items-center justify-center rounded-full transition-colors duration-300 ease-out'
 
-export const SIDE_MENU_NAV_ICON_IDLE_CLASS = 'bg-subtle text-[#323335]'
+export const SIDE_MENU_NAV_ICON_IDLE_CLASS = 'bg-subtle text-fg-secondary'
 
 export const SIDE_MENU_NAV_ICON_HIGHLIGHTED_CLASS = 'bg-accent text-white'
 
