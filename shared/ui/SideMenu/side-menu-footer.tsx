@@ -18,8 +18,7 @@ const FOOTER_LINKS: FooterLinkItem[] = [
   { href: '/#about', label: 'О нас' },
   { href: '/support', label: 'Обратная связь' },
   { href: '/#about', label: 'АНО «Коллективный иммунитет»' },
-  { href: '/#privacy', label: 'Все права защищены' },
-  // { href: '/#privacy', label: 'Политика конфиденциальности' },
+  { href: '/#privacy', label: 'Все права защищены' }
 ]
 
 type FooterLinkProps = FooterLinkItem
