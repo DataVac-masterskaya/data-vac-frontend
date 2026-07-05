@@ -15,7 +15,7 @@ export function NotFoundDecorativeSpheres() {
           key={id}
           src={DECORATIVE_SHAPES[id].src}
           alt=""
-          className={className}
+          className={`max-w-none ${className}`}
           style={{ zIndex: NOT_FOUND_SPHERE_Z_INDEX[id] }}
         />
       ))}

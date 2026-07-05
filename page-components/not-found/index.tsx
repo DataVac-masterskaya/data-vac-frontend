@@ -4,6 +4,7 @@ import { NotFoundDecorativeSpheres } from './ui/not-found-decorative-spheres'
 import {
   NOT_FOUND_CONTAINER_CLASSNAME,
   NOT_FOUND_CONTAINER_OFFSET_CLASSNAME,
+  NOT_FOUND_HEADING_CLASSNAME,
   NOT_FOUND_SUBTITLE_CLASSNAME,
   NOT_FOUND_SUBTITLE_LINK_CLASSNAME,
 } from './ui/not-found-layout'
@@ -16,9 +17,7 @@ export default function NotFoundPage() {
           <div className="relative inline-block overflow-visible">
             <NotFoundDecorativeSpheres />
 
-            <p
-              className={`relative z-10 font-medium leading-[1.196] text-accent text-[170px] min-[768px]:text-[280px] min-[1600px]:text-[360px] min-[1920px]:text-[420px] ${sideMenuFont.className}`}
-            >
+            <p className={`${NOT_FOUND_HEADING_CLASSNAME} ${sideMenuFont.className}`}>
               404
             </p>
           </div>
