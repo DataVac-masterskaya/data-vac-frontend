@@ -143,3 +143,128 @@ export const NOT_FOUND_SPHERE_Z_INDEX: Record<NotFoundSphereId, number> = {
   layered: 0,
   porous: 20,
 }
+
+export type NotFoundContainerLayout = {
+  width: number
+  height: number
+}
+
+/** Figma frame контейнера 404 */
+export const NOT_FOUND_CONTAINER_AT_360 = {
+  width: 311,
+  height: 208,
+} as const satisfies NotFoundContainerLayout
+
+export const NOT_FOUND_CONTAINER_AT_768 = {
+  width: 512,
+  height: 333,
+} as const satisfies NotFoundContainerLayout
+
+export const NOT_FOUND_CONTAINER_AT_1280 = NOT_FOUND_CONTAINER_AT_768
+
+export const NOT_FOUND_CONTAINER_AT_1600 = {
+  width: 658,
+  height: 435,
+} as const satisfies NotFoundContainerLayout
+
+export const NOT_FOUND_CONTAINER_AT_1920 = {
+  width: 768,
+  height: 503,
+} as const satisfies NotFoundContainerLayout
+
+export const NOT_FOUND_CONTAINER_CLASSNAME = [
+  'relative mx-auto overflow-visible',
+  'max-[768px]:w-[311px] max-[768px]:min-h-[208px]',
+  'min-[768px]:max-[1600px]:w-[512px] min-[768px]:max-[1600px]:min-h-[333px]',
+  'min-[1600px]:max-[1920px]:w-[658px] min-[1600px]:max-[1920px]:min-h-[435px]',
+  'min-[1920px]:w-[768px] min-[1920px]:min-h-[503px]',
+].join(' ')
+
+export type NotFoundContainerOffset = {
+  top: number
+}
+
+/** Вертикальный отступ контейнера на странице (Figma); горизонталь — mx-auto */
+export const NOT_FOUND_CONTAINER_OFFSET_AT_360 = {
+  top: 55,
+} as const satisfies NotFoundContainerOffset
+
+export const NOT_FOUND_CONTAINER_OFFSET_AT_768 = {
+  top: 190,
+} as const satisfies NotFoundContainerOffset
+
+export const NOT_FOUND_CONTAINER_OFFSET_AT_1280 = {
+  top: 99,
+} as const satisfies NotFoundContainerOffset
+
+export const NOT_FOUND_CONTAINER_OFFSET_AT_1600 = {
+  top: 156,
+} as const satisfies NotFoundContainerOffset
+
+export const NOT_FOUND_CONTAINER_OFFSET_AT_1920 = {
+  top: 170,
+} as const satisfies NotFoundContainerOffset
+
+/** mt по Figma; -mt компенсирует py обёртки PageLayout. Горизонталь — mx-auto на контейнере. */
+export const NOT_FOUND_CONTAINER_OFFSET_CLASSNAME = [
+  'max-[768px]:-mt-4 max-[768px]:mt-[55px]',
+  'min-[768px]:max-[1280px]:-mt-8 min-[768px]:max-[1280px]:mt-[190px]',
+  'min-[1280px]:max-[1600px]:-mt-12 min-[1280px]:max-[1600px]:mt-[99px]',
+  'min-[1600px]:max-[1920px]:-mt-12 min-[1600px]:max-[1920px]:mt-[156px]',
+  'min-[1920px]:-mt-12 min-[1920px]:mt-[170px]',
+].join(' ')
+
+export type NotFoundSubtitleLayout = {
+  fontSize: number
+  left: number
+  bottom: number
+}
+
+/** Подпись под «404», от контейнера страницы */
+export const NOT_FOUND_SUBTITLE_AT_360 = {
+  fontSize: 14,
+  left: 14,
+  bottom: 6,
+} as const satisfies NotFoundSubtitleLayout
+
+export const NOT_FOUND_SUBTITLE_AT_768 = {
+  fontSize: 14,
+  left: 115,
+  bottom: 20,
+} as const satisfies NotFoundSubtitleLayout
+
+export const NOT_FOUND_SUBTITLE_AT_1280 = NOT_FOUND_SUBTITLE_AT_768
+
+export const NOT_FOUND_SUBTITLE_AT_1600 = {
+  fontSize: 20,
+  left: 127,
+  bottom: 24,
+} as const satisfies NotFoundSubtitleLayout
+
+export const NOT_FOUND_SUBTITLE_AT_1920 = {
+  fontSize: 20,
+  left: 183,
+  bottom: 40,
+} as const satisfies NotFoundSubtitleLayout
+
+/** Inter Tight 400, absolute left/bottom по Figma */
+export const NOT_FOUND_SUBTITLE_CLASSNAME = [
+  'absolute z-10 font-normal text-fg',
+  // 360
+  'max-[768px]:text-[14px] max-[768px]:left-[14px] max-[768px]:bottom-[6px]',
+  // 768–1599
+  'min-[768px]:max-[1600px]:text-[14px]',
+  'min-[768px]:max-[1600px]:left-[115px] min-[768px]:max-[1600px]:bottom-[20px]',
+  // 1600–1919
+  'min-[1600px]:max-[1920px]:text-[20px]',
+  'min-[1600px]:max-[1920px]:left-[127px] min-[1600px]:max-[1920px]:bottom-[24px]',
+  // 1920+
+  'min-[1920px]:text-[20px] min-[1920px]:left-[183px] min-[1920px]:bottom-[40px]',
+].join(' ')
+
+/** Default: fg + underline; hover/focus: accent, без подчёркивания */
+export const NOT_FOUND_SUBTITLE_LINK_CLASSNAME = [
+  'text-fg underline decoration-fg underline-offset-2 transition-colors',
+  'hover:text-accent hover:no-underline',
+  'focus-visible:text-accent focus-visible:no-underline',
+].join(' ')
