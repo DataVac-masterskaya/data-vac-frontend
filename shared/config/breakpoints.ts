@@ -7,6 +7,9 @@ export const BREAKPOINT_DESKTOP_MIN_PX = 1280
 /** Wide summary: 407px колонка, текст 16px. CSS: summary-wide в globals.css (1600px) */
 export const BREAKPOINT_SUMMARY_WIDE_MIN_PX = 1600
 
+/** 404 heading 420px. Tailwind: min-[1920px]:text-[420px] */
+export const BREAKPOINT_NOT_FOUND_XL_MIN_PX = 1920
+
 export const SIDE_MENU_WIDTH_PX = 216
 
 export const SUMMARY_SIDEBAR_WIDTH_COMPACT_PX = 297
