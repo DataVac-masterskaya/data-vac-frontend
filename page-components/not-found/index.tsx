@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { sideMenuFont } from '@/shared/ui/SideMenu/side-menu-font'
-import { NotFoundDecorativeSpheres } from './ui/not-found-decorative-spheres'
+import { NotFoundDecorativeSpheres } from './ui/not-found-decorative-spheres-lazy'
 import {
   NOT_FOUND_CONTAINER_CLASSNAME,
   NOT_FOUND_CONTAINER_OFFSET_CLASSNAME,

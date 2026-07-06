@@ -37,7 +37,7 @@ export default async function HomePage() {
     },
     {
       title: 'Ингредиенты',
-      viewAllHref: '/ingredients',  
+      viewAllHref: '/ingredients',
       decorationImage: DECORATIVE_SHAPES.cluster.src,
       items: ingredients.results.map((v) => ({
         id: v.id,
