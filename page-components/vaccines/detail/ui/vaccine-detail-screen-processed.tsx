@@ -1,0 +1,111 @@
+import type { ReactNode } from 'react'
+import { CircleXmarkIcon, InfoCircleIcon, MinusIcon } from '@datavac/ui-kit'
+import { VaccineInfoBlock } from '@/shared/ui/VaccineInfoBlock'
+import { ProcessedSectionTitle } from './processed-section-title'
+import { ProcessedSectionNote } from './processed-section-note'
+import { ProcessedLinkRow } from './processed-link-row'
+import { ProcessedOrgComment } from './processed-org-comment'
+import type { ProcessedSection, ProcessedStatusIcon } from './vaccine-detail-screen-processed.types'
+
+const STATUS_ICON: Record<ProcessedStatusIcon, React.ReactNode> = {
+  attention: <InfoCircleIcon width={20} height={20} className="text-[#FB9A40]" />,
+  incompatible: <CircleXmarkIcon width={20} height={20} className="text-accent" />,
+  neutral: (
+    <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-subtle text-fg-muted">
+      <MinusIcon width={12} height={12} />
+    </span>
+  ),
+}
+
+function ProcessedSectionRenderer({ section }: { section: ProcessedSection }) {
+  switch (section.kind) {
+    case 'text':
+      return (
+        <div className="flex flex-col gap-3">
+          <ProcessedSectionTitle>{section.title}</ProcessedSectionTitle>
+          <p className="whitespace-pre-line text-base text-fg">{section.text}</p>
+          <ProcessedSectionNote>{section.note}</ProcessedSectionNote>
+        </div>
+      )
+
+    case 'linkList':
+      return (
+        <div className="flex flex-col gap-3">
+          <ProcessedSectionTitle>{section.title}</ProcessedSectionTitle>
+          <div className="flex flex-col gap-2">
+            {section.items.map((item) => (
+              <ProcessedLinkRow key={item.label} {...item} />
+            ))}
+          </div>
+          <ProcessedSectionNote>{section.note}</ProcessedSectionNote>
+        </div>
+      )
+
+    case 'groupedLinkList':
+      return (
+        <div className="flex flex-col gap-4">
+          <ProcessedSectionTitle>{section.title}</ProcessedSectionTitle>
+          {section.groups.map((group) => (
+            <div key={group.label} className="flex flex-col gap-2">
+              <span className="text-xs text-fg-muted">{group.label}</span>
+              {group.items.map((item) => (
+                <ProcessedLinkRow key={item.label} {...item} />
+              ))}
+            </div>
+          ))}
+          <ProcessedSectionNote>{section.note}</ProcessedSectionNote>
+        </div>
+      )
+
+    case 'status':
+      return (
+        <div className="flex flex-col gap-4">
+          <VaccineInfoBlock title={section.title} text={section.text} icon={STATUS_ICON[section.icon]} />
+          {section.items && (
+            <div className="flex flex-col gap-2">
+              {section.items.map((item) => (
+                <ProcessedLinkRow key={item.label} {...item} />
+              ))}
+            </div>
+          )}
+        </div>
+      )
+
+    case 'administration':
+      return (
+        <div className="flex flex-col gap-3">
+          <ProcessedSectionTitle>{section.title}</ProcessedSectionTitle>
+          <div className="flex flex-wrap gap-x-8 gap-y-4">
+            {section.rows.map((row, index) => (
+              <div key={`${row.ageRange}-${index}`} className="flex items-center gap-3">
+                <span className="w-28 shrink-0 text-sm text-fg-muted">{row.ageRange}</span>
+                <img
+                  src="/images/administration-demo.jpg"
+                  alt=""
+                  className="h-16 w-16 shrink-0 rounded-lg border border-accent object-cover"
+                />
+                <span className="max-w-48 text-sm text-fg">{row.description}</span>
+              </div>
+            ))}
+          </div>
+          <ProcessedSectionNote>{section.note}</ProcessedSectionNote>
+        </div>
+      )
+  }
+}
+
+export type VaccineDetailScreenProcessedProps = {
+  sections: ProcessedSection[]
+  orgComment?: ReactNode
+}
+
+export function VaccineDetailScreenProcessed({ sections, orgComment }: VaccineDetailScreenProcessedProps) {
+  return (
+    <div className="flex flex-col gap-8">
+      {sections.map((section) => (
+        <ProcessedSectionRenderer key={section.title} section={section} />
+      ))}
+      {orgComment && <ProcessedOrgComment>{orgComment}</ProcessedOrgComment>}
+    </div>
+  )
+}
