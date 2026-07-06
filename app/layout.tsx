@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { QueryProvider } from "@/shared/providers/query-provider";
 import { UIKitProvider } from "@/shared/providers/ui-kit-provider";
 import { PageLayout } from "@/shared/ui/PageLayout";
@@ -19,7 +20,9 @@ export default function RootLayout({
   return (
     <html lang="ru" className="h-full" suppressHydrationWarning>
       <head>
-        <script
+        <Script
+          id="theme-init"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `(function(){var t=localStorage.getItem('datavac-theme')||'light';document.documentElement.classList.toggle('dark',t==='dark')})()`,
           }}
