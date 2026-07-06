@@ -38,7 +38,7 @@ RUN adduser --system --uid 1001 nextjs
 
 # Копируем standalone сборку
 COPY --from=builder /app/next.config.ts ./
-#COPY --from=builder /app/public ./public
+COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./
 
 # Копируем standalone файлы
