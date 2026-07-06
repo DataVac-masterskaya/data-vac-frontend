@@ -1,5 +1,9 @@
 import { fetchContraindications } from '@/shared/api/contraindications';
+import { BackLink } from '@/shared/ui/back-link';
+import { Separator } from '@/shared/ui/separator';
+import { resultsLabel } from '@/shared/lib/pluralize';
 import { ContraIndicationGroupCard } from './ui/ContraIndicationGroupCard/ContraIndicationGroupCard';
+import { ContraindicationsFilter } from './ui/ContraindicationsFilter';
 
 const CATEGORIES = [
   { value: '', label: 'Все' },
@@ -48,30 +52,22 @@ export default async function ContraindicationsPage({
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold text-fg mb-6">
-        Противопоказания{' '}
-        <span className="text-fg-secondary font-normal text-base">
-          ({count})
-        </span>
+      <BackLink href="/" />
+
+      <h1 className="pt-4 pb-4 text-2xl font-normal text-fg">
+        Противопоказания
       </h1>
 
-      <div className="flex flex-wrap gap-2 mb-6">
-        {CATEGORIES.map(({ value, label }) => (
-          <a
-            key={value}
-            href={
-              value
-                ? `/contraindications?category=${encodeURIComponent(value)}`
-                : '/contraindications'
-            }
-            className={`px-3 py-1 rounded-full text-sm ${category === value || (!category && !value) ? 'bg-accent text-white' : 'bg-card text-fg'}`}
-          >
-            {label}
-          </a>
-        ))}
+      <div className="flex min-h-8 flex-wrap items-center justify-between gap-4">
+        <ContraindicationsFilter activeCategory={category || ''} categories={CATEGORIES} />
+        <p className="shrink-0 text-xs font-normal text-fg-muted">
+          {resultsLabel(count)}
+        </p>
       </div>
 
-      <div className="flex flex-col gap-4">
+      <Separator className="mt-4" />
+
+      <div className="mt-4 flex flex-col gap-4">
         {groupedCards.map((card) => (
           <ContraIndicationGroupCard
             key={card.title}
