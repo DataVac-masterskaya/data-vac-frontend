@@ -1,8 +1,5 @@
 import { fetchIngredients } from "@/shared/api/ingredients";
-import { BackLink } from "@/shared/ui/back-link";
-import { Separator } from "@/shared/ui/separator";
-import { sideMenuFont } from "@/shared/ui/SideMenu/side-menu-font";
-import { resultsLabel } from "@/shared/lib/pluralize";
+import { ResultsHeader } from "@/shared/ui/ResultsHeader";
 import {
   buildIngredientsPageHref,
   ingredientSortToTable,
@@ -30,22 +27,11 @@ export default async function IngredientsPage({
 
   return (
     <div className={`${INGREDIENT_TABLE_WIDTH_CLASS} flex flex-col`}>
-      <BackLink href="/" />
-
-      <h1
-        className={`${sideMenuFont.className} pt-4 pb-4 text-2xl font-normal text-fg`}
-      >
-        Компоненты
-      </h1>
-
-      <div className="flex min-h-8 flex-wrap items-center justify-between gap-4">
-        <IngredientsFilter activeType={type} sort={sortValue} q={q} />
-        <p className="shrink-0 text-xs font-normal text-fg-muted">
-          {resultsLabel(results.length)}
-        </p>
-      </div>
-
-      <Separator className="mt-4" />
+      <ResultsHeader
+        title="Компоненты"
+        count={results.length}
+        filters={<IngredientsFilter activeType={type} sort={sortValue} q={q} />}
+      />
 
       <div className="mt-4">
         <IngredientsTable
