@@ -1,8 +1,5 @@
-import { BackLink } from '@/shared/ui/back-link'
-import { Separator } from '@/shared/ui/separator'
-import { sideMenuFont } from '@/shared/ui/SideMenu/side-menu-font'
+import { ResultsHeader } from '@/shared/ui/ResultsHeader'
 import { fetchVaccines } from '@/shared/api/vaccines'
-import { resultsLabel } from '@/shared/lib/pluralize'
 import { mapVaccineToTableRow } from '../lib/map-vaccine-to-table-row'
 import { normalizeVaccineSort, vaccineSortToTable } from '../model/sort'
 import { VACCINE_PAGE_WIDTH_CLASS, VaccinesTable } from '../ui/vaccines-table'
@@ -33,18 +30,7 @@ export default async function VaccinesSearchPage({
 
   return (
     <div className={`${VACCINE_PAGE_WIDTH_CLASS} flex flex-col`}>
-      <BackLink href="/" />
-
-      <div className="flex items-baseline justify-between pt-4 pb-4">
-        <h1 className={`${sideMenuFont.className} text-2xl font-normal text-fg`}>
-          Вакцины
-        </h1>
-        <p className="shrink-0 text-xs font-normal text-fg-muted">
-          {resultsLabel(vaccines.length)}
-        </p>
-      </div>
-
-      <Separator className="mt-4" />
+      <ResultsHeader title="Вакцины" count={vaccines.length} />
 
       {vaccines.length === 0 ? (
         <div className="mt-4 bg-card rounded-2xl p-10 text-center text-fg-secondary">

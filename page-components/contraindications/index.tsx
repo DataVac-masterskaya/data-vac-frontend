@@ -1,7 +1,5 @@
 import { fetchContraindications } from '@/shared/api/contraindications';
-import { BackLink } from '@/shared/ui/back-link';
-import { Separator } from '@/shared/ui/separator';
-import { resultsLabel } from '@/shared/lib/pluralize';
+import { ResultsHeader } from '@/shared/ui/ResultsHeader';
 import { ContraIndicationGroupCard } from './ui/ContraIndicationGroupCard/ContraIndicationGroupCard';
 import { ContraindicationsFilter } from './ui/ContraindicationsFilter';
 
@@ -18,7 +16,7 @@ export default async function ContraindicationsPage({
   searchParams: Promise<{ category?: string }>;
 }) {
   const { category } = await searchParams;
-  const { results, count } = await fetchContraindications({
+  const { results } = await fetchContraindications({
     sort: 'popularity',
     category: category || undefined,
   });
@@ -52,20 +50,10 @@ export default async function ContraindicationsPage({
 
   return (
     <div>
-      <BackLink href="/" />
-
-      <h1 className="pt-4 pb-4 text-2xl font-normal text-fg">
-        Противопоказания
-      </h1>
-
-      <div className="flex min-h-8 flex-wrap items-center justify-between gap-4">
-        <ContraindicationsFilter activeCategory={category || ''} categories={CATEGORIES} />
-        <p className="shrink-0 text-xs font-normal text-fg-muted">
-          {resultsLabel(count)}
-        </p>
-      </div>
-
-      <Separator className="mt-4" />
+      <ResultsHeader
+        title="Противопоказания"
+        filters={<ContraindicationsFilter activeCategory={category || ''} categories={CATEGORIES} />}
+      />
 
       <div className="mt-4 flex flex-col gap-4">
         {groupedCards.map((card) => (
