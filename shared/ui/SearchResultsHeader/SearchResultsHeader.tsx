@@ -1,27 +1,14 @@
 'use client';
 
 import { ArrowsIcon } from '@datavac/ui-kit'
+import { Separator } from '@/shared/ui/separator'
+import { resultsLabel } from '@/shared/lib/pluralize'
 
 type SearchResultsHeaderProps = {
   query: string;
   count: number;
   onBack: () => void;
 };
-
-function pluralizeResults(count: number): string {
-  const lastTwoDigits = count % 100;
-  if (lastTwoDigits >= 11 && lastTwoDigits <= 14) {
-    return 'результатов';
-  }
-  const lastDigit = count % 10;
-  if (lastDigit === 1) {
-    return 'результат';
-  }
-  if (lastDigit >= 2 && lastDigit <= 4) {
-    return 'результата';
-  }
-  return 'результатов';
-}
 
 export function SearchResultsHeader({ query, count, onBack }: SearchResultsHeaderProps) {
   return (
@@ -55,11 +42,11 @@ export function SearchResultsHeader({ query, count, onBack }: SearchResultsHeade
             {query}
           </h1>
           <div className="text-sm text-fg-secondary whitespace-nowrap">
-            {count} {pluralizeResults(count)}
+            {resultsLabel(count)}
           </div>
         </div>
       </div>
-      <hr className="mt-4 border-t border-border"/>
+      <Separator className="mt-4" />
     </div>
   );
 }
