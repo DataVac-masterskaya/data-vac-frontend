@@ -19,6 +19,9 @@ export async function fetchVaccines(params: VaccinesParams = {}): Promise<Pagina
   if (params.letter) {
     results = results.filter((v) => v.name.startsWith(params.letter!))
   }
+
+  const count = results.length
+
   if (params.q?.trim()) {
     const q = params.q.trim().toLowerCase()
     results = results.filter(
@@ -43,7 +46,7 @@ export async function fetchVaccines(params: VaccinesParams = {}): Promise<Pagina
     results = results.slice(0, params.limit)
   }
 
-  return { count: MOCK_VACCINES.length, results }
+  return { count, results }
 }
 
 export async function fetchVaccineById(id: number): Promise<Vaccine | null> {

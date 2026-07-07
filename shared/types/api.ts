@@ -7,6 +7,8 @@ export interface Vaccine {
   max_age_months: number | null
   allowed_during_pregnancy: boolean
   popularity: number
+  officialName: string | null
+  isAvailable: boolean
 }
 
 export interface Infection {
