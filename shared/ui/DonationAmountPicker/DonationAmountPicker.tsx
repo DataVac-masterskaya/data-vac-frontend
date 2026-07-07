@@ -25,9 +25,10 @@ export type DonationData = {
 export type DonationAmountPickerProps = {
   presets: DonationAmountPickerItemPresets[]
   onDataChange?: (data: DonationData) => void
+  onSubmit?: () => void
 }
 
-export function DonationAmountPicker({ presets, onDataChange }: DonationAmountPickerProps) {
+export function DonationAmountPicker({ presets, onDataChange, onSubmit }: DonationAmountPickerProps) { // <-- Добавлен onSubmit
   const {
     selectedAmount,
     isEmailEnabled,
@@ -138,6 +139,7 @@ export function DonationAmountPicker({ presets, onDataChange }: DonationAmountPi
         <button
           type="button"
           disabled={!donationData.isValid}
+          onClick={onSubmit}  
           className="w-full py-4 rounded-full bg-accent text-white font-medium text-base transition-colors hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Оформить пожертвование
