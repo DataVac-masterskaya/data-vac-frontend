@@ -2,6 +2,7 @@ import type { Vaccine } from '@/shared/types/api'
 import type { VaccineData } from '@/page-components/vaccines/model/types'
 import { formatAgeLabel } from '@/page-components/vaccines/lib/format-age-label'
 import { mapAdministrationMethods } from '@/page-components/vaccines/lib/map-administration-methods'
+import { VaccineCatalogItem } from '@/page-components/vaccines/model/catalogTypes'
 
 export function mapVaccineToTableRow(vaccine: Vaccine): VaccineData {
   return {
@@ -16,5 +17,15 @@ export function mapVaccineToTableRow(vaccine: Vaccine): VaccineData {
       : 'forbidden',
     contraindications: [],
     isIncompatible: false,
+  }
+}
+
+export function mapVaccineToTableRowOnPageVaccine(vaccine: Vaccine): VaccineCatalogItem {
+  return {
+    id: String(vaccine.id),
+    name: vaccine.name,
+    officialName: vaccine.officialName,
+    infections: vaccine.infections,
+    isAvailable: vaccine.isAvailable
   }
 }

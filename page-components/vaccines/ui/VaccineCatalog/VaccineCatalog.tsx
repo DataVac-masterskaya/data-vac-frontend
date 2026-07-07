@@ -6,47 +6,19 @@ import { DataTable, SortDirection } from '@datavac/ui-kit';
 import { vaccineCatalogColumns } from './vaccineCatalogColumns';
 import { VaccineCatalogItem } from '../../model/catalogTypes';
 
-//мок данные
-const DEMO_ROWS: VaccineCatalogItem[] = [
-  {
-    id: '1',
-    name: 'Инфанрикс Гекса',
-    officialName:
-      'Инфанрикс® Гекса (Вакцина для профилактики дифтерии, столбняка, коклюша (бесклеточная), полиомиелита (инактивированная), гепатита B комбинированная, адсорбированная в комплекте с вакциной для профилактики инфекции, вызываемой Haemophilus influenzae тип b конъюгированной, адсорбированной)',
-    infections: ['Столбняк'],
-    isAvailable: true,
-  },
-  {
-    id: '2',
-    name: 'Гемофильная (ростовский НИИ)',
-    officialName: 'Вакцина гемофильная тип b конъюгированная',
-    infections: ['Гемофильная инфекция типа b'],
-    isAvailable: true,
-  },
-  {
-    id: '3',
-    name: 'Вактривир',
-    officialName:
-      'ВАКТРИВИР Комбинированная вакцина против кори, краснухи и паротита культуральная живая',
-    infections: ['Корь', 'Краснуха', 'Паротит'],
-    isAvailable: true,
-  },
-  {
-    id: '4',
-    name: 'Хиберикс',
-    officialName: null,
-    infections: ['Гемофильная инфекция типа b'],
-    isAvailable: false,
-  },
-];
+interface VaccineCatalogProps {
+  data: VaccineCatalogItem[];
+}
 
-export function VaccineCatalog() {
+export function VaccineCatalog({
+  data,
+}: VaccineCatalogProps) {
   const router = useRouter();
   const [sortField, setSortField] = useState('name');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
 
   const sortedVaccines = useMemo(() => {
-    const rows = [...DEMO_ROWS];
+    const rows = [...data];
 
     // Сортировка по имени
     if (sortField === 'name') {
@@ -75,7 +47,7 @@ export function VaccineCatalog() {
     }
 
     return rows;
-  }, [sortField, sortDirection]);
+  }, [data, sortField, sortDirection]);
 
   const handleRowClick = (row: VaccineCatalogItem) => {
     router.push(`/vaccines/${row.id}`);
