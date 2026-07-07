@@ -62,7 +62,7 @@ export function Header() {
           hidden={isCompact}
           className={cn('max-w-[572px] w-full', !isCompact && 'flex-1')}
         >
-          <div className="h-14 flex items-center">
+          <div className="h-14 flex items-center ">
             <HeaderSearchBar />
           </div>
         </CollapsibleRow>
@@ -77,13 +77,13 @@ export function Header() {
         className={cn(
           STICKY_HEADER_CLASS,
           'transition-[height,padding] duration-200 ease-out',
-          isCompact ? 'h-16' : 'pb-4',
+          isCompact ? 'h-16' : '',
         )}
       >
         <CollapsibleRow hidden={isCompact}>
-          <div className="flex h-14 items-center gap-7 w-full">
+          <div className="flex h-14 items-center gap-7 w-full ">
             <DataVacLogo placement="sidebar" showText={true} />
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0 ">
               <HeaderSearchBar />
             </div>
             <ThemeToggle />
