@@ -1,11 +1,22 @@
-import type { Contraindication, Infection, Ingredient, Vaccine } from '@/shared/types/api'
+import type {
+  Contraindication,
+  Infection,
+  Ingredient,
+  Vaccine,
+} from '@/shared/types/api';
 
 export const MOCK_VACCINES: Vaccine[] = [
   {
     id: 1,
     name: 'Пентаксим',
     officialName: null,
-    infections: ['Дифтерия', 'Столбняк', 'Коклюш', 'Полиомиелит', 'Гемофильная инфекция'],
+    infections: [
+      'Дифтерия',
+      'Столбняк',
+      'Коклюш',
+      'Полиомиелит',
+      'Гемофильная инфекция',
+    ],
     administration_method: 'Внутримышечно',
     min_age_months: 2,
     max_age_months: null,
@@ -18,7 +29,14 @@ export const MOCK_VACCINES: Vaccine[] = [
     name: 'Инфанрикс Гекса',
     officialName:
       'Инфанрикс® Гекса (Вакцина для профилактики дифтерии, столбняка, коклюша (бесклеточная), полиомиелита (инактивированная), гепатита B комбинированная, адсорбированная в комплекте с вакциной для профилактики инфекции, вызываемой Haemophilus influenzae тип b конъюгированной, адсорбированной)',
-    infections: ['Дифтерия', 'Столбняк', 'Коклюш', 'Гепатит B', 'Полиомиелит', 'Хиб'],
+    infections: [
+      'Дифтерия',
+      'Столбняк',
+      'Коклюш',
+      'Гепатит B',
+      'Полиомиелит',
+      'Хиб',
+    ],
     administration_method: 'Внутримышечно',
     min_age_months: 2,
     max_age_months: null,
@@ -98,7 +116,7 @@ export const MOCK_VACCINES: Vaccine[] = [
     popularity: 60,
     isAvailable: false,
   },
-]
+];
 
 export const MOCK_INFECTIONS: Infection[] = [
   { id: 1, name: 'Дифтерия', category: 'national_calendar', popularity: 90 },
@@ -111,7 +129,7 @@ export const MOCK_INFECTIONS: Infection[] = [
   { id: 8, name: 'Гепатит B', category: 'national_calendar', popularity: 74 },
   { id: 9, name: 'Ветряная оспа', category: 'extended', popularity: 72 },
   { id: 10, name: 'Грипп', category: 'extended', popularity: 70 },
-]
+];
 
 export const MOCK_INGREDIENTS: Ingredient[] = [
   { id: 1, name: 'Алюминия гидроксид', type: 'Адъювант', popularity: 95 },
@@ -122,15 +140,54 @@ export const MOCK_INGREDIENTS: Ingredient[] = [
   { id: 6, name: 'Неомицин', type: 'Антибиотик', popularity: 60 },
   { id: 7, name: 'Желатин', type: 'Стабилизатор', popularity: 55 },
   { id: 8, name: 'Яичный белок', type: 'Субстрат', popularity: 50 },
-]
+];
 
 export const MOCK_CONTRAINDICATIONS: Contraindication[] = [
-  { id: 1, name: 'Аллергия на компоненты вакцины', category: 'Абсолютные', popularity: 95 },
-  { id: 2, name: 'Анафилактическая реакция на предыдущую дозу', category: 'Абсолютные', popularity: 90 },
-  { id: 3, name: 'Острое заболевание с температурой', category: 'Временные', popularity: 85 },
-  { id: 4, name: 'Беременность', category: 'Относительные', popularity: 80 },
-  { id: 5, name: 'Иммунодефицитные состояния', category: 'Абсолютные', popularity: 75 },
-  { id: 6, name: 'Обострение хронического заболевания', category: 'Временные', popularity: 70 },
-  { id: 7, name: 'Недоношенность (менее 28 недель)', category: 'Относительные', popularity: 65 },
-  { id: 8, name: 'Аллергия на яичный белок', category: 'Относительные', popularity: 60 },
-]
+  {
+    id: 1,
+    name: 'Гиперчувствительность к компонентам вакцины',
+    category: 'Гиперчувствительность',
+    popularity: 95,
+  },
+  {
+    id: 2,
+    name: 'Хронические заболевания сердца',
+    category: 'Хронические заболевания',
+    tags: ['Сердце'],
+    popularity: 95,
+  },
+  {
+    id: 3,
+    name: 'Хронические заболевания почек',
+    category: 'Хронические заболевания',
+    tags: ['Почки'],
+    popularity: 90,
+  },
+  {
+    id: 4,
+    name: 'Тяжелые аллергические реакции',
+    category: 'Аллергии',
+    popularity: 75,
+  },
+  { id: 5, name: 'Аллергия на дрожжи', category: 'Аллергии', popularity: 70 },
+  {
+    id: 6,
+    name: 'Аллергия на формальдегид',
+    category: 'Аллергии',
+    popularity: 65,
+  },
+  {
+    id: 7,
+    name: 'Аллергия на куриный белок',
+    category: 'Аллергии',
+    popularity: 60,
+  },
+  { id: 8, name: 'ВИЧ', category: 'Иммунодефициты', popularity: 70 },
+  { id: 9, name: 'ВИЧ у матери', category: 'Иммунодефициты', popularity: 65 },
+  {
+    id: 10,
+    name: 'Иммунодефицит у родственников',
+    category: 'Иммунодефициты',
+    popularity: 60,
+  },
+];
