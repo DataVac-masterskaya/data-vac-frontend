@@ -29,6 +29,7 @@ export interface Contraindication {
   id: number
   name: string
   category: string
+  tags?: string[]
   popularity: number
 }
 
