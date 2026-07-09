@@ -27,19 +27,18 @@ export function VaccineDetailContent({
     {
       id: TAB_PROCESSED,
       label: 'Переработанная информация из разделов',
-      content: (
-        <VaccineDetailScreenProcessed
-          sections={processedSections}
-          orgComment={orgComment}
-        />
-      ),
+      content:
+        activeId === TAB_PROCESSED ? (
+          <VaccineDetailScreenProcessed sections={processedSections} orgComment={orgComment} />
+        ) : null,
     },
     {
       id: TAB_INSTRUCTION,
       label: 'Информация из инструкции',
-      content: (
-        <VaccineDetailScreenInstruction sections={instructionSections} />
-      ),
+      content:
+        activeId === TAB_INSTRUCTION ? (
+          <VaccineDetailScreenInstruction sections={instructionSections} />
+        ) : null,
     },
   ]
 

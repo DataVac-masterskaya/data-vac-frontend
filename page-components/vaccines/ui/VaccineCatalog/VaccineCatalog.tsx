@@ -1,57 +1,50 @@
-'use client';
+'use client'
 
-import { useRouter } from 'next/navigation';
-import { useMemo, useState } from 'react';
-import { DataTable, SortDirection } from '@datavac/ui-kit';
-import { vaccineCatalogColumns } from './vaccineCatalogColumns';
-import { VaccineCatalogItem } from '../../model/catalogTypes';
+import { useRouter } from 'next/navigation'
+import { useMemo, useState } from 'react'
+import { DataTable, SortDirection } from '@datavac/ui-kit'
+import { vaccineCatalogColumns } from './vaccineCatalogColumns'
+import type { VaccineCatalogItem } from '../../model/catalogTypes'
 
 interface VaccineCatalogProps {
-  data: VaccineCatalogItem[];
+  data: VaccineCatalogItem[]
 }
 
-export function VaccineCatalog({
-  data,
-}: VaccineCatalogProps) {
-  const router = useRouter();
-  const [sortField, setSortField] = useState('name');
-  const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
+export function VaccineCatalog({ data }: VaccineCatalogProps) {
+  const router = useRouter()
+  const [sortField, setSortField] = useState('name')
+  const [sortDirection, setSortDirection] = useState<SortDirection>('asc')
 
   const sortedVaccines = useMemo(() => {
-    const rows = [...data];
+    const rows = [...data]
 
-    // Сортировка по имени
     if (sortField === 'name') {
       rows.sort((a, b) =>
         sortDirection === 'asc'
           ? a.name.localeCompare(b.name, 'ru')
           : b.name.localeCompare(a.name, 'ru'),
-      );
-    }
-    // Сортировка по официальному названию
-    else if (sortField === 'officialName') {
+      )
+    } else if (sortField === 'officialName') {
       rows.sort((a, b) => {
-        const nameA = a.officialName;
-        const nameB = b.officialName;
+        const nameA = a.officialName
+        const nameB = b.officialName
 
-        // null значения всегда внизу
-        if (nameA === null && nameB === null) return 0;
-        if (nameA === null) return 1;
-        if (nameB === null) return -1;
+        if (nameA === null && nameB === null) return 0
+        if (nameA === null) return 1
+        if (nameB === null) return -1
 
-        // Оба не null - сортируем по алфавиту
         return sortDirection === 'asc'
           ? nameA.localeCompare(nameB, 'ru')
-          : nameB.localeCompare(nameA, 'ru');
-      });
+          : nameB.localeCompare(nameA, 'ru')
+      })
     }
 
-    return rows;
-  }, [data, sortField, sortDirection]);
+    return rows
+  }, [data, sortField, sortDirection])
 
   const handleRowClick = (row: VaccineCatalogItem) => {
-    router.push(`/vaccines/${row.id}`);
-  };
+    router.push(`/vaccines/${row.id}`)
+  }
 
   return (
     <DataTable
@@ -62,8 +55,8 @@ export function VaccineCatalog({
       sortField={sortField}
       sortDirection={sortDirection}
       onSortChange={(field, direction) => {
-        setSortField(field);
-        setSortDirection(direction);
+        setSortField(field)
+        setSortDirection(direction)
       }}
       onRowClick={handleRowClick}
       disabledTooltip={
@@ -74,5 +67,5 @@ export function VaccineCatalog({
       }
       className="gap-6"
     />
-  );
+  )
 }
