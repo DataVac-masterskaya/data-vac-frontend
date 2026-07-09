@@ -18,8 +18,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ru" className="h-full" suppressHydrationWarning>
-      <head>
+    <html lang="ru" className="h-full notranslate" translate="no" suppressHydrationWarning>
+      <body className="min-h-dvh flex bg-page text-fg">
         <Script
           id="theme-init"
           strategy="beforeInteractive"
@@ -32,8 +32,6 @@ export default function RootLayout({
           src="https://checkout.cloudpayments.ru/checkout.js"
           strategy="afterInteractive"
         />
-      </head>
-      <body className="min-h-dvh flex bg-page text-fg">
         <UIKitProvider>
           <QueryProvider>
             <PageLayout>{children}</PageLayout>
