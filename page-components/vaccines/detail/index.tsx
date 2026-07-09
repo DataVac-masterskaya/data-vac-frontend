@@ -4,9 +4,10 @@ import { BackLink } from '@/shared/ui/back-link'
 import { mapVaccineToSummary } from '@/page-components/vaccines/detail/map-vaccine-summary'
 import { VaccineDetailLayout } from '@/page-components/vaccines/detail/vaccine-detail-layout'
 import { VaccineSummarySidebar } from '@/page-components/vaccines/ui/vaccine-summary-sidebar'
-import { VaccineDetailScreenProcessed } from './ui/vaccine-detail-screen-processed'
 import type { ProcessedSection } from './ui/vaccine-detail-screen-processed.types'
 import { notFound } from 'next/navigation'
+import { VaccineDetailContent } from './ui/vaccine-detail-content'
+import { MOCK_INSTRUCTION_SECTIONS } from './mock-instruction-sections'
 
 export async function generateStaticParams() {
   const ids = await fetchAllVaccineIds()
@@ -178,8 +179,9 @@ export default async function VaccineDetailPage({
       <h1 className="text-2xl font-semibold text-fg mb-6">{vaccine.name}</h1>
 
       <VaccineDetailLayout sidebar={<VaccineSummarySidebar {...summary} />}>
-        <VaccineDetailScreenProcessed
-          sections={MOCK_PROCESSED_SECTIONS}
+        <VaccineDetailContent
+          processedSections={MOCK_PROCESSED_SECTIONS}
+          instructionSections={MOCK_INSTRUCTION_SECTIONS}
           orgComment={
             <>
               Критика или что-то вроде / зарубежная практика и комментарии, где мы могли бы указать
@@ -193,6 +195,7 @@ export default async function VaccineDetailPage({
           }
         />
       </VaccineDetailLayout>
+
     </div>
   )
 }
