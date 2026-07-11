@@ -13,20 +13,20 @@ export type PageLayoutProps = {
   children: ReactNode
 }
 
-export function PageLayout({ children }: PageLayoutProps) { 
+export function PageLayout({ children }: PageLayoutProps) {
   const mode = useSideMenuMode()
 
   return (
-    <div className="flex min-h-dvh w-full md:pt-3 pb-8!">
+    <div className="flex min-h-dvh w-full p-2">
       {mode === 'desktop' && <SideMenuDesktop />}
       {mode === 'desktop' && (
         <div className="shrink-0" style={{ width: SIDE_MENU_WIDTH_PX }} aria-hidden />
       )}
 
-      <main className="flex min-w-0 flex-1 flex-col w-full max-w-[1361px] mx-auto px-4 md:!px-6 xl:!pr-6 ">
+      <main className="flex min-w-0 flex-1 flex-col w-full max-w-[1312px] mx-auto px-2 sm:px-4 md:px-6 lg:px-8">
         <Header />
 
-        <div className="flex-1 py-4 md:!pt-8 xl:!py-12">
+        <div className="flex-1 py-4 sm:py-6 md:py-8 lg:py-12">
           {children}
         </div>
 

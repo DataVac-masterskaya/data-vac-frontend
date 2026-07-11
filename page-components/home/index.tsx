@@ -8,12 +8,12 @@ import { DECORATIVE_SHAPES } from '@/shared/ui/decorative-shapes'
 export default async function HomePage() {
   const [vaccines, infections, ingredients, contraindications] = await Promise.all([
     fetchVaccines({ sort: 'popularity', limit: 10 }),
-    fetchInfections({ sort: 'name_desc', limit: 10 }),
+    fetchInfections({ sort: 'name_asc', limit: 10 }),
     fetchIngredients({ sort: 'popularity', limit: 10 }),
     fetchContraindications({ sort: 'popularity', limit: 10 }),
   ])
 
-    const sections = [
+  const sections = [
     {
       title: 'Вакцины',
       viewAllHref: '/vaccines',
@@ -42,7 +42,7 @@ export default async function HomePage() {
       title: 'Противопоказания',
       viewAllHref: '/contraindications',
       decorationImage: DECORATIVE_SHAPES.layered.src,
-      layout: '1col' as const, // <- только здесь 1 колонка
+      layout: '1col' as const,
       items: contraindications.results.map((v) => ({
         id: v.id,
         name: v.name,
@@ -63,21 +63,19 @@ export default async function HomePage() {
       })),
     },
   ]
-     return (
-      <div className="grid grid-cols-1 min-[500px]:grid-cols-2 w-full
-      gap-2 
-      md:!gap-3 
-      xl:!gap-5">
-        {sections.map(({ title, viewAllHref, decorationImage, items,layout }) => (
-          <CategoryCard
-            key={title}
-            title={title}
-            viewAllHref={viewAllHref}
-            decorationImage={decorationImage}
-            items={items}
-             layout={layout}
-          />
-        ))}
-      </div>
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-2 md:gap-3 xl:gap-5">
+      {sections.map(({ title, viewAllHref, decorationImage, items, layout }) => (
+        <CategoryCard
+          key={title}
+          title={title}
+          viewAllHref={viewAllHref}
+          decorationImage={decorationImage}
+          items={items}
+          layout={layout}
+        />
+      ))}
+    </div>
   )
 }

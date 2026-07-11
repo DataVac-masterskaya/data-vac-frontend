@@ -1,3 +1,4 @@
+@layer ui-kit-utilities;
 @import "tailwindcss";
 
 /* summary-wide = BREAKPOINT_SUMMARY_WIDE_MIN_PX. Менять вместе с shared/config/breakpoints.ts */
