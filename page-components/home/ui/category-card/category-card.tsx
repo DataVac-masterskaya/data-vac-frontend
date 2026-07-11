@@ -59,7 +59,7 @@ export function CategoryCard({
 
             <Label>Чаще всего ищут:</Label>
           </div>
-          <Button asChild variant="dark" size="sm" className="z-30 px-3">
+          <Button asChild variant="dark" size="sm" className="z-30 px-3 whitespace-nowrap">
             <Link href={viewAllHref}>Смотреть все</Link>
           </Button>
         </div>
@@ -106,7 +106,7 @@ export function CategoryCard({
                   className="
                       truncate
                       text-fg
-                      2xl:!text-base xl:leading-5
+                      2xl:text-base xl:leading-5
                     "
                 >
                   {item.name}

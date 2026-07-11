@@ -8,7 +8,7 @@ export function HeaderNavRow() {
   const isPortrait = useIsPortrait()
 
   return (
-    <div className="flex h-16 min-w-0 items-center justify-between gap-3 pt-6 overflow-hidden">
+    <div className="flex h-16 min-w-0 items-center justify-between gap-3 overflow-hidden">
       <SideMenuNav showLabels={!isPortrait} orientation="horizontal" />
       <SideMenuSupportButton variant="tablet" />
     </div>

@@ -28,13 +28,13 @@ export const InfectionCard = ({
     >
       <Text
         size="sm"
-        className="line-clamp-2 2xl:text-base! max-w-[344px]"
+        className="line-clamp-2 2xl:text-base max-w-[344px]"
       >
         {name}
       </Text>
       <Text
         size="sm"
-        className="text-fg-muted 2xl:text-base! 2xl:max-w-[231px] ml-[7px]"
+        className="text-fg-muted 2xl:text-base 2xl:max-w-[231px] ml-[7px]"
       >
         {category}
       </Text>
