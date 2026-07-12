@@ -20,12 +20,12 @@ export function mapVaccineToTableRow(vaccine: Vaccine): VaccineData {
   }
 }
 
-export function mapVaccineToTableRowOnPageVaccine(vaccine: Vaccine): VaccineCatalogItem {
+export function mapVaccineToCatalogItem(vaccine: Vaccine): VaccineCatalogItem {
   return {
     id: String(vaccine.id),
     name: vaccine.name,
     officialName: vaccine.officialName,
     infections: vaccine.infections,
-    isAvailable: vaccine.isAvailable
+    isAvailable: vaccine.isAvailable,
   }
 }

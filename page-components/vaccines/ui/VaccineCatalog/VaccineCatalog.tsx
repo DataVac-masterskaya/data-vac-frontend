@@ -66,6 +66,12 @@ export function VaccineCatalog({
         setSortDirection(direction);
       }}
       onRowClick={handleRowClick}
+      disabledTooltip={
+        <div className="max-w-[180px]">
+          <p className="font-semibold">Об этой вакцине нет сведений.</p>
+          <p className="italic opacity-60">Нажмите, чтобы прочитать полную информацию</p>
+        </div>
+      }
       className="gap-6"
     />
   );
