@@ -45,7 +45,7 @@ export function Checkbox ({
         >
           <svg
             className={`
-              w-3.5 h-3.5 text-white transition-transform duration-200
+              w-3.5 h-3.5 text-page transition-transform duration-200
               ${checked ? 'scale-100' : 'scale-0'}
             `}
             fill="none"
