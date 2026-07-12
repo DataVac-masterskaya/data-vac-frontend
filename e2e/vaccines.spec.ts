@@ -1,13 +1,13 @@
-import { test, expect } from '@playwright/test'
+import { test, expect, type Page } from '@playwright/test'
 
 test.describe('Vaccines routes', () => {
-  test('страница /vaccines отображает заглушку', async ({ page }) => {
+  test('страница /vaccines отображает каталог вакцин', async ({ page }) => {
     await page.goto('/vaccines')
     await page.waitForLoadState('networkidle')
 
-    await expect(
-      page.getByRole('heading', { level: 1, name: 'Вакцины (в разработке)' }),
-    ).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Название вакцины' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Официальное название' })).toBeVisible()
+    await expect(page.getByRole('button', { name: /Пентаксим/ })).toBeVisible()
   })
 
   test('страница /vaccines/search показывает таблицу и ведёт на детальную', async ({
@@ -46,5 +46,59 @@ test.describe('Vaccines routes', () => {
       rows.filter({ hasText: /^Пентаксим/ }).first(),
     ).toBeVisible()
     await expect(rows.filter({ hasText: /^Инфанрикс Гекса/ })).toHaveCount(0)
+  })
+})
+
+test.describe('Vaccine detail page', () => {
+  const TAB_PROCESSED = 'Переработанная информация из разделов'
+  const TAB_INSTRUCTION = 'Информация из инструкции'
+
+  const tabPanel = (page: Page) => page.getByRole('tabpanel')
+
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/vaccines/2')
+    await page.waitForLoadState('networkidle')
+    await expect(
+      page.getByRole('heading', { level: 1, name: 'Инфанрикс Гекса' }),
+    ).toBeVisible()
+  })
+
+  test('показывает обе вкладки контента', async ({ page }) => {
+    await expect(page.getByRole('tab', { name: TAB_PROCESSED })).toBeVisible()
+    await expect(page.getByRole('tab', { name: TAB_INSTRUCTION })).toBeVisible()
+  })
+
+  test('по умолчанию открыта вкладка переработанной информации', async ({ page }) => {
+    await expect(page.getByRole('tab', { name: TAB_PROCESSED })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    )
+    await expect(
+      tabPanel(page).getByRole('heading', { name: 'Полное название вакцины' }),
+    ).toBeVisible()
+    await expect(tabPanel(page).locator('#instruction-section-допустимый-возраст')).toHaveCount(0)
+  })
+
+  test('переключает вкладки без перезагрузки страницы', async ({ page }) => {
+    await page.getByRole('tab', { name: TAB_INSTRUCTION }).click()
+
+    await expect(page).toHaveURL('/vaccines/2')
+    await expect(page.getByRole('tab', { name: TAB_INSTRUCTION })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    )
+    await expect(tabPanel(page).locator('#instruction-section-допустимый-возраст')).toBeVisible()
+    await expect(
+      tabPanel(page).getByRole('heading', { name: 'Полное название вакцины' }),
+    ).toHaveCount(0)
+
+    await page.getByRole('tab', { name: TAB_PROCESSED }).click()
+
+    await expect(page.getByRole('tab', { name: TAB_PROCESSED })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    )
+    await expect(tabPanel(page).getByRole('heading', { name: 'Инфекция' })).toBeVisible()
+    await expect(tabPanel(page).locator('#instruction-section-допустимый-возраст')).toHaveCount(0)
   })
 })
