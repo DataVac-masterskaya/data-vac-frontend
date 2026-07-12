@@ -2,7 +2,7 @@ import { VaccineAlphabetFilter } from "./VaccineAlphabetFilter"
 import { VaccineCatalog } from "../ui/VaccineCatalog"
 import { fetchVaccines } from "@/shared/api/vaccines"
 import { Suspense } from "react"
-import { mapVaccineToTableRowOnPageVaccine } from "../lib/map-vaccine-to-table-row"
+import { mapVaccineToCatalogItem } from "../lib/map-vaccine-to-table-row"
 import { ResultsHeader } from "@/shared/ui/ResultsHeader"
 
 export default async function VaccineCatalogPage({
@@ -10,13 +10,14 @@ export default async function VaccineCatalogPage({
 }: {
   searchParams: Promise<{
     letter?: string
+    lang?: string
   }>
 }) {
   const { letter } = await searchParams;
   const { results, count} = await fetchVaccines({
     letter: letter || undefined,
   })
-  const vaccines = results.map(mapVaccineToTableRowOnPageVaccine)
+  const vaccines = results.map(mapVaccineToCatalogItem)
 
   return (
     <div>
@@ -35,9 +36,7 @@ export default async function VaccineCatalogPage({
             Ничего не найдено
           </div>
         ) : (
-          <div>
-            <VaccineCatalog data={vaccines}/>
-          </div>
+          <VaccineCatalog data={vaccines} />
         )}
       </div>
     </div>

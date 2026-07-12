@@ -49,4 +49,3 @@ export function VaccineAlphabetFilter() {
   );
 }
 
-export default VaccineAlphabetFilter;
