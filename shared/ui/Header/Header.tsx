@@ -76,8 +76,8 @@ export function Header() {
       <header
         className={cn(
           STICKY_HEADER_CLASS,
-          'transition-[height,padding] duration-200 ease-out',
-          isCompact ? 'h-16' : 'pb-4',
+          'overflow-hidden transition-[height] duration-200 ease-out',
+          isCompact ? 'h-16' : 'h-[136px]',
         )}
       >
         <CollapsibleRow hidden={isCompact}>
