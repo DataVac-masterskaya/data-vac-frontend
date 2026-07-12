@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Tabs } from '@datavac/ui-kit'
+import { cn, Tabs } from '@datavac/ui-kit'
 import { QRPaymentBlock } from '@/shared/ui/QRPaymentBlock'
 import { BankRequisitesBlock, type RequisiteItem } from '@/shared/ui/BankRequisitesBlock'
 import type { DonationAmountPickerItemPresets } from '@/shared/ui/DonationAmountPicker'
@@ -15,17 +15,18 @@ const BANK_REQUISITES: RequisiteItem[] = [
   { label: 'БИК банка получателя', value: '044525999' },
   { label: 'Город', value: 'Москва' },
   { label: 'Корреспондентский счет', value: '30101810845250000999' },
-  { label: 'Назначение платежа', value: 'добровольное пожертвование на уставную деятельность АНО «Коллективный Иммунитет»' },
+  {
+    label: 'Назначение платежа',
+    value: 'добровольное пожертвование на уставную деятельность АНО «Коллективный Иммунитет»',
+  },
 ]
-
-type TabId = 'card' | 'qr' | 'requisites'
 
 interface SupportTabsProps {
   presets: DonationAmountPickerItemPresets[]
 }
 
 export function SupportTabs({ presets }: SupportTabsProps) {
-  const [activeTab, setActiveTab] = useState<TabId>('card')
+  const [activeTab, setActiveTab] = useState('card')
 
   const tabs = [
     {
@@ -70,10 +71,17 @@ export function SupportTabs({ presets }: SupportTabsProps) {
     <Tabs
       tabs={tabs}
       activeId={activeTab}
-      onChange={(id) => setActiveTab(id as TabId)}
+      onChange={setActiveTab}
       className="gap-2"
       listClassName="flex gap-2 flex-wrap justify-center"
-      tabClassName="rounded-full px-3 py-1 text-base text-fg bg-white aria-selected:bg-[#4f5153] aria-selected:text-white transition-colors cursor-pointer"
+      tabClassName={(active) =>
+        cn(
+          'rounded-full px-3 py-1 text-base transition-colors cursor-pointer',
+          active
+            ? 'bg-[#4f5153] text-[#f3f3f3]'
+            : 'bg-white text-[#323335] dark:bg-[#26282b] dark:text-[#f3f3f3]',
+        )
+      }
     />
   )
 }
