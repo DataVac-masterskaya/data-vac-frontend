@@ -21,11 +21,11 @@ export function DonationReasonsCarousel({ reasons }: DonationReasonsCarouselProp
 
   return (
     <div ref={emblaRef} className="overflow-hidden">
-      <div className="flex gap-4">
+      <div className="flex gap-4 items-stretch">
         {reasons.map((reason) => (
           <div
             key={reason.title}
-            className="shrink-0 w-[80vw] sm:w-[calc(50%-8px)] lg:w-72"
+            className="shrink-0 w-[80vw] sm:w-[calc(50%-8px)] lg:w-72 h-full"
           >
             <DonationReasonCard title={reason.title} description={reason.description} />
           </div>

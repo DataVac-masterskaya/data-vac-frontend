@@ -41,21 +41,21 @@ const DONATION_REASONS = [
 export default function SupportPage() {
   return (
     <div className="flex flex-col gap-12 lg:gap-16">
-      <section className="relative bg-card rounded-2xl px-8 md:px-10 py-8 overflow-hidden">
-        <div className="relative z-10 flex flex-col lg:flex-row gap-8 lg:justify-between lg:items-start">
-          <h1 className="text-[32px] font-medium leading-[1.125] text-accent shrink-0 lg:w-[240px]">
+      <section className="relative bg-card rounded-2xl px-4 pt-6 pb-[108px] md:p-8 xl:px-10 xl:py-8">
+        <div className="relative z-10 flex flex-col gap-6 md:flex-row md:justify-between md:items-start md:gap-8">
+          <h1 className="text-[32px] font-medium leading-[1.125] text-accent shrink-0 md:w-[240px]">
             Поддержите
             <br />
             нашу работу
           </h1>
-          <div className="flex flex-col gap-8 lg:max-w-[824px]">
-            <div className="grid md:grid-cols-2 gap-6 text-base text-fg">
-              <p>
+          <div className="flex flex-col gap-6 md:gap-8 md:flex-1 xl:max-w-[824px]">
+            <div className="flex flex-col gap-2 text-sm text-fg xl:flex-row xl:gap-6">
+              <p className="xl:flex-1">
                 Мы не зависим от государственных компаний или фармокологических корпораций — мы
                 объединились как неравнодушные родители, которые хотят, чтобы они и их дети жили в
                 безопасном обществе, защищенном от вакциноуправляемых инфекций
               </p>
-              <p>
+              <p className="xl:flex-1">
                 Мы создали первый в мире каталог вакцин с подробной разметкой, специфичной именно
                 для вакцин. Мы хотим помочь родителям и пациентам сделать правильный выбор, а также
                 стать подспорьем в работе медиков
@@ -67,11 +67,11 @@ export default function SupportPage() {
           </div>
         </div>
         <div
-          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/3 w-[199px] h-[199px] pointer-events-none"
+          className="hidden md:block absolute left-[28px] size-[199px] top-[136px] xl:top-[112px] pointer-events-none"
           aria-hidden
         >
           <Image
-            src={DECORATIVE_SHAPES.cluster.src}
+            src={DECORATIVE_SHAPES.coube.src}
             alt=""
             fill
             className="object-contain"
