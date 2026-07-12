@@ -3,8 +3,7 @@ import { formatAgeLabel } from '@/page-components/vaccines/lib/format-age-label'
 import { mapVaccineInfections } from '@/page-components/vaccines/lib/map-vaccine-infections'
 import { MOCK_PROCESSED_SECTIONS } from './mock-processed-sections'
 import type { ProcessedLinkItem, ProcessedSection } from './ui/vaccine-detail-screen-processed.types'
-
-const INFANRIX_DEMO_ID = 2
+import { INFANRIX_DEMO_ID } from './constants'
 const PREGNANCY_SECTION_TITLE = 'Применение при беременности и грудном вскармливании'
 
 function mapInfectionItems(vaccine: Vaccine): ProcessedLinkItem[] {

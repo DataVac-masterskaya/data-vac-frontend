@@ -4,7 +4,7 @@ import { mapVaccineToDetailPageData } from '@/page-components/vaccines/detail/ma
 import { VaccineDetailLayout } from '@/page-components/vaccines/detail/vaccine-detail-layout'
 import { VaccineSummarySidebar } from '@/page-components/vaccines/ui/vaccine-summary-sidebar'
 import { notFound } from 'next/navigation'
-import { VaccineDetailContent } from './ui/vaccine-detail-content'
+import { VaccineDetailContentConnected } from './ui/vaccine-detail-content-connected'
 
 export async function generateStaticParams() {
   const ids = await fetchAllVaccineIds()
@@ -31,7 +31,7 @@ export default async function VaccineDetailPage({
       <h1 className="text-2xl font-semibold text-fg mb-6">{vaccine.name}</h1>
 
       <VaccineDetailLayout sidebar={<VaccineSummarySidebar {...summary} />}>
-        <VaccineDetailContent
+        <VaccineDetailContentConnected
           processedSections={processedSections}
           instructionSections={instructionSections}
           orgComment={orgComment}

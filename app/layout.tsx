@@ -19,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ru" className="h-full notranslate" translate="no" suppressHydrationWarning>
-      <body className="min-h-dvh flex bg-page text-fg">
+      <body className="min-h-dvh flex bg-page text-fg [scrollbar-gutter:stable]">
         <Script
           id="theme-init"
           strategy="beforeInteractive"

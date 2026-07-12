@@ -1,4 +1,5 @@
 import { test, expect, type Page } from '@playwright/test'
+import { LABEL_TAB_PROCESSED, LABEL_TAB_INSTRUCTION } from '../page-components/vaccines/detail/ui/vaccine-detail-content.labels'
 
 test.describe('Vaccines routes', () => {
   test('страница /vaccines отображает каталог вакцин', async ({ page }) => {
@@ -50,8 +51,8 @@ test.describe('Vaccines routes', () => {
 })
 
 test.describe('Vaccine detail page', () => {
-  const TAB_PROCESSED = 'Переработанная информация из разделов'
-  const TAB_INSTRUCTION = 'Информация из инструкции'
+  const TAB_PROCESSED = LABEL_TAB_PROCESSED
+  const TAB_INSTRUCTION = LABEL_TAB_INSTRUCTION
 
   const tabPanel = (page: Page) => page.getByRole('tabpanel')
 
