@@ -2,8 +2,14 @@ import Link from 'next/link'
 import type { ReactNode } from 'react'
 import type { Vaccine } from '@/shared/types/api'
 
-export function mapVaccineToOrgComment(_vaccine: Vaccine): ReactNode | undefined {
+export function mapVaccineToOrgComment(vaccine: Vaccine): ReactNode | undefined {
   // TODO: когда API будет готов — маппить vaccine.org_comment (rich text / markdown)
+  // if (!vaccine.org_comment) return undefined
+
+  if (vaccine.id !== 2) {
+    return undefined
+  }
+
   return (
     <>
       Критика или что-то вроде / зарубежная практика и комментарии, где мы могли бы указать своё

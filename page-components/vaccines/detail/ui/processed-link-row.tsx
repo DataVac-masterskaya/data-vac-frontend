@@ -13,9 +13,11 @@ export function ProcessedLinkRow({ label, href, note }: ProcessedLinkItem) {
           <InfoCircleIcon width={16} height={16} className="text-accent" />
         </Tooltip>
       )}
-      <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-subtle">
-        <ChevronDownIcon width={12} height={12} className="-rotate-90 text-fg-muted" />
-      </span>
+      {href && (
+        <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-subtle">
+          <ChevronDownIcon width={12} height={12} className="-rotate-90 text-fg-muted" />
+        </span>
+      )}
     </span>
   )
 

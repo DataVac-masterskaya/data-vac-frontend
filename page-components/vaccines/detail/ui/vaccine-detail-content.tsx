@@ -12,12 +12,7 @@ import type { VaccineInstructionSection } from './vaccine-detail-screen-instruct
 const TAB_PROCESSED = 'processed'
 const TAB_INSTRUCTION = 'instruction'
 
-type VaccineDetailContentProps = {
-  processedSections: ProcessedSection[]
-  instructionSections: VaccineInstructionSection[]
-  orgComment?: ReactNode
-}
-
+/** Header + panel chrome offset for wide-panel internal scroll (100dvh − 240px). */
 const WIDE_PANEL_SCROLL_CLASS = cn(
   'summary-wide:max-h-[calc(100dvh-240px)] summary-wide:overflow-y-auto summary-wide:overflow-x-hidden summary-wide:pr-2',
   'summary-wide:[scrollbar-width:thin] summary-wide:[scrollbar-color:var(--color-accent)_transparent]',
@@ -26,6 +21,12 @@ const WIDE_PANEL_SCROLL_CLASS = cn(
   'summary-wide:[&::-webkit-scrollbar-thumb]:rounded-full summary-wide:[&::-webkit-scrollbar-thumb]:bg-accent',
 )
 
+type VaccineDetailContentProps = {
+  processedSections: ProcessedSection[]
+  instructionSections: VaccineInstructionSection[]
+  orgComment?: ReactNode
+}
+
 export function VaccineDetailContent({
   processedSections,
   instructionSections,
@@ -33,6 +34,7 @@ export function VaccineDetailContent({
 }: VaccineDetailContentProps) {
   const { isWide } = useSummarySidebarMediaContext()
   const [activeId, setActiveId] = useState(TAB_PROCESSED)
+  const showOrgComment = activeId === TAB_PROCESSED && orgComment
 
   const tabs = [
     {
@@ -40,10 +42,12 @@ export function VaccineDetailContent({
       label: 'Переработанная информация из разделов',
       content:
         activeId === TAB_PROCESSED ? (
-          <VaccineDetailScreenProcessed
-            sections={processedSections}
-            orgComment={isWide ? undefined : orgComment}
-          />
+          <>
+            <VaccineDetailScreenProcessed sections={processedSections} />
+            {showOrgComment && !isWide && (
+              <ProcessedOrgComment>{orgComment}</ProcessedOrgComment>
+            )}
+          </>
         ) : null,
     },
     {
@@ -55,8 +59,6 @@ export function VaccineDetailContent({
         ) : null,
     },
   ]
-
-  const showWideOrgComment = isWide && activeId === TAB_PROCESSED && orgComment
 
   return (
     <div className="min-w-0 w-full rounded-[16px] bg-card p-4">
@@ -74,7 +76,7 @@ export function VaccineDetailContent({
           contentClassName="min-w-0"
         />
       </div>
-      {showWideOrgComment && <ProcessedOrgComment>{orgComment}</ProcessedOrgComment>}
+      {showOrgComment && isWide && <ProcessedOrgComment>{orgComment}</ProcessedOrgComment>}
     </div>
   )
 }

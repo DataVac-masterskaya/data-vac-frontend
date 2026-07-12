@@ -21,14 +21,14 @@ export default async function VaccineDetailPage({
 
   if (!vaccine) notFound()
 
-  const { name, summary, processedSections, instructionSections, orgComment } =
+  const { summary, processedSections, instructionSections, orgComment } =
     mapVaccineToDetailPageData(vaccine)
 
   return (
     <div>
       <BackLink href="/vaccines" label="Назад к вакцинам" className="mb-4" />
 
-      <h1 className="text-2xl font-semibold text-fg mb-6">{name}</h1>
+      <h1 className="text-2xl font-semibold text-fg mb-6">{vaccine.name}</h1>
 
       <VaccineDetailLayout sidebar={<VaccineSummarySidebar {...summary} />}>
         <VaccineDetailContent

@@ -1,4 +1,5 @@
 export type ProcessedLinkItem = {
+  id?: string
   label: string
   href?: string
   note?: string
