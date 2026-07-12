@@ -27,6 +27,11 @@ export default function RootLayout({
             __html: `(function(){var t=localStorage.getItem('datavac-theme')||'light';document.documentElement.classList.toggle('dark',t==='dark')})()`,
           }}
         />
+        <Script
+          id="cloudpayments"
+          src="https://checkout.cloudpayments.ru/checkout.js"
+          strategy="afterInteractive"
+        />
       </head>
       <body className="min-h-dvh flex bg-page text-fg">
         <UIKitProvider>

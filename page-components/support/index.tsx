@@ -1,10 +1,6 @@
-'use client';
-
-import { useState } from 'react';
-import { FAQSection } from "./ui/FAQSection";
-import { DonationAmountPicker } from "@/shared/ui/DonationAmountPicker";
-import { QRPaymentBlock } from "@/shared/ui/QRPaymentBlock";
-import { CardPaymentModal } from "@/shared/ui/CardPaymentModal"; // Импортируем модалку
+import { FAQSection } from './ui/FAQSection'
+import { QRPaymentBlock } from '@/shared/ui/QRPaymentBlock'
+import { SupportDonation } from './ui/SupportDonation'
 
 const DONATION_PRESETS = [
   { sum: 100, popular: false },
@@ -18,36 +14,16 @@ const DONATION_PRESETS = [
 ]
 
 export default function SupportPage() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [donationAmount, setDonationAmount] = useState<number | null>(null);
-
-  const handleDonationDataChange = (data: any) => {
-    if (data.isValid && data.amount) {
-      setDonationAmount(data.amount);
-    } else {
-      setDonationAmount(null);
-    }
-  };
-
-  const handleOpenModal = () => {
-    if (donationAmount) {
-      setIsModalOpen(true);
-    }
-  };
-
   return (
     <div className="max-w-2xl">
       <h1 className="text-2xl font-semibold text-fg mb-6">Поддержать проект</h1>
 
       <div className="mb-6">
         <p className="text-sm text-fg-secondary mb-6">
-          DataVac — бесплатная база знаний о вакцинах для всех. Если проект полезен для вас, вы можете поддержать его развитие.
+          DataVac — бесплатная база знаний о вакцинах для всех. Если проект полезен для вас, вы
+          можете поддержать его развитие.
         </p>
-        <DonationAmountPicker 
-          presets={DONATION_PRESETS} 
-          onDataChange={handleDonationDataChange}
-          onSubmit={handleOpenModal}
-        />
+        <SupportDonation presets={DONATION_PRESETS} />
       </div>
 
       <div className="bg-card rounded-2xl p-6 mb-6">
@@ -62,14 +38,7 @@ export default function SupportPage() {
         </p>
       </div>
 
-      <FAQSection/>
-
-      {/* Модалка оплаты */}
-      <CardPaymentModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        amount={donationAmount || 0}
-      />
+      <FAQSection />
     </div>
   )
 }

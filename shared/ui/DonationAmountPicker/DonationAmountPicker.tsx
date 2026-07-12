@@ -26,9 +26,10 @@ export type DonationAmountPickerProps = {
   presets: DonationAmountPickerItemPresets[]
   onDataChange?: (data: DonationData) => void
   onSubmit?: () => void
+  onCancelSubscription?: () => void
 }
 
-export function DonationAmountPicker({ presets, onDataChange, onSubmit }: DonationAmountPickerProps) { // <-- Добавлен onSubmit
+export function DonationAmountPicker({ presets, onDataChange, onSubmit, onCancelSubscription }: DonationAmountPickerProps) {
   const {
     selectedAmount,
     isEmailEnabled,
@@ -147,6 +148,7 @@ export function DonationAmountPicker({ presets, onDataChange, onSubmit }: Donati
         {isEmailEnabled && (
           <button
             type="button"
+            onClick={onCancelSubscription}
             className="w-full py-3 rounded-full border border-border text-fg text-sm font-medium transition-colors hover:bg-subtle"
           >
             Изменить условия или отменить подписку

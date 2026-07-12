@@ -32,7 +32,7 @@ export function useDonationAmountPicker() {
     const amount = getCurrentAmount();
     const hasValidAmount: boolean = amount !== null && amount > 0;
     const hasValidEmail: boolean = isEmailEnabled
-      ? (email !== '' && emailError === '')
+      ? validateEmail(email) === null
       : true;
     
     const hasBothCheckboxes: boolean = isAgreedToPersonalData === true && isAgreedToOffer === true;
@@ -87,22 +87,14 @@ export function useDonationAmountPicker() {
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setEmail(value);
-    
-    if (emailError && isEmailTouched) {
-      if (validateEmail(value)) {
-        setEmailError('');
-      }
+    if (isEmailTouched) {
+      setEmailError(validateEmail(value) ?? '');
     }
   };
 
   const handleEmailBlur = () => {
     setIsEmailTouched(true);
-
-    if (email && !validateEmail(email)) {
-      setEmailError('Неправильный формат ввода');
-    } else {
-      setEmailError('');
-    }
+    setEmailError(validateEmail(email) ?? '');
   };
 
   return {
