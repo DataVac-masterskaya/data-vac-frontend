@@ -29,6 +29,8 @@ export interface Contraindication {
   id: number
   name: string
   category: string
+  /** Подкатегория для группировки внутри одной карточки (например, «Хронические заболевания сердца» внутри «Хронические заболевания») */
+  subcategory?: string
   tags?: string[]
   popularity: number
 }
