@@ -2,19 +2,19 @@
 
 import { useState, type ReactNode } from 'react'
 import { Tabs, cn } from '@datavac/ui-kit'
-import { useSummarySidebarMediaContext } from '@/page-components/vaccines/ui/vaccine-summary-sidebar/summary-sidebar-media-context'
 import { VaccineDetailScreenProcessed } from './vaccine-detail-screen-processed'
 import { VaccineDetailScreenInstruction } from './vaccine-detail-screen-instruction'
 import { ProcessedOrgComment } from './processed-org-comment'
 import type { ProcessedSection } from './vaccine-detail-screen-processed.types'
 import type { VaccineInstructionSection } from './vaccine-detail-screen-instruction.types'
+import { LABEL_TAB_PROCESSED, LABEL_TAB_INSTRUCTION } from './vaccine-detail-content.labels'
 
 const TAB_PROCESSED = 'processed'
 const TAB_INSTRUCTION = 'instruction'
 
 /** Header + panel chrome offset for wide-panel internal scroll (100dvh − 240px). */
 const WIDE_PANEL_SCROLL_CLASS = cn(
-  'summary-wide:max-h-[calc(100dvh-240px)] summary-wide:overflow-y-auto summary-wide:overflow-x-hidden summary-wide:pr-2',
+  'summary-wide:max-h-[calc(100dvh-240px)] summary-wide:overflow-y-auto summary-wide:overflow-x-hidden summary-wide:pr-2 summary-wide:[scrollbar-gutter:stable]',
   'summary-wide:[scrollbar-width:thin] summary-wide:[scrollbar-color:var(--color-accent)_transparent]',
   'summary-wide:[&::-webkit-scrollbar]:w-0.5',
   'summary-wide:[&::-webkit-scrollbar-track]:bg-transparent',
@@ -25,21 +25,22 @@ type VaccineDetailContentProps = {
   processedSections: ProcessedSection[]
   instructionSections: VaccineInstructionSection[]
   orgComment?: ReactNode
+  isWide: boolean
 }
 
 export function VaccineDetailContent({
   processedSections,
   instructionSections,
   orgComment,
+  isWide,
 }: VaccineDetailContentProps) {
-  const { isWide } = useSummarySidebarMediaContext()
   const [activeId, setActiveId] = useState(TAB_PROCESSED)
   const showOrgComment = activeId === TAB_PROCESSED && orgComment
 
   const tabs = [
     {
       id: TAB_PROCESSED,
-      label: 'Переработанная информация из разделов',
+      label: LABEL_TAB_PROCESSED,
       content:
         activeId === TAB_PROCESSED ? (
           <>
@@ -52,7 +53,7 @@ export function VaccineDetailContent({
     },
     {
       id: TAB_INSTRUCTION,
-      label: 'Информация из инструкции',
+      label: LABEL_TAB_INSTRUCTION,
       content:
         activeId === TAB_INSTRUCTION ? (
           <VaccineDetailScreenInstruction sections={instructionSections} />
@@ -69,7 +70,7 @@ export function VaccineDetailContent({
           onChange={setActiveId}
           className="summary-wide:flex summary-wide:flex-col summary-wide:gap-0"
           listClassName={cn(
-            'flex shrink-0 gap-6 border-b border-border mb-6',
+            'flex shrink-0 gap-6 border-b border-border mb-6 select-none',
             'summary-wide:sticky summary-wide:top-0 summary-wide:z-10 summary-wide:bg-card',
           )}
           tabClassName="pb-3 text-sm text-fg-muted font-normal data-[state=active]:font-semibold data-[state=active]:text-fg"

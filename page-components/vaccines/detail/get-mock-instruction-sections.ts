@@ -2,8 +2,7 @@ import type { Vaccine } from '@/shared/types/api'
 import { formatAgeLabel } from '@/page-components/vaccines/lib/format-age-label'
 import { MOCK_INSTRUCTION_SECTIONS } from './mock-instruction-sections'
 import type { VaccineInstructionSection } from './ui/vaccine-detail-screen-instruction.types'
-
-const INFANRIX_DEMO_ID = 2
+import { INFANRIX_DEMO_ID } from './constants'
 
 function buildInstructionSectionsFromVaccine(vaccine: Vaccine): VaccineInstructionSection[] {
   const ageLabel = formatAgeLabel(vaccine.min_age_months, vaccine.max_age_months)

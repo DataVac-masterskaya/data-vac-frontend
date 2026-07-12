@@ -1,12 +1,13 @@
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 import type { Vaccine } from '@/shared/types/api'
+import { INFANRIX_DEMO_ID } from './constants'
 
 export function mapVaccineToOrgComment(vaccine: Vaccine): ReactNode | undefined {
   // TODO: когда API будет готов — маппить vaccine.org_comment (rich text / markdown)
   // if (!vaccine.org_comment) return undefined
 
-  if (vaccine.id !== 2) {
+  if (vaccine.id !== INFANRIX_DEMO_ID) {
     return undefined
   }
 
