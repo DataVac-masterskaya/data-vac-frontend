@@ -1,7 +1,9 @@
 import type { ProcessedSection } from './ui/vaccine-detail-screen-processed.types'
 
 // TODO: заменить на данные из API когда будет готов контракт.
-// Полный demo-набор для id=2 (Инфанрикс Гекса); для остальных id персонализируется в get-mock-processed-sections.ts
+// Полный demo-набор для id=2 (Инфанрикс Гекса); инфекции и беременность
+// подмешиваются из vaccine в get-mock-processed-sections.ts.
+// Для остальных id — короткий набор из полей Vaccine.
 export const MOCK_PROCESSED_SECTIONS: ProcessedSection[] = [
   {
     kind: 'text',
@@ -16,11 +18,8 @@ export const MOCK_PROCESSED_SECTIONS: ProcessedSection[] = [
   {
     kind: 'linkList',
     title: 'Инфекция',
-    items: [
-      { label: 'Корь', href: '/infections/1' },
-      { label: 'Краснуха', href: '/infections/2' },
-      { label: 'Паротит', href: '/infections/3' },
-    ],
+    // items подставляются из vaccine в getMockProcessedSections
+    items: [],
     note: 'Текст важного примечания',
   },
   {
@@ -121,7 +120,7 @@ export const MOCK_PROCESSED_SECTIONS: ProcessedSection[] = [
     kind: 'status',
     title: 'Применение при беременности и грудном вскармливании',
     icon: 'attention',
-    text: 'С осторожностью',
+    text: 'Не разрешена',
   },
   {
     kind: 'status',

@@ -1,14 +1,13 @@
-import type { ReactNode } from 'react'
 import { CircleXmarkIcon, InfoCircleIcon, MinusIcon } from '@datavac/ui-kit'
 import { VaccineInfoBlock } from '@/shared/ui/VaccineInfoBlock'
 import { ProcessedSectionTitle } from './processed-section-title'
 import { ProcessedSectionNote } from './processed-section-note'
 import { ProcessedLinkRow } from './processed-link-row'
-import { ProcessedOrgComment } from './processed-org-comment'
+import { getProcessedLinkItemKey } from './get-processed-link-item-key'
 import type { ProcessedSection, ProcessedStatusIcon } from './vaccine-detail-screen-processed.types'
 
 const STATUS_ICON: Record<ProcessedStatusIcon, React.ReactNode> = {
-  attention: <InfoCircleIcon width={20} height={20} className="text-[#FB9A40]" />,
+  attention: <InfoCircleIcon width={20} height={20} className="text-warning" />,
   incompatible: <CircleXmarkIcon width={20} height={20} className="text-accent" />,
   neutral: (
     <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-subtle text-fg-muted">
@@ -33,8 +32,8 @@ function ProcessedSectionRenderer({ section }: { section: ProcessedSection }) {
         <div className="flex flex-col gap-3">
           <ProcessedSectionTitle>{section.title}</ProcessedSectionTitle>
           <div className="flex flex-col gap-2">
-            {section.items.map((item) => (
-              <ProcessedLinkRow key={item.label} {...item} />
+            {section.items.map((item, index) => (
+              <ProcessedLinkRow key={getProcessedLinkItemKey(item, index)} {...item} />
             ))}
           </div>
           <ProcessedSectionNote>{section.note}</ProcessedSectionNote>
@@ -48,8 +47,8 @@ function ProcessedSectionRenderer({ section }: { section: ProcessedSection }) {
           {section.groups.map((group) => (
             <div key={group.label} className="flex flex-col gap-2">
               <span className="text-xs text-fg-muted">{group.label}</span>
-              {group.items.map((item) => (
-                <ProcessedLinkRow key={item.label} {...item} />
+              {group.items.map((item, index) => (
+                <ProcessedLinkRow key={getProcessedLinkItemKey(item, index)} {...item} />
               ))}
             </div>
           ))}
@@ -63,8 +62,8 @@ function ProcessedSectionRenderer({ section }: { section: ProcessedSection }) {
           <VaccineInfoBlock title={section.title} text={section.text} icon={STATUS_ICON[section.icon]} />
           {section.items && (
             <div className="flex flex-col gap-2">
-              {section.items.map((item) => (
-                <ProcessedLinkRow key={item.label} {...item} />
+              {section.items.map((item, index) => (
+                <ProcessedLinkRow key={getProcessedLinkItemKey(item, index)} {...item} />
               ))}
             </div>
           )}
@@ -96,18 +95,14 @@ function ProcessedSectionRenderer({ section }: { section: ProcessedSection }) {
 
 export type VaccineDetailScreenProcessedProps = {
   sections: ProcessedSection[]
-  orgComment?: ReactNode
 }
 
-export function VaccineDetailScreenProcessed({ sections, orgComment }: VaccineDetailScreenProcessedProps) {
+export function VaccineDetailScreenProcessed({ sections }: VaccineDetailScreenProcessedProps) {
   return (
-    <div>
-      <div className="flex flex-col gap-8">
-        {sections.map((section) => (
-          <ProcessedSectionRenderer key={section.title} section={section} />
-        ))}
-      </div>
-      {orgComment && <ProcessedOrgComment>{orgComment}</ProcessedOrgComment>}
+    <div className="flex flex-col gap-8">
+      {sections.map((section) => (
+        <ProcessedSectionRenderer key={section.title} section={section} />
+      ))}
     </div>
   )
 }

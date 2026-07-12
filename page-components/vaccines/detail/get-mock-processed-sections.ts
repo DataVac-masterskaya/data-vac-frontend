@@ -1,45 +1,72 @@
-import { MOCK_VACCINES } from '@/shared/api/mock-data'
+import type { Vaccine } from '@/shared/types/api'
+import { formatAgeLabel } from '@/page-components/vaccines/lib/format-age-label'
 import { mapVaccineInfections } from '@/page-components/vaccines/lib/map-vaccine-infections'
 import { MOCK_PROCESSED_SECTIONS } from './mock-processed-sections'
-import type { ProcessedSection } from './ui/vaccine-detail-screen-processed.types'
+import type { ProcessedLinkItem, ProcessedSection } from './ui/vaccine-detail-screen-processed.types'
 
-const PROCESSED_SECTIONS_BY_VACCINE_ID: Partial<Record<number, ProcessedSection[]>> = {
-  2: MOCK_PROCESSED_SECTIONS,
-}
+const INFANRIX_DEMO_ID = 2
+const PREGNANCY_SECTION_TITLE = 'Применение при беременности и грудном вскармливании'
 
-function personalizeProcessedSections(
-  sections: ProcessedSection[],
-  vaccineName: string,
-  infections: string[],
-): ProcessedSection[] {
-  const infectionItems = mapVaccineInfections(infections).map(({ name, href }) => ({
+function mapInfectionItems(vaccine: Vaccine): ProcessedLinkItem[] {
+  return mapVaccineInfections(vaccine.infections).map(({ name, href, id }) => ({
+    id: id != null ? `infection-${id}` : `infection-${name}`,
     label: name,
     ...(href ? { href } : {}),
   }))
-
-  return sections.map((section) => {
-    if (section.kind === 'text' && section.title === 'Полное название вакцины') {
-      return {
-        ...section,
-        text: `${vaccineName} — демонстрационное описание для страницы вакцины.`,
-      }
-    }
-
-    if (section.kind === 'linkList' && section.title === 'Инфекция') {
-      return { ...section, items: infectionItems }
-    }
-
-    return section
-  })
 }
 
-export function getMockProcessedSections(vaccineId: number): ProcessedSection[] {
-  const vaccine = MOCK_VACCINES.find((item) => item.id === vaccineId)
-  const base = PROCESSED_SECTIONS_BY_VACCINE_ID[vaccineId] ?? MOCK_PROCESSED_SECTIONS
+function pregnancyStatus(vaccine: Vaccine): { icon: 'neutral' | 'attention'; text: string } {
+  return vaccine.allowed_during_pregnancy
+    ? { icon: 'neutral', text: 'Разрешена' }
+    : { icon: 'attention', text: 'Не разрешена' }
+}
 
-  if (!vaccine || vaccineId === 2) {
-    return base
+function patchDemoSection(section: ProcessedSection, vaccine: Vaccine): ProcessedSection {
+  if (section.kind === 'linkList' && section.title === 'Инфекция') {
+    return { ...section, items: mapInfectionItems(vaccine) }
   }
 
-  return personalizeProcessedSections(base, vaccine.name, vaccine.infections)
+  if (section.kind === 'status' && section.title === PREGNANCY_SECTION_TITLE) {
+    return { ...section, ...pregnancyStatus(vaccine) }
+  }
+
+  return section
+}
+
+function buildProcessedSectionsFromVaccine(vaccine: Vaccine): ProcessedSection[] {
+  return [
+    {
+      kind: 'text',
+      title: 'Полное название вакцины',
+      text: `${vaccine.name} — демонстрационное описание для страницы вакцины.`,
+    },
+    {
+      kind: 'linkList',
+      title: 'Инфекция',
+      items: mapInfectionItems(vaccine),
+    },
+    {
+      kind: 'administration',
+      title: 'Способы введения',
+      rows: [
+        {
+          ageRange: formatAgeLabel(vaccine.min_age_months, vaccine.max_age_months),
+          description: vaccine.administration_method,
+        },
+      ],
+    },
+    {
+      kind: 'status',
+      title: PREGNANCY_SECTION_TITLE,
+      ...pregnancyStatus(vaccine),
+    },
+  ]
+}
+
+export function getMockProcessedSections(vaccine: Vaccine): ProcessedSection[] {
+  if (vaccine.id === INFANRIX_DEMO_ID) {
+    return MOCK_PROCESSED_SECTIONS.map((section) => patchDemoSection(section, vaccine))
+  }
+
+  return buildProcessedSectionsFromVaccine(vaccine)
 }

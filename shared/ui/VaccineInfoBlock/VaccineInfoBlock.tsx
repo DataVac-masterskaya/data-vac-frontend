@@ -14,7 +14,7 @@ export function VaccineInfoBlock({ title, text, icon }: VaccineInfoBlockProps) {
         {title}
       </h3>
       <div className="flex items-center gap-1.5">
-        {icon ?? <InfoCircleIcon width={20} height={20} className="text-[#FB9A40]" />}
+        {icon ?? <InfoCircleIcon width={20} height={20} className="text-warning" />}
         <span className="text-base font-semibold text-fg">
           {text}
         </span>

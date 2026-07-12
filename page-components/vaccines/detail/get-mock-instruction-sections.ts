@@ -1,34 +1,34 @@
-import { MOCK_VACCINES } from '@/shared/api/mock-data'
+import type { Vaccine } from '@/shared/types/api'
+import { formatAgeLabel } from '@/page-components/vaccines/lib/format-age-label'
 import { MOCK_INSTRUCTION_SECTIONS } from './mock-instruction-sections'
 import type { VaccineInstructionSection } from './ui/vaccine-detail-screen-instruction.types'
 
-const INSTRUCTION_SECTIONS_BY_VACCINE_ID: Partial<Record<number, VaccineInstructionSection[]>> = {
-  2: MOCK_INSTRUCTION_SECTIONS,
+const INFANRIX_DEMO_ID = 2
+
+function buildInstructionSectionsFromVaccine(vaccine: Vaccine): VaccineInstructionSection[] {
+  const ageLabel = formatAgeLabel(vaccine.min_age_months, vaccine.max_age_months)
+
+  return [
+    {
+      title: 'Допустимый возраст',
+      content: `Вакцина ${vaccine.name} показана для применения ${ageLabel.toLowerCase()}.`,
+    },
+    {
+      title: 'Способы введения',
+      content: `Вакцину ${vaccine.name} следует вводить ${vaccine.administration_method.toLowerCase()}.`,
+    },
+    {
+      title: 'Полный текст инструкции',
+      content:
+        'Полный текст инструкции будет доступен после подключения API. Сейчас отображаются только данные из карточки вакцины.',
+    },
+  ]
 }
 
-function personalizeInstructionContent(content: string, vaccineName: string): string {
-  return content.replace(/Инфанрикс Гекса/g, vaccineName)
-}
-
-function personalizeInstructionSections(
-  sections: VaccineInstructionSection[],
-  vaccineName: string,
-): VaccineInstructionSection[] {
-  return sections.map((section) => ({
-    ...section,
-    content: Array.isArray(section.content)
-      ? section.content.map((item) => personalizeInstructionContent(item, vaccineName))
-      : personalizeInstructionContent(section.content, vaccineName),
-  }))
-}
-
-export function getMockInstructionSections(vaccineId: number): VaccineInstructionSection[] {
-  const vaccine = MOCK_VACCINES.find((item) => item.id === vaccineId)
-  const base = INSTRUCTION_SECTIONS_BY_VACCINE_ID[vaccineId] ?? MOCK_INSTRUCTION_SECTIONS
-
-  if (!vaccine || vaccineId === 2) {
-    return base
+export function getMockInstructionSections(vaccine: Vaccine): VaccineInstructionSection[] {
+  if (vaccine.id === INFANRIX_DEMO_ID) {
+    return MOCK_INSTRUCTION_SECTIONS
   }
 
-  return personalizeInstructionSections(base, vaccine.name)
+  return buildInstructionSectionsFromVaccine(vaccine)
 }
