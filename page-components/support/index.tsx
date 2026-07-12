@@ -1,6 +1,8 @@
+import Image from 'next/image'
+import { DonationReasonCard } from '@/shared/ui/DonationReasonCard'
+import { DECORATIVE_SHAPES } from '@/shared/ui/decorative-shapes'
 import { FAQSection } from './ui/FAQSection'
-import { QRPaymentBlock } from '@/shared/ui/QRPaymentBlock'
-import { SupportDonation } from './ui/SupportDonation'
+import { SupportTabs } from './ui/SupportTabs'
 
 const DONATION_PRESETS = [
   { sum: 100, popular: false },
@@ -13,30 +15,84 @@ const DONATION_PRESETS = [
   { sum: 10000, popular: false },
 ]
 
+const DONATION_REASONS = [
+  {
+    title: 'Контент',
+    description:
+      'Поскольку инструкции к вакцинам меняются, нам необходимо регулярно отслеживать эти изменения. К сожалению, на данный момент это ручной труд.',
+  },
+  {
+    title: 'Развитие',
+    description:
+      'Для более чем сотни вакцин мы обработали четыре ключевых параметра: инфекции, возраст, противопоказания и способы введения. Но мы хотим сделать приложение еще удобнее и насыщеннее — для этого нам нужно обработать другие разделы инструкций, а также изменить дизайн и механизм приложения.',
+  },
+  {
+    title: 'Техническое усовершенствование',
+    description:
+      'С целью экономии наше приложение было создано в «Битриксе». Но это неоптимальный вариант, и мы бы хотели использовать более современный стек.',
+  },
+  {
+    title: 'Техническое обеспечение',
+    description:
+      'Домен, хостинг, база, оплата человеческого труда по минимальной поддержке работоспособности приложения.',
+  },
+]
+
 export default function SupportPage() {
   return (
-    <div className="max-w-2xl">
-      <h1 className="text-2xl font-semibold text-fg mb-6">Поддержать проект</h1>
+    <div className="flex flex-col gap-12 lg:gap-16">
+      <section className="relative bg-card rounded-2xl px-8 md:px-10 py-8 overflow-hidden">
+        <div className="relative z-10 flex flex-col lg:flex-row gap-8 lg:justify-between lg:items-start">
+          <h1 className="text-[32px] font-medium leading-[1.125] text-accent shrink-0 lg:w-[240px]">
+            Поддержите
+            <br />
+            нашу работу
+          </h1>
+          <div className="flex flex-col gap-8 lg:max-w-[824px]">
+            <div className="grid md:grid-cols-2 gap-6 text-base text-fg">
+              <p>
+                Мы не зависим от государственных компаний или фармокологических корпораций — мы
+                объединились как неравнодушные родители, которые хотят, чтобы они и их дети жили в
+                безопасном обществе, защищенном от вакциноуправляемых инфекций
+              </p>
+              <p>
+                Мы создали первый в мире каталог вакцин с подробной разметкой, специфичной именно
+                для вакцин. Мы хотим помочь родителям и пациентам сделать правильный выбор, а также
+                стать подспорьем в работе медиков
+              </p>
+            </div>
+            <p className="text-xl font-medium text-fg">
+              Станьте частью этого образовательного и просветительского проекта! Поддержите DataVac!
+            </p>
+          </div>
+        </div>
+        <div
+          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/3 w-[199px] h-[199px] pointer-events-none"
+          aria-hidden
+        >
+          <Image
+            src={DECORATIVE_SHAPES.cluster.src}
+            alt=""
+            fill
+            className="object-contain"
+          />
+        </div>
+      </section>
 
-      <div className="mb-6">
-        <p className="text-sm text-fg-secondary mb-6">
-          DataVac — бесплатная база знаний о вакцинах для всех. Если проект полезен для вас, вы
-          можете поддержать его развитие.
-        </p>
-        <SupportDonation presets={DONATION_PRESETS} />
-      </div>
+      <SupportTabs presets={DONATION_PRESETS} />
 
-      <div className="bg-card rounded-2xl p-6 mb-6">
-        <QRPaymentBlock qrSrc="/qr-payment.png" />
-      </div>
-
-      <div className="bg-card rounded-2xl p-6">
-        <h2 className="text-base font-semibold text-fg mb-3">Связаться с нами</h2>
-        <p className="text-sm text-fg-secondary">
-          Нашли ошибку или хотите предложить улучшение? Напишите на{' '}
-          <span className="text-accent">info@datavac.ru</span>
-        </p>
-      </div>
+      <section>
+        <h2 className="text-2xl text-fg mb-6">Зачем нам пожертования?</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {DONATION_REASONS.map((reason) => (
+            <DonationReasonCard
+              key={reason.title}
+              title={reason.title}
+              description={reason.description}
+            />
+          ))}
+        </div>
+      </section>
 
       <FAQSection />
     </div>
