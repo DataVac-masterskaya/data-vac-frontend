@@ -73,7 +73,7 @@ export function SupportTabs({ presets }: SupportTabsProps) {
       onChange={(id) => setActiveTab(id as TabId)}
       className="gap-2"
       listClassName="flex gap-2 flex-wrap justify-center"
-      tabClassName="rounded-full px-3 py-1 text-base text-fg bg-card transition-colors data-[state=active]:bg-[#4f5153] data-[state=active]:text-white"
+      tabClassName="rounded-full px-3 py-1 text-base text-fg bg-white aria-selected:bg-[#4f5153] aria-selected:text-white transition-colors cursor-pointer"
     />
   )
 }

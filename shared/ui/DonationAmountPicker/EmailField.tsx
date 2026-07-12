@@ -18,9 +18,9 @@ export function EmailField({ value, error, onChange, onBlur }: EmailFieldProps) 
         value={value}
         onChange={onChange}
         onBlur={onBlur}
-        variant={'grey'}
+        variant={'white'}
         className={cn(
-          'min-w-[288px] w-full py-4.25 px-4 font-normal leading-[1.37] border-transparent placeholder:text-fg-secondary focus:border-transparent hover:placeholder:text-fg',
+          'min-w-[288px] w-full py-4.25 px-4 font-normal leading-[1.37] border-transparent focus:border-transparent placeholder:text-fg-secondary hover:placeholder:text-fg',
           {'border-accent': error}
         )}
       />
