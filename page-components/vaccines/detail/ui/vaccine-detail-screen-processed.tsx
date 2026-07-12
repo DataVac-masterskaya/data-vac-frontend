@@ -101,10 +101,12 @@ export type VaccineDetailScreenProcessedProps = {
 
 export function VaccineDetailScreenProcessed({ sections, orgComment }: VaccineDetailScreenProcessedProps) {
   return (
-    <div className="flex flex-col gap-8">
-      {sections.map((section) => (
-        <ProcessedSectionRenderer key={section.title} section={section} />
-      ))}
+    <div>
+      <div className="flex flex-col gap-8">
+        {sections.map((section) => (
+          <ProcessedSectionRenderer key={section.title} section={section} />
+        ))}
+      </div>
       {orgComment && <ProcessedOrgComment>{orgComment}</ProcessedOrgComment>}
     </div>
   )
