@@ -74,6 +74,7 @@ export default function SupportPage() {
             src={DECORATIVE_SHAPES.coube.src}
             alt=""
             fill
+            sizes="199px"
             className="object-contain"
           />
         </div>

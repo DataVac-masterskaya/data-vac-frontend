@@ -1,5 +1,7 @@
 @layer theme, base, ui-kit-utilities, utilities;
 @import "tailwindcss";
+@source "../node_modules/@datavac/ui-kit/dist/index.js";
+@variant dark (&:where(.dark, .dark *));
 
 /* Отключаем scroll anchoring: без этого браузер корректирует scrollY при изменении
    высоты sticky-шапки и генерирует ложные scroll-события, ломающие логику хука */
@@ -8,7 +10,7 @@ html {
 }
 
 /* summary-wide = BREAKPOINT_SUMMARY_WIDE_MIN_PX. Менять вместе с shared/config/breakpoints.ts */
-@custom-variant summary-wide (@media (width >= 1600px));
+@custom-variant summary-wide (@media (width >=1600px));
 
 /* Пробрасываем токены ui-kit в Tailwind-утилиты (bg-page, text-fg, rounded-pill и т.д.)
    Сами значения переменных задаёт @datavac/ui-kit/style.css + ThemeProvider */
