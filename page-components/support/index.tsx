@@ -1,8 +1,8 @@
 import Image from 'next/image'
-import { DonationReasonCard } from '@/shared/ui/DonationReasonCard'
 import { DECORATIVE_SHAPES } from '@/shared/ui/decorative-shapes'
 import { FAQSection } from './ui/FAQSection'
 import { SupportTabs } from './ui/SupportTabs'
+import { DonationReasonsCarousel } from './ui/DonationReasonsCarousel'
 
 const DONATION_PRESETS = [
   { sum: 100, popular: false },
@@ -83,15 +83,7 @@ export default function SupportPage() {
 
       <section>
         <h2 className="text-2xl text-fg mb-6">Зачем нам пожертования?</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {DONATION_REASONS.map((reason) => (
-            <DonationReasonCard
-              key={reason.title}
-              title={reason.title}
-              description={reason.description}
-            />
-          ))}
-        </div>
+        <DonationReasonsCarousel reasons={DONATION_REASONS} />
       </section>
 
       <FAQSection />
