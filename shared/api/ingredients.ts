@@ -1,39 +1,32 @@
 import type { Ingredient, PaginatedResponse } from '@/shared/types/api'
-import { MOCK_INGREDIENTS } from './mock-data'
 
 interface IngredientsParams {
   sort?: 'popularity' | 'name' | 'name_desc' | 'type' | 'type_desc'
   limit?: number
   type?: string
-  q?: string 
+  q?: string
+}
+
+const SORT_TO_ORDERING: Record<NonNullable<IngredientsParams['sort']>, string> = {
+  popularity: 'popularity',
+  name: 'name',
+  name_desc: '-name',
+  type: 'type',
+  type_desc: '-type',
 }
 
 export async function fetchIngredients(params: IngredientsParams = {}): Promise<PaginatedResponse<Ingredient>> {
-  await new Promise((r) => setTimeout(r, 0))
+  const searchParams = new URLSearchParams()
 
-  let results = [...MOCK_INGREDIENTS]
+  if (params.q?.trim()) searchParams.set('search', params.q.trim())
+  if (params.type) searchParams.set('type', params.type)
+  if (params.sort) searchParams.set('ordering', SORT_TO_ORDERING[params.sort])
+  if (params.limit) searchParams.set('limit', String(params.limit))
 
-  if (params.type) {
-    results = results.filter((i) => i.type === params.type)
-  }
-  if (params.q?.trim()) {
-    const lower = params.q.trim().toLowerCase()
-    results = results.filter((i) => i.name.toLowerCase().includes(lower))
-  }
-  if (params.sort === 'popularity') {
-    results.sort((a, b) => b.popularity - a.popularity)
-  } else if (params.sort === 'name') {
-    results.sort((a, b) => a.name.localeCompare(b.name, 'ru'))
-  } else if (params.sort === 'name_desc') {
-    results.sort((a, b) => b.name.localeCompare(a.name, 'ru'))
-  } else if (params.sort === 'type') {
-    results.sort((a, b) => a.type.localeCompare(b.type, 'ru'))
-  } else if (params.sort === 'type_desc') {
-    results.sort((a, b) => b.type.localeCompare(a.type, 'ru'))
-  }
-  if (params.limit) {
-    results = results.slice(0, params.limit)
-  }
+  const query = searchParams.toString()
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/ingredients/${query ? `?${query}` : ''}`
 
-  return { count: MOCK_INGREDIENTS.length, results }
+  const res = await fetch(url, { next: { revalidate: 3600 } })
+  if (!res.ok) throw new Error(`Не удалось получить данные об ингредиентах (${res.status})`)
+  return res.json() as Promise<PaginatedResponse<Ingredient>>
 }
