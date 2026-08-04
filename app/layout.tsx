@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { QueryProvider } from "@/shared/providers/query-provider";
 import { UIKitProvider } from "@/shared/providers/ui-kit-provider";
 import { PageLayout } from "@/shared/ui/PageLayout";
 import "./globals.css";
@@ -33,9 +32,7 @@ export default function RootLayout({
           strategy="afterInteractive"
         />
         <UIKitProvider>
-          <QueryProvider>
-            <PageLayout>{children}</PageLayout>
-          </QueryProvider>
+          <PageLayout>{children}</PageLayout>
         </UIKitProvider>
       </body>
     </html>
