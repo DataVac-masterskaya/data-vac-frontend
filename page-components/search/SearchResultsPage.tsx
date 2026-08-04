@@ -12,16 +12,18 @@ type SearchResultsPageProps = {
 
 export async function SearchResultsPage({ query, sort }: SearchResultsPageProps) {
   let vaccines: ReturnType<typeof mapVaccineToTableRow>[] = []
+  let count = 0
   let error: string | null = null
 
   const sortValue = normalizeVaccineSort(sort)
 
   try {
-    const { results } = await fetchVaccines({
+    const { results, count: total } = await fetchVaccines({
       sort: sortValue,
       q: query,
     })
     vaccines = results.map(mapVaccineToTableRow)
+    count = total
   } catch {
     error = 'Не удалось загрузить результаты поиска. Попробуйте позже.'
   }
@@ -30,7 +32,7 @@ export async function SearchResultsPage({ query, sort }: SearchResultsPageProps)
 
   return (
     <div className={`${VACCINE_PAGE_WIDTH_CLASS} flex flex-col`}>
-      <ResultsHeader title={query} count={!error ? vaccines.length : undefined} />
+      <ResultsHeader title={query} count={!error ? count : undefined} />
 
       {error ? (
         <div className="mt-6">
