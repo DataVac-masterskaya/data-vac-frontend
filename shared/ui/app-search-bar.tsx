@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { SearchBar, type SearchResultGroup } from '@datavac/ui-kit'
-import { useSearchSuggestions } from '@/shared/query/hooks/use-search'
+import { useSearchSuggestions } from '@/shared/lib/hooks/use-search-suggestions'
 import {
   buildIngredientsPageHref,
   normalizeIngredientSort,
