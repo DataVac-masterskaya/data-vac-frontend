@@ -4,5 +4,6 @@ export type ContraIndicationRowProps = {
   isActive?: boolean;
   linkText?: string;
   onLinkClick?: () => void;
+  href?: string;
   className?: string;
 };

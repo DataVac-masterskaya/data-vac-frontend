@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { cn } from '@datavac/ui-kit';
 import { ContraIndicationRowProps } from './ContraIndicationRow.types';
 import { CircleArrow } from './CircleArrow';
@@ -10,6 +11,7 @@ export function ContraIndicationRow({
   isActive = false,
   linkText,
   onLinkClick,
+  href,
   className,
 }: ContraIndicationRowProps) {
   return (
@@ -27,16 +29,28 @@ export function ContraIndicationRow({
 
       <div className="flex items-center justify-between gap-2 sm:justify-end">
         {linkText && (
-          <button
-            type="button"
-            onClick={onLinkClick}
-            className="text-sm text-fg-muted"
-          >
-            {linkText}
-          </button>
+          href ? (
+            <Link href={href} className="text-sm text-fg-muted">
+              {linkText}
+            </Link>
+          ) : (
+            <button
+              type="button"
+              onClick={onLinkClick}
+              className="text-sm text-fg-muted"
+            >
+              {linkText}
+            </button>
+          )
         )}
 
-        <CircleArrow isActive={isActive} />
+        {href && !linkText ? (
+          <Link href={href} aria-label="Перейти">
+            <CircleArrow isActive={isActive} />
+          </Link>
+        ) : (
+          <CircleArrow isActive={isActive} />
+        )}
       </div>
     </div>
   );

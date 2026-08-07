@@ -3,6 +3,7 @@ export type ContraIndicationGroupCardItem = {
   isActive?: boolean;
   linkText?: string;
   onClick?: () => void;
+  href?: string;
 };
 
 export type ContraIndicationGroupCardGroup = {

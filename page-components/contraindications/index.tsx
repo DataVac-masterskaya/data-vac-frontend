@@ -1,5 +1,6 @@
 import { fetchContraindications } from '@/shared/api/contraindications';
 import { ResultsHeader } from '@/shared/ui/ResultsHeader';
+import { buildVaccinesPageHref } from '@/page-components/vaccines/model/sort';
 import { ContraIndicationGroupCard } from './ui/ContraIndicationGroupCard/ContraIndicationGroupCard';
 import { ContraindicationsFilter } from './ui/ContraindicationsFilter';
 import { ContraIndicationRow } from './ui/ContraIndicationRow';
@@ -47,7 +48,7 @@ export default async function ContraindicationsPage({
         text: item.name,
         // TODO: заменить на реальный признак активности из ответа API
         isActive: false,
-        linkText: 'Перейти к списку ингредиентов',
+        href: buildVaccinesPageHref({ q: item.name }),
       })),
     }));
 
@@ -79,7 +80,8 @@ export default async function ContraindicationsPage({
                 key={card.title}
                 category={card.title}
                 text={card.groups[0].items[0].text}
-                linkText={card.groups[0].items[0].linkText}
+                linkText="Перейти к списку ингредиентов"
+                href="/ingredients"
               />
             ) : (
               <ContraIndicationGroupCard
