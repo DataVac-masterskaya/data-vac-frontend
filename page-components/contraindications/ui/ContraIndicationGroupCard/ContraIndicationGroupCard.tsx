@@ -27,6 +27,7 @@ export function ContraIndicationGroupCard({
                   isActive={item.isActive}
                   linkText={item.linkText}
                   onLinkClick={item.onClick}
+                  href={item.href}
                   className="bg-transparent px-0 py-0"
                 />
               ))}
