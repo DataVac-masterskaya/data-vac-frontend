@@ -1,19 +1,12 @@
-import { fetchContraindications } from '@/shared/api/contraindications';
+import {
+  fetchContraindications,
+  fetchContraindicationCategories,
+} from '@/shared/api/contraindications';
 import { ResultsHeader } from '@/shared/ui/ResultsHeader';
 import { buildVaccinesPageHref } from '@/page-components/vaccines/model/sort';
 import { ContraIndicationGroupCard } from './ui/ContraIndicationGroupCard/ContraIndicationGroupCard';
 import { ContraindicationsFilter } from './ui/ContraindicationsFilter';
 import { ContraIndicationRow } from './ui/ContraIndicationRow';
-
-const CATEGORIES = [
-  { value: '', label: 'Все' },
-  { value: 'Хронические заболевания', label: 'Хронические заболевания' },
-  { value: 'Острые заболевания', label: 'Острые заболевания' },
-  { value: 'Аллергии', label: 'Аллергии' },
-  { value: 'Почки', label: 'Почки' },
-  { value: 'Сердце', label: 'Сердце' },
-  { value: 'Иммунодефициты', label: 'Иммунодефициты' },
-];
 
 export default async function ContraindicationsPage({
   searchParams,
@@ -21,20 +14,30 @@ export default async function ContraindicationsPage({
   searchParams: Promise<{ category?: string }>;
 }) {
   const { category } = await searchParams;
-  const { results } = await fetchContraindications({
-    sort: 'popularity',
-    category: category || undefined,
-  });
+  const [results, categories] = await Promise.all([
+    fetchContraindications({
+      sort: 'popularity',
+      category: category || undefined,
+    }),
+    fetchContraindicationCategories(),
+  ]);
+
+  const filterCategories = [
+    { value: '', label: 'Все' },
+    ...categories.map((c) => ({ value: c.name, label: c.name })),
+  ];
+
+  const withCategory = results.filter((item) => item.category);
+  const withoutCategory = results.filter((item) => !item.category);
 
   const groupedCards = Object.entries(
-    results.reduce<Record<string, typeof results>>((acc, item) => {
-      const key = item.category;
+    withCategory.reduce<Record<string, typeof withCategory>>((acc, item) => {
+      const key = item.category!.name;
       if (!acc[key]) acc[key] = [];
       acc[key].push(item);
       return acc;
     }, {}),
   ).map(([title, items]) => {
-    // Группируем внутри категории по подкатегории (если есть)
     const subMap = items.reduce<Record<string, typeof items>>((acc, item) => {
       const key = item.subcategory ?? title;
       if (!acc[key]) acc[key] = [];
@@ -63,34 +66,44 @@ export default async function ContraindicationsPage({
         filters={
           <ContraindicationsFilter
             activeCategory={category || ''}
-            categories={CATEGORIES}
+            categories={filterCategories}
           />
         }
       />
 
       <div className="mt-4 flex flex-col gap-2">
-        {groupedCards.length === 0 ? (
+        {groupedCards.length === 0 && withoutCategory.length === 0 ? (
           <div className="mt-4 bg-card rounded-2xl p-10 text-center text-fg-secondary">
             Ничего не найдено
           </div>
         ) : (
-          groupedCards.map((card) =>
-            card.groups.length === 1 && card.groups[0].items.length === 1 ? (
+          <>
+            {groupedCards.map((card) =>
+              card.groups.length === 1 && card.groups[0].items.length === 1 ? (
+                <ContraIndicationRow
+                  key={card.title}
+                  category={card.title}
+                  text={card.groups[0].items[0].text}
+                  href="/ingredients"
+                />
+              ) : (
+                <ContraIndicationGroupCard
+                  key={card.title}
+                  title={card.title}
+                  groups={card.groups}
+                />
+              ),
+            )}
+
+            {withoutCategory.map((item) => (
               <ContraIndicationRow
-                key={card.title}
-                category={card.title}
-                text={card.groups[0].items[0].text}
-                linkText="Перейти к списку ингредиентов"
+                key={item.id}
+                category=""
+                text={item.name}
                 href="/ingredients"
               />
-            ) : (
-              <ContraIndicationGroupCard
-                key={card.title}
-                title={card.title}
-                groups={card.groups}
-              />
-            ),
-          )
+            ))}
+          </>
         )}
       </div>
     </div>
