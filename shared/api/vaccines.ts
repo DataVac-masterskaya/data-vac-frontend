@@ -50,8 +50,19 @@ export async function fetchVaccines(params: VaccinesParams = {}): Promise<Pagina
 }
 
 export async function fetchVaccineById(id: number): Promise<Vaccine | null> {
-  await new Promise((r) => setTimeout(r, 0))
-  return MOCK_VACCINES.find((v) => v.id === id) ?? null
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/vaccines/${id}/`
+  const response = await fetch(url, { next: { revalidate: 3600 } })
+
+  if (!response.ok) {
+    if (response.status === 404) {
+      return null
+    }
+    throw new Error(`Не удалось получить данные о вакцине (${response.status})`)
+  }
+
+  const data = await response.json()
+
+  return data
 }
 
 export async function fetchAllVaccineIds(): Promise<number[]> {

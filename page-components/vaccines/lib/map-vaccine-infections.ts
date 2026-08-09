@@ -3,14 +3,12 @@ import type { VaccineSummaryInfection } from '@/page-components/vaccines/ui/vacc
 
 const infectionIdByName = new Map(MOCK_INFECTIONS.map((infection) => [infection.name, infection.id]))
 
-export function mapVaccineInfections(names: string[]): VaccineSummaryInfection[] {
-  return names.map((name) => {
-    const id = infectionIdByName.get(name)
-
-    return {
-      name,
-      id,
-      href: id != null ? `/infections/${id}` : undefined,
-    }
-  })
+export function mapVaccineInfections(
+  infections: { id: number; name: string }[]
+): VaccineSummaryInfection[] {
+  return infections.map((infection) => ({
+    name: infection.name,
+    id: infection.id,
+    href: `/infections/${infection.id}`,
+  }))
 }
