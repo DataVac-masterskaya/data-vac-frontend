@@ -1,5 +1,4 @@
 import type { PaginatedResponse, Vaccine, VaccineListItem } from '@/shared/types/api'
-import { MOCK_VACCINES } from './mock-data'
 import { apiFetch, ApiError } from './fetch'
 
 interface VaccinesParams {
@@ -12,39 +11,34 @@ interface VaccinesParams {
   contraindication_id?: number
 }
 
+const SORT_TO_ORDERING: Record<NonNullable<VaccinesParams['sort']>, string> = {
+  popularity: 'popularity',
+  name: 'name',
+  name_desc: '-name',
+}
+
 export async function fetchVaccines(params: VaccinesParams = {}): Promise<PaginatedResponse<VaccineListItem>> {
-  await new Promise((r) => setTimeout(r, 0)) // TODO: заменить на реальный API (PR #230)
+  const searchParams = new URLSearchParams()
 
-  let results = [...MOCK_VACCINES]
-
-  if (params.letter) {
-    results = results.filter((v) => v.name.startsWith(params.letter!))
+  if (params.q?.trim()) searchParams.set('search', params.q.trim())
+  if (params.sort) searchParams.set('ordering', SORT_TO_ORDERING[params.sort])
+  if (params.limit) searchParams.set('limit', String(params.limit))
+  if (params.letter) searchParams.set('first_letter', params.letter)
+  if (params.infection_id) {
+    searchParams.set('filter_type', 'infection')
+    searchParams.set('filter_id', String(params.infection_id))
+  } else if (params.ingredient_id) {
+    searchParams.set('filter_type', 'ingredient')
+    searchParams.set('filter_id', String(params.ingredient_id))
+  } else if (params.contraindication_id) {
+    searchParams.set('filter_type', 'contraindication')
+    searchParams.set('filter_id', String(params.contraindication_id))
   }
 
-  if (params.q?.trim()) {
-    const q = params.q.trim().toLowerCase()
-    results = results.filter(
-      (v) =>
-        v.name.toLowerCase().includes(q) ||
-        v.infections.some((i) => i.name.toLowerCase().includes(q)),
-    )
-  }
+  const query = searchParams.toString()
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/vaccines/${query ? `?${query}` : ''}`
 
-  if (params.sort === 'popularity') {
-    results.sort((a, b) => b.popularity - a.popularity)
-  } else if (params.sort === 'name') {
-    results.sort((a, b) => a.name.localeCompare(b.name, 'ru'))
-  } else if (params.sort === 'name_desc') {
-    results.sort((a, b) => b.name.localeCompare(a.name, 'ru'))
-  }
-
-  const count = results.length
-
-  if (params.limit) {
-    results = results.slice(0, params.limit)
-  }
-
-  return { count, results }
+  return apiFetch<PaginatedResponse<VaccineListItem>>(url)
 }
 
 export async function fetchVaccineById(id: number): Promise<Vaccine | null> {

@@ -1,13 +1,28 @@
+export interface VaccineInfection {
+  id: number
+  name: string
+}
+
 export interface VaccineListItem {
   id: number
   name: string
   official_name: string | null
   is_available_in_rf: boolean
   popularity: number
-  infections: { id: number; name: string }[]
+  infections: VaccineInfection[]
+  administration_method: string
+  min_age_months: number | null
+  max_age_months: number | null
+  allowed_during_pregnancy: boolean
 }
 
-export interface Vaccine extends VaccineListItem {
+export interface Vaccine {
+  id: number
+  name: string
+  official_name: string | null
+  is_available_in_rf: boolean
+  popularity: number
+  infections: VaccineInfection[]
   revision_date: string | null
   nonspec_url: string | null
   instruction_url: string | null
@@ -49,9 +64,7 @@ export interface Contraindication {
   id: number;
   name: string;
   category: ContraindicationCategory | null;
-  /** Подкатегория для группировки внутри одной карточки (например, «Хронические заболевания сердца» внутри «Хронические заболевания») */
   subcategory: string | null;
-  /** Сквозные метки для фильтра (например, «Почки», «Сердце») */
   tags?: string[];
   popularity: number;
 }
