@@ -20,8 +20,8 @@ export function mapVaccineToCatalogItem(vaccine: VaccineListItem): VaccineCatalo
   return {
     id: String(vaccine.id),
     name: vaccine.name,
-    officialName: vaccine.official_name || vaccine.name,
-    infections: vaccine.infections.map((i) => i.name),
+    officialName: vaccine.official_name,
+    infections: vaccine.infections,
     isAvailable: vaccine.is_available_in_rf,
   }
 }

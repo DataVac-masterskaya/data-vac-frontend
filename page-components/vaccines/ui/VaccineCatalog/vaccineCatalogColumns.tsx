@@ -35,8 +35,8 @@ export const vaccineCatalogColumns: DataTableColumn<VaccineCatalogItem>[] = [
     render: (row) => (
       <div className="flex flex-col">
         {row.infections.map((inf) => (
-          <span className="leading-snug" key={inf}>
-            {inf}
+          <span className="leading-snug" key={inf.id}>
+            {inf.name}
           </span>
         ))}
       </div>
