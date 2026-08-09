@@ -1,25 +1,26 @@
 import type { Vaccine } from '@/shared/types/api'
-import { formatAgeLabel } from '@/page-components/vaccines/lib/format-age-label'
 import { MOCK_INSTRUCTION_SECTIONS } from './mock-instruction-sections'
 import type { VaccineInstructionSection } from './ui/vaccine-detail-screen-instruction.types'
 import { INFANRIX_DEMO_ID } from './constants'
 
 function buildInstructionSectionsFromVaccine(vaccine: Vaccine): VaccineInstructionSection[] {
-  const ageLabel = formatAgeLabel(vaccine.min_age_months, vaccine.max_age_months)
+  const ageLabel = vaccine.age_allowed || 'не указан'
+  const firstMethod = vaccine.administration_methods?.[0]
+  const methodText = firstMethod?.code || firstMethod?.note || 'не указан'
 
   return [
     {
       title: 'Допустимый возраст',
-      content: `Вакцина ${vaccine.name} показана для применения ${ageLabel.toLowerCase()}.`,
+      content: `Вакцина ${vaccine.name} показана для применения ${ageLabel}.`,
     },
     {
       title: 'Способы введения',
-      content: `Вакцину ${vaccine.name} следует вводить ${vaccine.administration_method.toLowerCase()}.`,
+      content: `Вакцину ${vaccine.name} следует вводить ${methodText}.`,
     },
     {
       title: 'Полный текст инструкции',
       content:
-        'Полный текст инструкции будет доступен после подключения API. Сейчас отображаются только данные из карточки вакцины.',
+        vaccine.instruction_url || 'Инструкция не доступна'
     },
   ]
 }

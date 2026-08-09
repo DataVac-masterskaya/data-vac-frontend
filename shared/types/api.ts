@@ -1,14 +1,29 @@
-export interface Vaccine {
-  id: number;
-  name: string;
-  infections: string[];
-  administration_method: string;
-  min_age_months: number | null;
-  max_age_months: number | null;
-  allowed_during_pregnancy: boolean;
-  popularity: number;
-  officialName: string | null;
-  isAvailable: boolean;
+export interface VaccineListItem {
+  id: number
+  name: string
+  official_name: string | null
+  is_available_in_rf: boolean
+  popularity: number
+  infections: { id: number; name: string }[]
+}
+
+export interface Vaccine extends VaccineListItem {
+  revision_date: string | null
+  nonspec_url: string | null
+  instruction_url: string | null
+  age_allowed: string | null
+  pregnancy_usage_status: boolean
+  administration_methods: { code: string | null; age_group: string | null; note: string | null }[]
+  contraindications: { id: number; name: string; type: string }[]
+  ingredients: { id: number; name: string; role: string }[]
+  comment: { source: string | null; text: string | null } | null
+  manufacturer: string | null
+  storage_conditions: string | null
+  schedule_info: string | null
+  side_effects: string | null
+  indications: string | null
+  interaction_info: string | null
+  compatibility_info: string | null
 }
 
 export interface Infection {

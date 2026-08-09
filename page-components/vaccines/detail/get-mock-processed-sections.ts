@@ -1,5 +1,4 @@
 import type { Vaccine } from '@/shared/types/api'
-import { formatAgeLabel } from '@/page-components/vaccines/lib/format-age-label'
 import { mapVaccineInfections } from '@/page-components/vaccines/lib/map-vaccine-infections'
 import { MOCK_PROCESSED_SECTIONS } from './mock-processed-sections'
 import type { ProcessedLinkItem, ProcessedSection } from './ui/vaccine-detail-screen-processed.types'
@@ -15,7 +14,7 @@ function mapInfectionItems(vaccine: Vaccine): ProcessedLinkItem[] {
 }
 
 function pregnancyStatus(vaccine: Vaccine): { icon: 'neutral' | 'attention'; text: string } {
-  return vaccine.allowed_during_pregnancy
+  return vaccine.pregnancy_usage_status
     ? { icon: 'neutral', text: 'Разрешена' }
     : { icon: 'attention', text: 'Не разрешена' }
 }
@@ -33,11 +32,13 @@ function patchDemoSection(section: ProcessedSection, vaccine: Vaccine): Processe
 }
 
 function buildProcessedSectionsFromVaccine(vaccine: Vaccine): ProcessedSection[] {
+  const firstMethod = vaccine.administration_methods?.[0]
+  const methodText = firstMethod?.code || firstMethod?.note || 'не указан'
   return [
     {
       kind: 'text',
       title: 'Полное название вакцины',
-      text: `${vaccine.name} — демонстрационное описание для страницы вакцины.`,
+      text: vaccine.official_name || `${vaccine.name} — демонстрационное описание`,
     },
     {
       kind: 'linkList',
@@ -49,8 +50,8 @@ function buildProcessedSectionsFromVaccine(vaccine: Vaccine): ProcessedSection[]
       title: 'Способы введения',
       rows: [
         {
-          ageRange: formatAgeLabel(vaccine.min_age_months, vaccine.max_age_months),
-          description: vaccine.administration_method,
+          ageRange: vaccine.age_allowed || 'не указан',
+          description: methodText,
         },
       ],
     },
