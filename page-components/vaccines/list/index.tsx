@@ -14,7 +14,7 @@ export default async function VaccineCatalogPage({
   }>
 }) {
   const { letter } = await searchParams;
-  const { results } = await fetchVaccines({
+  const { results, count } = await fetchVaccines({
     letter: letter || undefined,
   })
   const vaccines = results.map(mapVaccineToCatalogItem)
@@ -23,7 +23,7 @@ export default async function VaccineCatalogPage({
     <div>
       <ResultsHeader
         title="Вакцины"
-        count={results.length}
+        count={count}
         filters={
           <Suspense fallback={null}>
             <VaccineAlphabetFilter />
