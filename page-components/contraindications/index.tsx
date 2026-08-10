@@ -84,6 +84,7 @@ export default async function ContraindicationsPage({
                   key={card.title}
                   category={card.title}
                   text={card.groups[0].items[0].text}
+                  linkText="Перейти к списку ингредиентов"
                   href="/ingredients"
                 />
               ) : (
@@ -95,14 +96,7 @@ export default async function ContraindicationsPage({
               ),
             )}
 
-            {withoutCategory.map((item) => (
-              <ContraIndicationRow
-                key={item.id}
-                category=""
-                text={item.name}
-                href="/ingredients"
-              />
-            ))}
+            {/* withoutCategory items are hidden until the backend assigns categories */}
           </>
         )}
       </div>
