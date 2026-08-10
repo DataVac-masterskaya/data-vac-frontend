@@ -10,7 +10,7 @@ export interface VaccineListItem {
   is_available_in_rf: boolean
   popularity: number
   infections: VaccineInfection[]
-  administration_method: string
+  administration_method: string | null
   min_age_months: number | null
   max_age_months: number | null
   allowed_during_pregnancy: boolean
@@ -64,7 +64,9 @@ export interface Contraindication {
   id: number;
   name: string;
   category: ContraindicationCategory | null;
+  /** Подкатегория для группировки внутри одной карточки (например, «Хронические заболевания сердца» внутри «Хронические заболевания») */
   subcategory: string | null;
+  /** Сквозные метки для фильтра (например, «Почки», «Сердце») */
   tags?: string[];
   popularity: number;
 }
