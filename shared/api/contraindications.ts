@@ -18,11 +18,11 @@ export async function fetchContraindications(
   const query = searchParams.toString();
   const url = `${process.env.NEXT_PUBLIC_API_URL}/contraindications/${query ? `?${query}` : ''}`;
 
-  return apiFetch<Contraindication[]>(url, { next: { revalidate: 3600 } });
+  return apiFetch<Contraindication[]>(url);
 }
 
 export async function fetchContraindicationCategories(): Promise<ContraindicationCategory[]> {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/contraindications/categories/`;
 
-  return apiFetch<ContraindicationCategory[]>(url, { next: { revalidate: 3600 } });
+  return apiFetch<ContraindicationCategory[]>(url);
 }
