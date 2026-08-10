@@ -22,6 +22,10 @@ COPY . .
 # Отключение телеметрии Next.js
 ENV NEXT_TELEMETRY_DISABLED=1
 
+# NEXT_PUBLIC_* переменные инлайнятся на этапе сборки — передаём через build arg
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+
 # Сборка в standalone режиме
 RUN npm run build
 

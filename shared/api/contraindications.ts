@@ -1,33 +1,28 @@
-import type { Contraindication, PaginatedResponse } from '@/shared/types/api';
-import { MOCK_CONTRAINDICATIONS } from './mock-data';
+import type { Contraindication, ContraindicationCategory } from '@/shared/types/api';
+import { apiFetch } from './fetch';
 
 interface ContraindicationsParams {
   sort?: 'popularity' | 'name';
-  limit?: number;
+  // limit?: number;
   category?: string;
 }
 
 export async function fetchContraindications(
   params: ContraindicationsParams = {},
-): Promise<PaginatedResponse<Contraindication>> {
-  await new Promise((r) => setTimeout(r, 0));
+): Promise<Contraindication[]> {
+  const searchParams = new URLSearchParams();
 
-  let results = [...MOCK_CONTRAINDICATIONS];
-  const categoryFilter = params.category;
+  if (params.sort) searchParams.set('sort', params.sort);
+  if (params.category) searchParams.set('category', params.category);
 
-  if (categoryFilter) {
-    results = results.filter(
-      (c) => c.category === categoryFilter || c.tags?.includes(categoryFilter),
-    );
-  }
-  if (params.sort === 'popularity') {
-    results.sort((a, b) => b.popularity - a.popularity);
-  } else if (params.sort === 'name') {
-    results.sort((a, b) => a.name.localeCompare(b.name, 'ru'));
-  }
-  if (params.limit) {
-    results = results.slice(0, params.limit);
-  }
+  const query = searchParams.toString();
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/contraindications/${query ? `?${query}` : ''}`;
 
-  return { count: MOCK_CONTRAINDICATIONS.length, results };
+  return apiFetch<Contraindication[]>(url);
+}
+
+export async function fetchContraindicationCategories(): Promise<ContraindicationCategory[]> {
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/contraindications/categories/`;
+
+  return apiFetch<ContraindicationCategory[]>(url);
 }

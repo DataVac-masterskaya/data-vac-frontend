@@ -1,17 +1,23 @@
-import { fetchContraindications } from '@/shared/api/contraindications'
-import { fetchInfections } from '@/shared/api/infections'
-import { fetchIngredients } from '@/shared/api/ingredients'
-import { fetchVaccines } from '@/shared/api/vaccines'
-import { CategoryCard } from './ui/category-card/category-card'
-import { DECORATIVE_SHAPES } from '@/shared/ui/decorative-shapes'
+import { fetchContraindications } from '@/shared/api/contraindications';
+import { fetchInfections } from '@/shared/api/infections';
+import { fetchIngredients } from '@/shared/api/ingredients';
+import { fetchVaccines } from '@/shared/api/vaccines';
+import { CategoryCard } from './ui/category-card/category-card';
+import { DECORATIVE_SHAPES } from '@/shared/ui/decorative-shapes';
 
 export default async function HomePage() {
-  const [vaccines, infections, ingredients, contraindications] = await Promise.all([
-    fetchVaccines({ sort: 'popularity', limit: 10 }),
-    fetchInfections({ sort: 'name_asc', limit: 10 }),
-    fetchIngredients({ sort: 'popularity', limit: 10 }),
-    fetchContraindications({ sort: 'popularity', limit: 10 }),
-  ])
+  const [vaccinesRes, infectionsRes, ingredientsRes, contraindicationsRes] =
+    await Promise.allSettled([
+      fetchVaccines({ sort: 'popularity', limit: 10 }),
+      fetchInfections({ sort: 'name_asc', limit: 10 }),
+      fetchIngredients({ sort: 'popularity', limit: 10 }),
+      fetchContraindications({ sort: 'popularity' }),
+    ]);
+
+  const vaccines = vaccinesRes.status === 'fulfilled' ? vaccinesRes.value : { results: [] };
+  const infections = infectionsRes.status === 'fulfilled' ? infectionsRes.value : { results: [] };
+  const ingredients = ingredientsRes.status === 'fulfilled' ? ingredientsRes.value : { results: [] };
+  const contraindications = contraindicationsRes.status === 'fulfilled' ? contraindicationsRes.value : [];
 
   const sections = [
     {
@@ -43,7 +49,7 @@ export default async function HomePage() {
       viewAllHref: '/contraindications',
       decorationImage: DECORATIVE_SHAPES.layered.src,
       layout: '1col' as const,
-      items: contraindications.results.map((v) => ({
+      items: contraindications.slice(0, 10).map((v) => ({
         id: v.id,
         name: v.name,
         popularity: v.popularity,
@@ -62,20 +68,22 @@ export default async function HomePage() {
         href: `/ingredients/${v.id}`,
       })),
     },
-  ]
+  ];
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-2 md:gap-3 xl:gap-5">
-      {sections.map(({ title, viewAllHref, decorationImage, items, layout }) => (
-        <CategoryCard
-          key={title}
-          title={title}
-          viewAllHref={viewAllHref}
-          decorationImage={decorationImage}
-          items={items}
-          layout={layout}
-        />
-      ))}
+      {sections.map(
+        ({ title, viewAllHref, decorationImage, items, layout }) => (
+          <CategoryCard
+            key={title}
+            title={title}
+            viewAllHref={viewAllHref}
+            decorationImage={decorationImage}
+            items={items}
+            layout={layout}
+          />
+        ),
+      )}
     </div>
-  )
+  );
 }
