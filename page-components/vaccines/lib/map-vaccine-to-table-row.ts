@@ -6,7 +6,7 @@ export function mapVaccineToTableRow(vaccine: VaccineListItem): VaccineData {
   return {
     id: String(vaccine.id),
     name: vaccine.name,
-    infections: vaccine.infections.map((i) => i.name),
+    infections: vaccine.infections,
     routes: [],
     ageRange: 'не указан',
     permissibility: 'allowed',
