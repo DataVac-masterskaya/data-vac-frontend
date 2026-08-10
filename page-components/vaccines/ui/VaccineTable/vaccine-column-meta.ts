@@ -15,13 +15,14 @@ export const VACCINE_COLUMN_FLEX: Record<VaccineColumnKey, number> = {
 
 type ColumnMeta = Pick<
   DataTableColumn<VaccineData>,
-  'label' | 'flex' | 'sortable' | 'mobileHalf' | 'tooltip'
+  'label' | 'flex' | 'sortable' | 'mobileHalf' | 'tooltip' | 'sortLabel'
 >
 
 export const VACCINE_COLUMN_META: Record<VaccineColumnKey, ColumnMeta> = {
   name: {
     label: VACCINE_FIELD_LABELS.name,
     flex: VACCINE_COLUMN_FLEX.name,
+    sortLabel: 'названию',
     sortable: true,
   },
   infections: {
