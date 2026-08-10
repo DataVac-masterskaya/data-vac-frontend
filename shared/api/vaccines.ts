@@ -2,7 +2,7 @@ import type { PaginatedResponse, Vaccine, VaccineListItem } from '@/shared/types
 import { apiFetch, ApiError } from './fetch'
 
 interface VaccinesParams {
-  sort?: 'popularity' | 'name' | 'name_desc'
+  sort?: 'popularity' | 'name' | 'name_desc' | 'official_name' | 'official_name_desc'
   q?: string
   limit?: number
   letter?: string
@@ -11,17 +11,20 @@ interface VaccinesParams {
   contraindication_id?: number
 }
 
-const SORT_TO_ORDERING: Record<NonNullable<VaccinesParams['sort']>, string> = {
-  popularity: 'popularity',
-  name: 'name',
-  name_desc: '-name',
+const SORT_TO_ORDERING: Record<NonNullable<VaccinesParams['sort']>, string | undefined> = {
+  popularity: undefined, // default backend order, no param needed
+  name: 'current_version__name',
+  name_desc: '-current_version__name',
+  official_name: 'current_version__official_name',
+  official_name_desc: '-current_version__official_name',
 }
 
 export async function fetchVaccines(params: VaccinesParams = {}): Promise<PaginatedResponse<VaccineListItem>> {
   const searchParams = new URLSearchParams()
 
   if (params.q?.trim()) searchParams.set('search', params.q.trim())
-  if (params.sort) searchParams.set('ordering', SORT_TO_ORDERING[params.sort])
+  const ordering = params.sort ? SORT_TO_ORDERING[params.sort] : undefined
+  if (ordering) searchParams.set('ordering', ordering)
   if (params.limit) searchParams.set('limit', String(params.limit))
   if (params.letter) searchParams.set('first_letter', params.letter)
   if (params.infection_id) {

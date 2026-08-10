@@ -1,34 +1,48 @@
 import type { SearchSuggestion } from '@/shared/types/api'
-import { MOCK_INFECTIONS } from './mock-data'
-import { fetchVaccines } from './vaccines'
-import { fetchContraindications } from './contraindications'
-import { fetchIngredients } from './ingredients'
 
-export async function fetchSearchSuggestions(q: string): Promise<SearchSuggestion[]> {
+interface SuggestionsResponse {
+  vaccines: { id: number; name: string }[]
+  infections: { id: number; name: string }[]
+  ingredients: { id: number; name: string }[]
+  contraindications: { id: number; name: string }[]
+  instructions: { id: number; name: string }[]
+}
+
+export async function fetchSearchSuggestions(
+  q: string,
+  signal?: AbortSignal,
+): Promise<SearchSuggestion[]> {
   if (!q.trim()) return []
 
-  const lower = q.toLowerCase()
+  const res = await fetch(`/api/search/suggestions?q=${encodeURIComponent(q.trim())}`, { signal })
 
-  const [vaccineRes, contraindicationRes, ingredientRes] = await Promise.all([
-    fetchVaccines({ q, limit: 5 }).catch(() => ({ results: [], count: 0 })),
-    fetchContraindications().catch(() => []),
-    fetchIngredients({ q, limit: 5 }).catch(() => ({ results: [], count: 0 })),
-  ])
+  if (!res.ok) throw new Error(`${res.status}`)
 
-  const vaccines: SearchSuggestion[] = vaccineRes.results.map((v) => ({
-    id: v.id, name: v.name, type: 'vaccine',
-  }))
+  const data: SuggestionsResponse = await res.json()
 
-  const contraindications: SearchSuggestion[] = contraindicationRes
-    .filter((c) => c.name.toLowerCase().includes(lower))
-    .map((c) => ({ id: c.id, name: c.name, type: 'contraindication' }))
+  return [
+    ...(data.vaccines ?? []).map((i) => ({ ...i, type: 'vaccine' as const })),
+    ...(data.infections ?? []).map((i) => ({ ...i, type: 'infection' as const })),
+    ...(data.contraindications ?? []).map((i) => ({ ...i, type: 'contraindication' as const })),
+    ...(data.instructions ?? []).map((i) => ({ ...i, type: 'instruction' as const })),
+    // ingredients temporarily hidden — backend returns full chemical composition strings
+  ]
+}
 
-  const infections: SearchSuggestion[] = MOCK_INFECTIONS
-    .filter((i) => i.name.toLowerCase().includes(lower))
-    .map((i) => ({ id: i.id, name: i.name, type: 'infection' }))
+export type SearchSelectEntityType =
+  | 'contraindication'
+  | 'infection'
+  | 'ingredient'
+  | 'instruction'
+  | 'vaccineCard'
 
-  const ingredients: SearchSuggestion[] = ingredientRes.results
-    .map((i) => ({ id: i.id, name: i.name, type: 'ingredient' as const }))
-
-  return [...vaccines, ...infections, ...ingredients, ...contraindications].slice(0, 10)
+export async function searchSelect(
+  entityType: SearchSelectEntityType,
+  entityId: number,
+): Promise<void> {
+  await fetch('/api/search/select', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ entityType, entityId }),
+  })
 }

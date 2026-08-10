@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { SearchBar, type SearchResultGroup } from '@datavac/ui-kit'
+import { SearchBar, type SearchResultGroup, type SearchResultItem } from '@datavac/ui-kit'
 import { useSearchSuggestions } from '@/shared/lib/hooks/use-search-suggestions'
 import {
   buildIngredientsPageHref,
@@ -13,12 +13,23 @@ import {
   normalizeVaccineSort,
 } from '@/page-components/vaccines/model/sort'
 import type { SearchSuggestion } from '@/shared/types/api'
+import { searchSelect, type SearchSelectEntityType } from '@/shared/api/search'
 
 const GROUP_LABELS: Record<SearchSuggestion['type'], string> = {
   vaccine: 'Вакцины',
   infection: 'Инфекции',
   ingredient: 'Ингредиенты',
   contraindication: 'Противопоказания',
+  instruction: 'Инструкции',
+}
+
+// API entityType values differ from frontend type names
+const API_ENTITY_TYPE: Record<SearchSuggestion['type'], SearchSelectEntityType> = {
+  vaccine: 'vaccineCard',
+  infection: 'infection',
+  ingredient: 'ingredient',
+  contraindication: 'contraindication',
+  instruction: 'instruction',
 }
 
 function mapSuggestionsToGroups(
@@ -29,7 +40,8 @@ function mapSuggestionsToGroups(
   for (const item of suggestions) {
     const category = GROUP_LABELS[item.type]
     const items = groups.get(category) ?? []
-    items.push({ id: String(item.id), label: item.name })
+    // encode type into id so it can be decoded in onSelect
+    items.push({ id: `${item.type}:${item.id}`, label: item.name })
     groups.set(category, items)
   }
 
@@ -39,7 +51,7 @@ function mapSuggestionsToGroups(
   }))
 }
 
-export function AppSearchBar() {
+export function AppSearchBar({ forceClose }: { forceClose?: boolean }) {
   const pathname = usePathname()
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -84,6 +96,35 @@ export function AppSearchBar() {
     )
   }
 
+  const handleSelect = (item: SearchResultItem) => {
+    const colonIdx = item.id.indexOf(':')
+    const type = item.id.slice(0, colonIdx) as SearchSuggestion['type']
+    const entityId = Number(item.id.slice(colonIdx + 1))
+    const entityType = API_ENTITY_TYPE[type]
+
+    if (entityType && entityId) {
+      searchSelect(entityType, entityId).catch(() => {})
+    }
+
+    switch (type) {
+      case 'vaccine':
+        router.push(`/vaccines/${entityId}`)
+        break
+      case 'infection':
+        router.push(buildVaccinesPageHref({ infectionId: entityId }))
+        break
+      case 'ingredient':
+        router.push(buildVaccinesPageHref({ ingredientId: entityId }))
+        break
+      case 'contraindication':
+        router.push(buildVaccinesPageHref({ contraindicationId: entityId }))
+        break
+      case 'instruction':
+        router.push(buildVaccinesPageHref({ q: item.label }))
+        break
+    }
+  }
+
   return (
     <SearchBar
       key={
@@ -97,8 +138,10 @@ export function AppSearchBar() {
       defaultValue={isIngredientsPage || isVaccinesSearchPage ? qFromUrl : undefined}
       onSearch={setQuery}
       onSubmit={handleSubmit}
+      onSelect={handleSelect}
       results={mapSuggestionsToGroups(data)}
       isLoading={isLoading}
+      forceClose={forceClose}
     />
   )
 }

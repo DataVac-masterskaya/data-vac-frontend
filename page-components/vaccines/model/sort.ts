@@ -1,11 +1,17 @@
 import type { SortDirection } from '@datavac/ui-kit'
 
-export type VaccineSortValue = 'popularity' | 'name' | 'name_desc'
+export type VaccineSortValue =
+  | 'popularity'
+  | 'name'
+  | 'name_desc'
+  | 'official_name'
+  | 'official_name_desc'
 
 export function normalizeVaccineSort(sort?: string): VaccineSortValue {
   if (sort === 'name') return 'name'
   if (sort === 'name_desc') return 'name_desc'
-  if (sort === 'popularity') return 'popularity'
+  if (sort === 'official_name') return 'official_name'
+  if (sort === 'official_name_desc') return 'official_name_desc'
   return 'popularity'
 }
 
@@ -13,12 +19,17 @@ export function vaccineSortToTable(sort: VaccineSortValue): {
   sortField: string | undefined
   sortDirection: SortDirection
 } {
-  if (sort === 'popularity') {
-    return { sortField: undefined, sortDirection: 'asc' }
-  }
-  return {
-    sortField: 'name',
-    sortDirection: sort === 'name_desc' ? 'desc' : 'asc',
+  switch (sort) {
+    case 'name':
+      return { sortField: 'name', sortDirection: 'asc' }
+    case 'name_desc':
+      return { sortField: 'name', sortDirection: 'desc' }
+    case 'official_name':
+      return { sortField: 'officialName', sortDirection: 'asc' }
+    case 'official_name_desc':
+      return { sortField: 'officialName', sortDirection: 'desc' }
+    default:
+      return { sortField: undefined, sortDirection: 'asc' }
   }
 }
 
@@ -29,6 +40,9 @@ export function tableSortToVaccine(
   if (field === 'name') {
     return direction === 'desc' ? 'name_desc' : 'name'
   }
+  if (field === 'officialName') {
+    return direction === 'desc' ? 'official_name_desc' : 'official_name'
+  }
   return 'popularity'
 }
 
@@ -37,11 +51,13 @@ export function buildVaccinesPageHref({
   q,
   ingredientId,
   infectionId,
+  contraindicationId,
 }: {
   sort?: VaccineSortValue
   q?: string
   ingredientId?: number
   infectionId?: number
+  contraindicationId?: number
 }): string {
   const params = new URLSearchParams()
   if (sort && sort !== 'popularity') {
@@ -50,11 +66,14 @@ export function buildVaccinesPageHref({
   if (q?.trim()) {
     params.set('q', q.trim())
   }
-  if (Number.isFinite(ingredientId)) {
+  if (infectionId) {
+    params.set('infection_id', String(infectionId))
+  }
+  if (ingredientId) {
     params.set('ingredient_id', String(ingredientId))
   }
-  if (Number.isFinite(infectionId)) {
-    params.set('infection_id', String(infectionId))
+  if (contraindicationId) {
+    params.set('contraindication_id', String(contraindicationId))
   }
   const query = params.toString()
   return query ? `/vaccines/search?${query}` : '/vaccines/search'

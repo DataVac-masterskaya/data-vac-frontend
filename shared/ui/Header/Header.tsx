@@ -14,10 +14,10 @@ const SEARCH_PLACEHOLDER =
 const STICKY_HEADER_CLASS =
   'sticky top-0 z-40 w-full bg-overlay backdrop-blur-[6px]'
 
-function HeaderSearchBar() {
+function HeaderSearchBar({ forceClose }: { forceClose?: boolean }) {
   return (
     <Suspense fallback={<SearchBar placeholder={SEARCH_PLACEHOLDER} />}>
-      <AppSearchBar />
+      <AppSearchBar forceClose={forceClose} />
     </Suspense>
   )
 }
@@ -63,7 +63,7 @@ export function Header() {
           className={cn('max-w-[572px] w-full', !isCompact && 'flex-1')}
         >
           <div className="h-14 flex items-center">
-            <HeaderSearchBar />
+            <HeaderSearchBar forceClose={isCompact} />
           </div>
         </CollapsibleRow>
         <ThemeToggle />
@@ -84,7 +84,7 @@ export function Header() {
           <div className="flex h-14 items-center gap-7 w-full">
             <DataVacLogo placement="sidebar" showText={true} />
             <div className="flex-1 min-w-0">
-              <HeaderSearchBar />
+              <HeaderSearchBar forceClose={isCompact} />
             </div>
             <ThemeToggle />
           </div>
@@ -101,7 +101,7 @@ export function Header() {
         <ThemeToggle />
       </div>
       <CollapsibleRow hidden={isCompact} className="pt-4">
-        <HeaderSearchBar />
+        <HeaderSearchBar forceClose={isCompact} />
       </CollapsibleRow>
     </header>
   )

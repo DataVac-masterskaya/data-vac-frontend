@@ -8,9 +8,18 @@ import { VACCINE_PAGE_WIDTH_CLASS, VaccinesTable } from '@/page-components/vacci
 type SearchResultsPageProps = {
   query: string
   sort?: string
+  infectionId?: number
+  ingredientId?: number
+  contraindicationId?: number
 }
 
-export async function SearchResultsPage({ query, sort }: SearchResultsPageProps) {
+export async function SearchResultsPage({
+  query,
+  sort,
+  infectionId,
+  ingredientId,
+  contraindicationId,
+}: SearchResultsPageProps) {
   let vaccines: ReturnType<typeof mapVaccineToTableRow>[] = []
   let count = 0
   let error: string | null = null
@@ -21,6 +30,9 @@ export async function SearchResultsPage({ query, sort }: SearchResultsPageProps)
     const { results, count: total } = await fetchVaccines({
       sort: sortValue,
       q: query,
+      infection_id: infectionId,
+      ingredient_id: ingredientId,
+      contraindication_id: contraindicationId,
     })
     vaccines = results.map(mapVaccineToTableRow)
     count = total
@@ -49,6 +61,9 @@ export async function SearchResultsPage({ query, sort }: SearchResultsPageProps)
             sortField={sortField}
             sortDirection={sortDirection}
             q={query}
+            infectionId={infectionId}
+            ingredientId={ingredientId}
+            contraindicationId={contraindicationId}
           />
         </div>
       )}
