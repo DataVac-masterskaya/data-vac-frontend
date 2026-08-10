@@ -1,4 +1,5 @@
 import { fetchIngredients } from "@/shared/api/ingredients";
+import type { Ingredient } from "@/shared/types/api";
 import { ResultsHeader } from "@/shared/ui/ResultsHeader";
 import {
   buildIngredientsPageHref,
@@ -22,7 +23,7 @@ export default async function IngredientsPage({
     sort: sortValue,
     type: type || undefined,
     q: q || undefined,
-  });
+  }).catch(() => ({ results: [] as Ingredient[] }));
   const { sortField, sortDirection } = ingredientSortToTable(sortValue);
 
   return (
