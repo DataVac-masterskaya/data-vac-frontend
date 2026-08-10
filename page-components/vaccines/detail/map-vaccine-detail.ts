@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react'
 import type { Vaccine } from '@/shared/types/api'
 import type { VaccineSummarySidebarProps } from '@/page-components/vaccines/ui/vaccine-summary-sidebar/types'
-import { getMockInstructionSections } from './get-mock-instruction-sections'
-import { getMockProcessedSections } from './get-mock-processed-sections'
+import { mapVaccineInstructionSections } from './map-vaccine-instruction-sections'
+import { mapVaccineProcessedSections } from './map-vaccine-processed-sections'
 import { mapVaccineToOrgComment } from './map-vaccine-org-comment'
 import { mapVaccineToSummary } from './map-vaccine-summary'
 import type { ProcessedSection } from './ui/vaccine-detail-screen-processed.types'
@@ -19,8 +19,8 @@ export function mapVaccineToDetailPageData(vaccine: Vaccine): VaccineDetailPageD
   return {
     summary: mapVaccineToSummary(vaccine),
     // TODO: когда API будет готов — маппить vaccine.processed_sections / instruction_sections
-    processedSections: getMockProcessedSections(vaccine),
-    instructionSections: getMockInstructionSections(vaccine),
+    processedSections: mapVaccineProcessedSections(vaccine),
+    instructionSections: mapVaccineInstructionSections(vaccine),
     orgComment: mapVaccineToOrgComment(vaccine),
   }
 }
