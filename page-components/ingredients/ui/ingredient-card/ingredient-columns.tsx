@@ -9,6 +9,7 @@ export function getIngredientColumns(): DataTableColumn<Ingredient>[] {
     {
       key: 'name',
       label: INGREDIENT_FIELD_LABELS.name,
+      sortLabel: 'названию',
       flex: 1,
       sortable: true,
       render: (row) => (
@@ -20,6 +21,7 @@ export function getIngredientColumns(): DataTableColumn<Ingredient>[] {
     {
       key: 'type',
       label: INGREDIENT_FIELD_LABELS.class,
+      sortLabel: 'классу',
       flex: 1,
       sortable: true,
       render: (row) => (
