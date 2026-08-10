@@ -18,8 +18,8 @@ export default async function ContraindicationsPage({
     fetchContraindications({
       sort: 'popularity',
       category: category || undefined,
-    }),
-    fetchContraindicationCategories(),
+    }).catch(() => [] as Awaited<ReturnType<typeof fetchContraindications>>),
+    fetchContraindicationCategories().catch(() => [] as Awaited<ReturnType<typeof fetchContraindicationCategories>>),
   ]);
 
   const filterCategories = [
