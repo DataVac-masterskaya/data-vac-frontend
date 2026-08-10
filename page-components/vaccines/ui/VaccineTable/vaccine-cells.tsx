@@ -36,7 +36,7 @@ export const vaccineCellRenderers: {
     <span className={VACCINE_NAME_CELL_TEXT_CLASS_NAME}>{row.name}</span>
   ),
   infections: (row) => (
-    <VaccineListWithBadgeCell items={row.infections} />
+    <VaccineListWithBadgeCell items={row.infections.map((i) => i.name)} />
   ),
   routes: (row) => <VaccineRoutesCell routes={row.routes} />,
   contraindications: (row) => (

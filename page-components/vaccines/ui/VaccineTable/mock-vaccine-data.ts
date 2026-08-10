@@ -4,7 +4,12 @@ export const MOCK_VACCINE_DATA_ROWS: VaccineData[] = [
   {
     id: '1',
     name: 'Пентаксим',
-    infections: ['Дифтерия', 'Столбняк', 'Коклюш', 'Полиомиелит'],
+    infections: [
+      { id: 1, name: 'Дифтерия' },
+      { id: 2, name: 'Столбняк' },
+      { id: 3, name: 'Коклюш' },
+      { id: 4, name: 'Полиомиелит' },
+    ],
     routes: [
       'intramuscularly',
       'subcutaneously',
@@ -30,7 +35,7 @@ export const MOCK_VACCINE_DATA_ROWS: VaccineData[] = [
   {
     id: '6',
     name: 'Энджерикс Б',
-    infections: ['Гепатит B'],
+    infections: [{ id: 6, name: 'Гепатит B' }],
     routes: ['intramuscularly', 'subcutaneously'],
     contraindications: [],
     ageRange: 'от 0 мес. до ∞',
@@ -40,7 +45,7 @@ export const MOCK_VACCINE_DATA_ROWS: VaccineData[] = [
   {
     id: 'blocked',
     name: 'Недоступная вакцина',
-    infections: ['Клещевой энцефалит'],
+    infections: [{ id: 11, name: 'Клещевой энцефалит' }],
     routes: [],
     contraindications: [],
     ageRange: '—',
