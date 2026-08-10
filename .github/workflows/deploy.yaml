@@ -41,6 +41,8 @@ jobs:
           context: .
           push: true
           pull: true
+          build-args: |
+            NEXT_PUBLIC_API_URL=${{ vars.NEXT_PUBLIC_API_URL }}
           tags: |
             ${{ steps.image.outputs.name }}:${{ steps.image.outputs.sha_tag }}
             ${{ steps.image.outputs.name }}:latest
