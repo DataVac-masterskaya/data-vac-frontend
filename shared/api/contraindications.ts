@@ -1,4 +1,5 @@
 import type { Contraindication, ContraindicationCategory } from '@/shared/types/api';
+import { apiFetch } from './fetch';
 
 interface ContraindicationsParams {
   sort?: 'popularity' | 'name';
@@ -9,23 +10,19 @@ interface ContraindicationsParams {
 export async function fetchContraindications(
   params: ContraindicationsParams = {},
 ): Promise<Contraindication[]> {
-  const searchParams = new URLSearchParams()
+  const searchParams = new URLSearchParams();
 
-  if (params.sort) searchParams.set('sort', params.sort)
-  if (params.category) searchParams.set('category', params.category)
+  if (params.sort) searchParams.set('sort', params.sort);
+  if (params.category) searchParams.set('category', params.category);
 
-  const query = searchParams.toString()
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/contraindications/${query ? `?${query}` : ''}`
+  const query = searchParams.toString();
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/contraindications/${query ? `?${query}` : ''}`;
 
-  const res = await fetch(url, { next: { revalidate: 3600 } })
-  if (!res.ok) throw new Error(`Не удалось получить данные (${res.status})`)
-  return res.json() as Promise<Contraindication[]>
+  return apiFetch<Contraindication[]>(url, { next: { revalidate: 3600 } });
 }
 
 export async function fetchContraindicationCategories(): Promise<ContraindicationCategory[]> {
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/contraindications/categories/`
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/contraindications/categories/`;
 
-  const res = await fetch(url, { next: { revalidate: 3600 } })
-  if (!res.ok) throw new Error(`Не удалось получить данные (${res.status})`)
-  return res.json() as Promise<ContraindicationCategory[]>
+  return apiFetch<ContraindicationCategory[]>(url, { next: { revalidate: 3600 } });
 }
