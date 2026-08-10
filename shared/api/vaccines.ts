@@ -1,5 +1,6 @@
-import type { PaginatedResponse, Vaccine } from '@/shared/types/api'
+import type { PaginatedResponse, Vaccine, VaccineListItem } from '@/shared/types/api'
 import { MOCK_VACCINES } from './mock-data'
+import { apiFetch } from './fetch'
 
 interface VaccinesParams {
   sort?: 'popularity' | 'name' | 'name_desc'
@@ -11,8 +12,8 @@ interface VaccinesParams {
   contraindication_id?: number
 }
 
-export async function fetchVaccines(params: VaccinesParams = {}): Promise<PaginatedResponse<Vaccine>> {
-  await new Promise((r) => setTimeout(r, 0)) // симуляция async
+export async function fetchVaccines(params: VaccinesParams = {}): Promise<PaginatedResponse<VaccineListItem>> {
+  await new Promise((r) => setTimeout(r, 0)) // TODO: заменить на реальный API (PR #230)
 
   let results = [...MOCK_VACCINES]
 
@@ -25,14 +26,10 @@ export async function fetchVaccines(params: VaccinesParams = {}): Promise<Pagina
     results = results.filter(
       (v) =>
         v.name.toLowerCase().includes(q) ||
-        v.administration_method.toLowerCase().includes(q) ||
-        v.infections.some((infection) => infection.toLowerCase().includes(q)),
+        v.infections.some((i) => i.name.toLowerCase().includes(q)),
     )
   }
-  if (params.infection_id) {
-    const infection = results.find((_, i) => i === params.infection_id! - 1)
-    results = infection ? [infection] : []
-  }
+
   if (params.sort === 'popularity') {
     results.sort((a, b) => b.popularity - a.popularity)
   } else if (params.sort === 'name') {
@@ -40,6 +37,7 @@ export async function fetchVaccines(params: VaccinesParams = {}): Promise<Pagina
   } else if (params.sort === 'name_desc') {
     results.sort((a, b) => b.name.localeCompare(a.name, 'ru'))
   }
+
   const count = results.length
 
   if (params.limit) {
@@ -51,20 +49,14 @@ export async function fetchVaccines(params: VaccinesParams = {}): Promise<Pagina
 
 export async function fetchVaccineById(id: number): Promise<Vaccine | null> {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/vaccines/${id}/`
-  const response = await fetch(url, { next: { revalidate: 3600 } })
-
-  if (!response.ok) {
-    if (response.status === 404) {
-      return null
-    }
-    throw new Error(`Не удалось получить данные о вакцине (${response.status})`)
+  try {
+    return await apiFetch<Vaccine>(url)
+  } catch (err: unknown) {
+    if (err instanceof Error && err.message.includes('404')) return null
+    throw err
   }
-
-  const data = await response.json()
-
-  return data
 }
 
 export async function fetchAllVaccineIds(): Promise<number[]> {
-  return MOCK_VACCINES.map((v) => v.id)
+  return [] // generateStaticParams не нужен при force-dynamic
 }
