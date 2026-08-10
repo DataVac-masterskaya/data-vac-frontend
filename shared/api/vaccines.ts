@@ -1,6 +1,6 @@
 import type { PaginatedResponse, Vaccine, VaccineListItem } from '@/shared/types/api'
 import { MOCK_VACCINES } from './mock-data'
-import { apiFetch } from './fetch'
+import { apiFetch, ApiError } from './fetch'
 
 interface VaccinesParams {
   sort?: 'popularity' | 'name' | 'name_desc'
@@ -52,7 +52,7 @@ export async function fetchVaccineById(id: number): Promise<Vaccine | null> {
   try {
     return await apiFetch<Vaccine>(url)
   } catch (err: unknown) {
-    if (err instanceof Error && err.message.includes('404')) return null
+    if (err instanceof ApiError && err.status === 404) return null
     throw err
   }
 }
