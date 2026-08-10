@@ -1,64 +1,45 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-import { useMemo, useState } from 'react'
-import { DataTable, SortDirection } from '@datavac/ui-kit'
+import { startTransition } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { DataTable, type SortDirection } from '@datavac/ui-kit'
 import { vaccineCatalogColumns } from './vaccineCatalogColumns'
 import type { VaccineCatalogItem } from '../../model/catalogTypes'
+import { tableSortToVaccine } from '../../model/sort'
 
 interface VaccineCatalogProps {
   data: VaccineCatalogItem[]
+  sortField?: string
+  sortDirection: SortDirection
 }
 
-export function VaccineCatalog({ data }: VaccineCatalogProps) {
+export function VaccineCatalog({ data, sortField, sortDirection }: VaccineCatalogProps) {
   const router = useRouter()
-  const [sortField, setSortField] = useState('name')
-  const [sortDirection, setSortDirection] = useState<SortDirection>('asc')
-
-  const sortedVaccines = useMemo(() => {
-    const rows = [...data]
-
-    if (sortField === 'name') {
-      rows.sort((a, b) =>
-        sortDirection === 'asc'
-          ? a.name.localeCompare(b.name, 'ru')
-          : b.name.localeCompare(a.name, 'ru'),
-      )
-    } else if (sortField === 'officialName') {
-      rows.sort((a, b) => {
-        const nameA = a.officialName
-        const nameB = b.officialName
-
-        if (nameA === null && nameB === null) return 0
-        if (nameA === null) return 1
-        if (nameB === null) return -1
-
-        return sortDirection === 'asc'
-          ? nameA.localeCompare(nameB, 'ru')
-          : nameB.localeCompare(nameA, 'ru')
-      })
-    }
-
-    return rows
-  }, [data, sortField, sortDirection])
-
-  const handleRowClick = (row: VaccineCatalogItem) => {
-    router.push(`/vaccines/${row.id}`)
-  }
+  const searchParams = useSearchParams()
 
   return (
     <DataTable
       columns={vaccineCatalogColumns}
-      rows={sortedVaccines}
+      rows={data}
       getRowKey={(row) => row.id}
       isRowDisabled={(row) => !row.isAvailable}
       sortField={sortField}
       sortDirection={sortDirection}
       onSortChange={(field, direction) => {
-        setSortField(field)
-        setSortDirection(direction)
+        const sortValue = tableSortToVaccine(field, direction)
+        const params = new URLSearchParams(searchParams.toString())
+        if (sortValue === 'popularity') {
+          params.delete('sort')
+        } else {
+          params.set('sort', sortValue)
+        }
+        startTransition(() => {
+          router.push(`?${params.toString()}`)
+        })
       }}
-      onRowClick={handleRowClick}
+      onRowClick={(row) => {
+        router.push(`/vaccines/${row.id}`)
+      }}
       disabledTooltip={
         <div className="max-w-[180px]">
           <p className="font-semibold">Об этой вакцине нет сведений.</p>

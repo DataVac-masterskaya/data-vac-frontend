@@ -16,6 +16,7 @@ type VaccinesTableProps = {
   q?: string
   ingredientId?: number
   infectionId?: number
+  contraindicationId?: number
   className?: string
 }
 
@@ -26,6 +27,7 @@ export function VaccinesTable({
   q,
   ingredientId,
   infectionId,
+  contraindicationId,
   className,
 }: VaccinesTableProps) {
   const router = useRouter()
@@ -43,6 +45,7 @@ export function VaccinesTable({
             q,
             ingredientId,
             infectionId,
+            contraindicationId,
           }),
         )
       }}

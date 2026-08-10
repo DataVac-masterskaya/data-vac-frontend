@@ -74,7 +74,7 @@ export interface Contraindication {
 export interface SearchSuggestion {
   id: number;
   name: string;
-  type: 'vaccine' | 'infection' | 'ingredient' | 'contraindication';
+  type: 'vaccine' | 'infection' | 'ingredient' | 'contraindication' | 'instruction';
 }
 
 export interface PaginatedResponse<T> {

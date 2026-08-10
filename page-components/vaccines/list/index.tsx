@@ -1,9 +1,10 @@
+import { Suspense } from "react"
 import { VaccineAlphabetFilter } from "./VaccineAlphabetFilter"
 import { VaccineCatalog } from "../ui/VaccineCatalog"
 import { fetchVaccines } from "@/shared/api/vaccines"
-import { Suspense } from "react"
 import { mapVaccineToCatalogItem } from "../lib/map-vaccine-to-table-row"
 import { ResultsHeader } from "@/shared/ui/ResultsHeader"
+import { normalizeVaccineSort, vaccineSortToTable } from "../model/sort"
 
 export default async function VaccineCatalogPage({
   searchParams,
@@ -11,13 +12,17 @@ export default async function VaccineCatalogPage({
   searchParams: Promise<{
     letter?: string
     lang?: string
+    sort?: string
   }>
 }) {
-  const { letter } = await searchParams;
+  const { letter, sort } = await searchParams
+  const sortValue = normalizeVaccineSort(sort)
   const { results, count } = await fetchVaccines({
     letter: letter || undefined,
+    sort: sortValue,
   })
   const vaccines = results.map(mapVaccineToCatalogItem)
+  const { sortField, sortDirection } = vaccineSortToTable(sortValue)
 
   return (
     <div>
@@ -36,7 +41,9 @@ export default async function VaccineCatalogPage({
             Ничего не найдено
           </div>
         ) : (
-          <VaccineCatalog data={vaccines} />
+          <Suspense fallback={null}>
+            <VaccineCatalog data={vaccines} sortField={sortField} sortDirection={sortDirection} />
+          </Suspense>
         )}
       </div>
     </div>
