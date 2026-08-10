@@ -1,4 +1,5 @@
 import type { Ingredient, PaginatedResponse } from '@/shared/types/api'
+import { apiFetch } from './fetch'
 
 interface IngredientsParams {
   sort?: 'popularity' | 'name' | 'name_desc' | 'type' | 'type_desc'
@@ -26,7 +27,5 @@ export async function fetchIngredients(params: IngredientsParams = {}): Promise<
   const query = searchParams.toString()
   const url = `${process.env.NEXT_PUBLIC_API_URL}/ingredients/${query ? `?${query}` : ''}`
 
-  const res = await fetch(url, { next: { revalidate: 3600 } })
-  if (!res.ok) throw new Error(`Не удалось получить данные об ингредиентах (${res.status})`)
-  return res.json() as Promise<PaginatedResponse<Ingredient>>
+  return apiFetch<PaginatedResponse<Ingredient>>(url, { next: { revalidate: 3600 } })
 }

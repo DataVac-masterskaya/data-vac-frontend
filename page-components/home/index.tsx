@@ -6,13 +6,18 @@ import { CategoryCard } from './ui/category-card/category-card';
 import { DECORATIVE_SHAPES } from '@/shared/ui/decorative-shapes';
 
 export default async function HomePage() {
-  const [vaccines, infections, ingredients, contraindications] =
-    await Promise.all([
+  const [vaccinesRes, infectionsRes, ingredientsRes, contraindicationsRes] =
+    await Promise.allSettled([
       fetchVaccines({ sort: 'popularity', limit: 10 }),
       fetchInfections({ sort: 'name_asc', limit: 10 }),
       fetchIngredients({ sort: 'popularity', limit: 10 }),
       fetchContraindications({ sort: 'popularity' }),
     ]);
+
+  const vaccines = vaccinesRes.status === 'fulfilled' ? vaccinesRes.value : { results: [] };
+  const infections = infectionsRes.status === 'fulfilled' ? infectionsRes.value : { results: [] };
+  const ingredients = ingredientsRes.status === 'fulfilled' ? ingredientsRes.value : { results: [] };
+  const contraindications = contraindicationsRes.status === 'fulfilled' ? contraindicationsRes.value : [];
 
   const sections = [
     {
