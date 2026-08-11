@@ -5,6 +5,7 @@ import { VaccineDetailLayout } from '@/page-components/vaccines/detail/vaccine-d
 import { VaccineSummarySidebar } from '@/page-components/vaccines/ui/vaccine-summary-sidebar'
 import { notFound } from 'next/navigation'
 import { VaccineDetailContentConnected } from './ui/vaccine-detail-content-connected'
+import { VaccineInstructionLinks } from './ui/vaccine-instruction-links'
 
 export async function generateStaticParams() {
   const ids = await fetchAllVaccineIds()
@@ -28,7 +29,13 @@ export default async function VaccineDetailPage({
     <div>
       <BackLink href="/vaccines" label="Назад к вакцинам" className="mb-4" />
 
-      <h1 className="text-2xl font-semibold text-fg mb-6">{vaccine.name}</h1>
+      <div className="flex items-start justify-between gap-6 mb-6">
+        <h1 className="text-2xl font-semibold text-fg">{vaccine.name}</h1>
+        <VaccineInstructionLinks
+          officialLinkUrl={vaccine.nonspec_url}
+          instructionSpecialistUrl={vaccine.instruction_url}
+        />
+      </div>
 
       <VaccineDetailLayout sidebar={<VaccineSummarySidebar {...summary} />}>
         <VaccineDetailContentConnected
