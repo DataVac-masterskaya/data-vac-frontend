@@ -5,11 +5,18 @@ interface InfectionsParams {
   limit?: number
   category?: string
 }
-const CATEGORY_MAP: Record<string, Infection['category']> = {
+
+// API values → frontend values
+const API_TO_FRONTEND_CATEGORY: Record<string, Infection['category']> = {
   national: 'national_calendar',
   additional: 'extended',
   others: 'other',
 }
+
+// Frontend values → API values
+const FRONTEND_TO_API_CATEGORY: Record<string, string> = Object.fromEntries(
+  Object.entries(API_TO_FRONTEND_CATEGORY).map(([apiVal, frontendVal]) => [frontendVal, apiVal])
+)
 
 const SORT_MAP: Record<NonNullable<InfectionsParams['sort']>, string> = {
   name_asc: 'name',
@@ -21,7 +28,7 @@ export async function fetchInfections(params: InfectionsParams = {}): Promise<Pa
 
   if (params.sort) searchParams.set('sort_by', SORT_MAP[params.sort])
   if (params.limit) searchParams.set('limit', String(params.limit))
-  if (params.category) searchParams.set('category', params.category)
+  if (params.category) searchParams.set('category', FRONTEND_TO_API_CATEGORY[params.category] ?? params.category)
 
   const query = searchParams.toString()
   const url = `${process.env.NEXT_PUBLIC_API_URL}/infections/${query ? `?${query}` : ''}`
@@ -38,7 +45,7 @@ export async function fetchInfections(params: InfectionsParams = {}): Promise<Pa
     ...data,
     results: data.results.map((item) => ({
       ...item,
-      category: CATEGORY_MAP[item.category] || item.category,
+      category: API_TO_FRONTEND_CATEGORY[item.category] || item.category,
     })),
   }
 }
@@ -57,19 +64,10 @@ export async function fetchInfectionById(id: number): Promise<Infection | null> 
 
   return {
     ...data,
-    category: CATEGORY_MAP[data.category] || data.category,
+    category: API_TO_FRONTEND_CATEGORY[data.category] || data.category,
   }
 }
 
 export async function fetchAllInfectionIds(): Promise<number[]> {
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/infections/?limit=100`
-
-  const res = await fetch(url, { next: { revalidate: 3600 } })
-
-  if (!res.ok) {
-    throw new Error(`Не удалось получить данные (${res.status})`)
-  }
-
-  const data = await res.json() as PaginatedResponse<Infection>
-  return data.results.map((item) => item.id)
+  return [] // generateStaticParams не нужен при force-dynamic
 }
