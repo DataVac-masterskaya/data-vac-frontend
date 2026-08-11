@@ -85,7 +85,7 @@ export function NotFoundDecorativeSpheres() {
             }}
             src={DECORATIVE_SHAPES[id].src}
             alt=""
-            className="absolute inset-0 h-full w-full max-w-none object-contain will-change-transform"
+            className="pointer-events-none absolute inset-0 h-full w-full max-w-none object-contain will-change-transform"
           />
         </div>
       ))}
@@ -102,7 +102,7 @@ export function NotFoundDecorativeSpheres() {
           }}
           src={DECORATIVE_SHAPES.honeycomb.src}
           alt=""
-          className="absolute inset-0 h-full w-full max-w-none object-contain will-change-transform"
+          className="pointer-events-none absolute inset-0 h-full w-full max-w-none object-contain will-change-transform"
         />
       </div>
     </div>

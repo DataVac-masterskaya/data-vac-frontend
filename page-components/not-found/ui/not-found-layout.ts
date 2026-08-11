@@ -10,7 +10,7 @@ export const NOT_FOUND_SPHERE_CONFIGS: NotFoundSphereConfig[] = [
   {
     id: 'bumpy',
     className: [
-      'absolute z-20 object-contain',
+      'absolute z-20 object-contain pointer-events-none',
       'max-[768px]:top-[-27px] max-[768px]:left-[-78px]',
       'max-[768px]:w-[143px] max-[768px]:h-[143px]',
       'min-[768px]:max-[1280px]:top-[-43px] min-[768px]:max-[1280px]:left-[-98px]',
@@ -66,7 +66,7 @@ export const NOT_FOUND_SPHERE_CONFIGS: NotFoundSphereConfig[] = [
 ]
 
 export const NOT_FOUND_HONEYCOMB_IMAGE_CLASSNAME = [
-  'fixed -z-10 object-contain max-[768px]:hidden',
+  'fixed -z-10 object-contain max-[768px]:hidden pointer-events-none',
   'min-[768px]:max-[1280px]:right-[120px] min-[768px]:max-[1280px]:bottom-[-164px]',
   'min-[768px]:max-[1280px]:w-[380px] min-[768px]:max-[1280px]:h-[380px]',
   'min-[1280px]:max-[1600px]:right-[180px] min-[1280px]:max-[1600px]:bottom-[-246px]',
@@ -108,7 +108,7 @@ export const NOT_FOUND_HEADING_CLASSNAME = [
 ].join(' ')
 
 export const NOT_FOUND_SUBTITLE_LINK_CLASSNAME = [
-  'text-fg underline decoration-fg underline-offset-2 transition-colors',
+  'cursor-pointer relative z-20 text-fg underline decoration-fg underline-offset-2 transition-colors',
   'hover:text-accent hover:no-underline',
   'focus-visible:text-accent focus-visible:no-underline',
 ].join(' ')
