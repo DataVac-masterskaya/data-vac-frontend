@@ -1,5 +1,6 @@
 import type { Vaccine } from '@/shared/types/api'
 import { mapVaccineInfections } from '@/page-components/vaccines/lib/map-vaccine-infections'
+import { buildVaccinesPageHref } from '@/page-components/vaccines/model/sort'
 import type { ProcessedLinkItem, ProcessedSection } from './ui/vaccine-detail-screen-processed.types'
 
 function mapInfectionItems(vaccine: Vaccine): ProcessedLinkItem[] {
@@ -77,7 +78,7 @@ export function mapVaccineProcessedSections(vaccine: Vaccine): ProcessedSection[
         items: items.map((c) => ({
           id: `contraindication-${c.id}`,
           label: c.name,
-          href: `/contraindications/${c.id}`,
+          href: buildVaccinesPageHref({ contraindicationId: c.id }),
         })),
       })),
     })
@@ -100,7 +101,7 @@ export function mapVaccineProcessedSections(vaccine: Vaccine): ProcessedSection[
         items: items.map((i) => ({
           id: `ingredient-${i.id}`,
           label: i.name,
-          href: `/ingredients/${i.id}`,
+          href: buildVaccinesPageHref({ ingredientId: i.id }),
         })),
       })),
     })
