@@ -2,6 +2,7 @@ import { fetchContraindications } from '@/shared/api/contraindications';
 import { fetchInfections } from '@/shared/api/infections';
 import { fetchIngredients } from '@/shared/api/ingredients';
 import { fetchVaccines } from '@/shared/api/vaccines';
+import { buildVaccinesPageHref } from '@/page-components/vaccines/model/sort';
 import { CategoryCard } from './ui/category-card/category-card';
 import { DECORATIVE_SHAPES } from '@/shared/ui/decorative-shapes';
 
@@ -41,7 +42,7 @@ export default async function HomePage() {
         id: v.id,
         name: v.name,
         popularity: v.popularity,
-        href: `/infections/${v.id}`,
+        href: buildVaccinesPageHref({ infectionId: v.id }),
       })),
     },
     {
@@ -53,7 +54,7 @@ export default async function HomePage() {
         id: v.id,
         name: v.name,
         popularity: v.popularity,
-        href: `/contraindications/${v.id}`,
+        href: buildVaccinesPageHref({ contraindicationId: v.id }),
       })),
     },
     {
@@ -65,7 +66,7 @@ export default async function HomePage() {
         id: v.id,
         name: v.name,
         popularity: v.popularity,
-        href: `/ingredients/${v.id}`,
+        href: buildVaccinesPageHref({ ingredientId: v.id }),
       })),
     },
   ];
