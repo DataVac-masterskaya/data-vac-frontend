@@ -4,7 +4,10 @@ import { VaccineCatalog } from "../ui/VaccineCatalog"
 import { fetchVaccines } from "@/shared/api/vaccines"
 import { mapVaccineToCatalogItem } from "../lib/map-vaccine-to-table-row"
 import { ResultsHeader } from "@/shared/ui/ResultsHeader"
+import { PaginationControl } from "@/shared/ui/PaginationControl"
 import { normalizeVaccineSort, vaccineSortToTable } from "../model/sort"
+
+const PAGE_SIZE = 20
 
 export default async function VaccineCatalogPage({
   searchParams,
@@ -13,16 +16,21 @@ export default async function VaccineCatalogPage({
     letter?: string
     lang?: string
     sort?: string
+    page?: string
   }>
 }) {
-  const { letter, sort } = await searchParams
+  const { letter, sort, page: pageParam } = await searchParams
+  const page = pageParam ? Math.max(1, Number(pageParam)) : 1
   const sortValue = normalizeVaccineSort(sort)
   const { results, count } = await fetchVaccines({
     letter: letter || undefined,
     sort: sortValue,
+    limit: PAGE_SIZE,
+    offset: (page - 1) * PAGE_SIZE,
   })
   const vaccines = results.map(mapVaccineToCatalogItem)
   const { sortField, sortDirection } = vaccineSortToTable(sortValue)
+  const totalPages = count ? Math.ceil(count / PAGE_SIZE) : 1
 
   return (
     <div>
@@ -46,6 +54,7 @@ export default async function VaccineCatalogPage({
           </Suspense>
         )}
       </div>
+      <PaginationControl page={page} totalPages={totalPages} />
     </div>
   )
 }

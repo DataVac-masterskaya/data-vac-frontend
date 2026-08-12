@@ -1,4 +1,5 @@
 import { ResultsHeader } from '@/shared/ui/ResultsHeader'
+import { PaginationControl } from '@/shared/ui/PaginationControl'
 import { EmptyState, ErrorState, ScrollToTopButton } from '@datavac/ui-kit'
 import { fetchVaccines } from '@/shared/api/vaccines'
 import { fetchInfectionById } from '@/shared/api/infections'
@@ -8,9 +9,12 @@ import { mapVaccineToTableRow } from '@/page-components/vaccines/lib/map-vaccine
 import { normalizeVaccineSort, vaccineSortToTable } from '@/page-components/vaccines/model/sort'
 import { VACCINE_PAGE_WIDTH_CLASS, VaccinesTable } from '@/page-components/vaccines/ui/vaccines-table'
 
+const PAGE_SIZE = 20
+
 type SearchResultsPageProps = {
   query: string
   sort?: string
+  page?: number
   infectionId?: number
   ingredientId?: number
   contraindicationId?: number
@@ -40,6 +44,7 @@ async function resolveSearchTitle(props: SearchResultsPageProps): Promise<string
 export async function SearchResultsPage({
   query,
   sort,
+  page = 1,
   infectionId,
   ingredientId,
   contraindicationId,
@@ -51,6 +56,8 @@ export async function SearchResultsPage({
     fetchVaccines({
       sort: sortValue,
       q: query,
+      limit: PAGE_SIZE,
+      offset: (page - 1) * PAGE_SIZE,
       infection_id: infectionId,
       ingredient_id: ingredientId,
       contraindication_id: contraindicationId,
@@ -71,6 +78,8 @@ export async function SearchResultsPage({
     ? undefined
     : (vaccinesResult as Awaited<ReturnType<typeof fetchVaccines>>).count
 
+  const totalPages = count ? Math.ceil(count / PAGE_SIZE) : 1
+
   const { sortField, sortDirection } = vaccineSortToTable(sortValue)
 
   return (
@@ -86,17 +95,20 @@ export async function SearchResultsPage({
           <EmptyState message={`По запросу "${query}" ничего не найдено`} />
         </div>
       ) : (
-        <div className="mt-6">
-          <VaccinesTable
-            vaccines={vaccines}
-            sortField={sortField}
-            sortDirection={sortDirection}
-            q={query}
-            infectionId={infectionId}
-            ingredientId={ingredientId}
-            contraindicationId={contraindicationId}
-          />
-        </div>
+        <>
+          <div className="mt-6">
+            <VaccinesTable
+              vaccines={vaccines}
+              sortField={sortField}
+              sortDirection={sortDirection}
+              q={query}
+              infectionId={infectionId}
+              ingredientId={ingredientId}
+              contraindicationId={contraindicationId}
+            />
+          </div>
+          <PaginationControl page={page} totalPages={totalPages} />
+        </>
       )}
 
       <ScrollToTopButton />

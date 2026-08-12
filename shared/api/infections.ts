@@ -3,6 +3,7 @@ import type { Infection, PaginatedResponse } from '@/shared/types/api'
 interface InfectionsParams {
   sort?: 'name_asc' | 'name_desc'
   limit?: number
+  offset?: number
   category?: string
 }
 
@@ -28,6 +29,7 @@ export async function fetchInfections(params: InfectionsParams = {}): Promise<Pa
 
   if (params.sort) searchParams.set('sort_by', SORT_MAP[params.sort])
   if (params.limit) searchParams.set('limit', String(params.limit))
+  if (params.offset) searchParams.set('offset', String(params.offset))
   if (params.category) searchParams.set('category', FRONTEND_TO_API_CATEGORY[params.category] ?? params.category)
 
   const query = searchParams.toString()

@@ -5,6 +5,7 @@ interface VaccinesParams {
   sort?: 'popularity' | 'name' | 'name_desc' | 'official_name' | 'official_name_desc'
   q?: string
   limit?: number
+  offset?: number
   letter?: string
   infection_id?: number
   ingredient_id?: number
@@ -26,6 +27,7 @@ export async function fetchVaccines(params: VaccinesParams = {}): Promise<Pagina
   const ordering = params.sort ? SORT_TO_ORDERING[params.sort] : undefined
   if (ordering) searchParams.set('ordering', ordering)
   if (params.limit) searchParams.set('limit', String(params.limit))
+  if (params.offset) searchParams.set('offset', String(params.offset))
   if (params.letter) searchParams.set('first_letter', params.letter)
   if (params.infection_id) {
     searchParams.set('filter_type', 'infection')

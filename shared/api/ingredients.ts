@@ -4,6 +4,7 @@ import { apiFetch } from './fetch'
 interface IngredientsParams {
   sort?: 'popularity' | 'name' | 'name_desc' | 'type' | 'type_desc'
   limit?: number
+  offset?: number
   type?: string
   q?: string
 }
@@ -32,6 +33,7 @@ export async function fetchIngredients(params: IngredientsParams = {}): Promise<
   if (params.type) searchParams.set('type', params.type)
   if (params.sort) searchParams.set('ordering', SORT_TO_ORDERING[params.sort])
   if (params.limit) searchParams.set('limit', String(params.limit))
+  if (params.offset) searchParams.set('offset', String(params.offset))
 
   const query = searchParams.toString()
   const url = `${process.env.NEXT_PUBLIC_API_URL}/ingredients/${query ? `?${query}` : ''}`
