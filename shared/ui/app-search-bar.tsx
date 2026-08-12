@@ -58,10 +58,21 @@ export function AppSearchBar({ forceClose }: { forceClose?: boolean }) {
 
   const isIngredientsPage = pathname === '/ingredients'
   const isVaccinesSearchPage = pathname === '/vaccines/search'
-  const qFromUrl =
-    isIngredientsPage || isVaccinesSearchPage ? (searchParams.get('q') ?? '') : ''
 
-  const [query, setQuery] = useState(qFromUrl)
+  const hasEntityFilter =
+    isVaccinesSearchPage &&
+    !!(
+      searchParams.get('infection_id') ||
+      searchParams.get('ingredient_id') ||
+      searchParams.get('contraindication_id')
+    )
+
+  const displayValue = hasEntityFilter
+    ? (searchParams.get('label') ?? '')
+    : (isIngredientsPage || isVaccinesSearchPage ? (searchParams.get('q') ?? '') : '')
+
+  // При entity-фильтре query пустой — чтобы не стрелять автодополнение по лейблу
+  const [query, setQuery] = useState(hasEntityFilter ? '' : displayValue)
 
   const { data = [], isLoading } = useSearchSuggestions(query)
 
@@ -111,13 +122,13 @@ export function AppSearchBar({ forceClose }: { forceClose?: boolean }) {
         router.push(`/vaccines/${entityId}`)
         break
       case 'infection':
-        router.push(buildVaccinesPageHref({ infectionId: entityId }))
+        router.push(buildVaccinesPageHref({ infectionId: entityId, label: item.label }))
         break
       case 'ingredient':
-        router.push(buildVaccinesPageHref({ ingredientId: entityId }))
+        router.push(buildVaccinesPageHref({ ingredientId: entityId, label: item.label }))
         break
       case 'contraindication':
-        router.push(buildVaccinesPageHref({ contraindicationId: entityId }))
+        router.push(buildVaccinesPageHref({ contraindicationId: entityId, label: item.label }))
         break
       case 'instruction':
         router.push(buildVaccinesPageHref({ q: item.label }))
@@ -129,13 +140,13 @@ export function AppSearchBar({ forceClose }: { forceClose?: boolean }) {
     <SearchBar
       key={
         isIngredientsPage
-          ? `ingredients-${qFromUrl}`
+          ? `ingredients-${displayValue}`
           : isVaccinesSearchPage
-            ? `vaccines-search-${qFromUrl}`
+            ? `vaccines-search-${displayValue}`
             : 'global'
       }
       placeholder="Поиск вакцины, инфекции, ингредиента..."
-      defaultValue={isIngredientsPage || isVaccinesSearchPage ? qFromUrl : undefined}
+      defaultValue={isIngredientsPage || isVaccinesSearchPage ? displayValue : undefined}
       onSearch={setQuery}
       onSubmit={handleSubmit}
       onSelect={handleSelect}

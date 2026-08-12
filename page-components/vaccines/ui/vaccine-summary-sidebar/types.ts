@@ -9,6 +9,7 @@ export type VaccineSummaryInfection = {
 export type AdministrationMethodEntry = {
   method: AdministrationMethod
   note: string | null
+  ageGroup: string | null
 }
 
 export type VaccineSummarySidebarProps = {

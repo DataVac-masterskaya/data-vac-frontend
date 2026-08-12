@@ -53,6 +53,7 @@ export function mapVaccineProcessedSections(vaccine: Vaccine): ProcessedSection[
       ageRange: m.age_group || vaccine.age_allowed || 'не указан',
       description: (m.code ? ADMINISTRATION_CODE_TO_LABEL[m.code] ?? m.code : null) || m.note || 'не указан',
       method: m.code ?? undefined,
+      note: m.note,
     }))
 
   if (administrationRows.length > 0) {

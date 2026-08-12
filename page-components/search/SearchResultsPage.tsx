@@ -1,6 +1,9 @@
 import { ResultsHeader } from '@/shared/ui/ResultsHeader'
 import { EmptyState, ErrorState, ScrollToTopButton } from '@datavac/ui-kit'
 import { fetchVaccines } from '@/shared/api/vaccines'
+import { fetchInfectionById } from '@/shared/api/infections'
+import { fetchIngredientById } from '@/shared/api/ingredients'
+import { fetchContraindicationById } from '@/shared/api/contraindications'
 import { mapVaccineToTableRow } from '@/page-components/vaccines/lib/map-vaccine-to-table-row'
 import { normalizeVaccineSort, vaccineSortToTable } from '@/page-components/vaccines/model/sort'
 import { VACCINE_PAGE_WIDTH_CLASS, VaccinesTable } from '@/page-components/vaccines/ui/vaccines-table'
@@ -13,6 +16,27 @@ type SearchResultsPageProps = {
   contraindicationId?: number
 }
 
+async function resolveSearchTitle(props: SearchResultsPageProps): Promise<string> {
+  const { query, infectionId, ingredientId, contraindicationId } = props
+
+  if (infectionId) {
+    const infection = await fetchInfectionById(infectionId)
+    return infection?.name ?? query
+  }
+
+  if (ingredientId) {
+    const ingredient = await fetchIngredientById(ingredientId)
+    return ingredient ? `Содержит: ${ingredient.name}` : query
+  }
+
+  if (contraindicationId) {
+    const contraindication = await fetchContraindicationById(contraindicationId)
+    return contraindication ? `Противопоказано с: ${contraindication.name}` : query
+  }
+
+  return `Поиск: ${query}`
+}
+
 export async function SearchResultsPage({
   query,
   sort,
@@ -20,31 +44,38 @@ export async function SearchResultsPage({
   ingredientId,
   contraindicationId,
 }: SearchResultsPageProps) {
-  let vaccines: ReturnType<typeof mapVaccineToTableRow>[] = []
-  let count = 0
-  let error: string | null = null
-
   const sortValue = normalizeVaccineSort(sort)
 
-  try {
-    const { results, count: total } = await fetchVaccines({
+  const [title, vaccinesResult] = await Promise.all([
+    resolveSearchTitle({ query, infectionId, ingredientId, contraindicationId }),
+    fetchVaccines({
       sort: sortValue,
       q: query,
       infection_id: infectionId,
       ingredient_id: ingredientId,
       contraindication_id: contraindicationId,
-    })
-    vaccines = results.map(mapVaccineToTableRow)
-    count = total
-  } catch {
-    error = 'Не удалось загрузить результаты поиска. Попробуйте позже.'
-  }
+    }).catch((err: unknown) => err),
+  ])
+
+  const error =
+    vaccinesResult instanceof Error
+      ? 'Не удалось загрузить результаты поиска. Попробуйте позже.'
+      : null
+
+  const vaccines =
+    error || !(vaccinesResult as { results?: unknown }).results
+      ? []
+      : (vaccinesResult as Awaited<ReturnType<typeof fetchVaccines>>).results.map(mapVaccineToTableRow)
+
+  const count = error
+    ? undefined
+    : (vaccinesResult as Awaited<ReturnType<typeof fetchVaccines>>).count
 
   const { sortField, sortDirection } = vaccineSortToTable(sortValue)
 
   return (
     <div className={`${VACCINE_PAGE_WIDTH_CLASS} flex flex-col`}>
-      <ResultsHeader title={query} count={!error ? count : undefined} />
+      <ResultsHeader title={title} count={count} />
 
       {error ? (
         <div className="mt-6">
