@@ -2,9 +2,10 @@
 
 import { AdministrationIcon, type AdministrationMethod } from '@datavac/ui-kit'
 import { AdministrationImagePanel } from '@/shared/ui/AdministrationImagePanel/AdministrationImagePanel'
+import type { AdministrationMethodEntry } from './types'
 
 type AdministrationMethodIconsProps = {
-  methods: AdministrationMethod[]
+  methods: AdministrationMethodEntry[]
 }
 
 const MAX_ICONS = 5
@@ -49,7 +50,7 @@ export function AdministrationMethodIcons({ methods }: AdministrationMethodIcons
 
   return (
     <div className="flex items-center gap-2.5">
-      {visibleMethods.map((method, index) => {
+      {visibleMethods.map(({ method, note }, index) => {
         const { label, caption } = METHOD_INFO[method]
         return (
           <AdministrationImagePanel
@@ -58,7 +59,7 @@ export function AdministrationMethodIcons({ methods }: AdministrationMethodIcons
             title={label}
             imageSrc="/images/administration-demo.jpg"
             imageAlt={label}
-            caption={caption}
+            caption={note || caption}
           />
         )
       })}
