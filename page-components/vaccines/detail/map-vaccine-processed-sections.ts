@@ -1,5 +1,6 @@
 import type { Vaccine } from '@/shared/types/api'
 import { mapVaccineInfections } from '@/page-components/vaccines/lib/map-vaccine-infections'
+import { ADMINISTRATION_CODE_TO_LABEL } from '@/page-components/vaccines/lib/map-administration-methods'
 import { buildVaccinesPageHref } from '@/page-components/vaccines/model/sort'
 import type { ProcessedLinkItem, ProcessedSection } from './ui/vaccine-detail-screen-processed.types'
 
@@ -50,7 +51,7 @@ export function mapVaccineProcessedSections(vaccine: Vaccine): ProcessedSection[
     .filter((m) => m.code || m.note || m.age_group)
     .map((m) => ({
       ageRange: m.age_group || vaccine.age_allowed || 'не указан',
-      description: m.code || m.note || 'не указан',
+      description: (m.code ? ADMINISTRATION_CODE_TO_LABEL[m.code] ?? m.code : null) || m.note || 'не указан',
     }))
 
   if (administrationRows.length > 0) {

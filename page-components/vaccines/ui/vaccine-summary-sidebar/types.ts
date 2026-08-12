@@ -6,11 +6,16 @@ export type VaccineSummaryInfection = {
   href?: string
 }
 
+export type AdministrationMethodEntry = {
+  method: AdministrationMethod
+  note: string | null
+}
+
 export type VaccineSummarySidebarProps = {
   infections: VaccineSummaryInfection[]
   pregnancyLabel: string
   showPregnancyWarning: boolean
   ageLabel: string
-  administrationMethods: AdministrationMethod[]
+  administrationMethods: AdministrationMethodEntry[]
   className?: string
 }

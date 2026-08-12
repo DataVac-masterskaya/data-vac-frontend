@@ -10,6 +10,16 @@ const METHOD_LABEL_TO_CODES: Record<string, AdministrationMethod[]> = {
   Интраназально: ['intranasally'],
 }
 
+export const ADMINISTRATION_CODE_TO_LABEL: Record<string, string> = {
+  cutaneously: 'Накожно',
+  intramuscularly: 'Внутримышечно',
+  subcutaneously: 'Подкожно',
+  intradermally: 'Внутрикожно',
+  drops: 'Перорально: капли',
+  pills: 'Перорально: таблетки',
+  intranasally: 'Интраназально',
+}
+
 export function mapAdministrationMethods(label: string): AdministrationMethod[] {
   return METHOD_LABEL_TO_CODES[label] ?? []
 }
@@ -17,16 +27,7 @@ export function mapAdministrationMethods(label: string): AdministrationMethod[] 
 export function mapAdministrationMethodsFromApi(
   methods: { code: string | null; age_group: string | null; note: string | null }[]
 ): AdministrationMethod[] {
-  if (!methods || methods.length === 0) return []
-
-  const firstMethod = methods[0]
-  if (!firstMethod.code) return []
-
-  for (const [label, codes] of Object.entries(METHOD_LABEL_TO_CODES)) {
-    if (codes.includes(firstMethod.code as AdministrationMethod)) {
-      return codes
-    }
-  }
-
-  return []
+  return methods
+    .map((m) => m.code)
+    .filter((code): code is AdministrationMethod => code !== null)
 }
