@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { InfectionCard } from './InfectionCard'
+import { buildVaccinesPageHref } from '@/page-components/vaccines/model/sort'
 
 type Infection = {
   id: number
@@ -23,7 +24,7 @@ export function InfectionsList({ infections }: InfectionsListProps) {
           <InfectionCard
             name={infection.name}
             category={infection.categoryLabel}
-            onClick={() => router.push(`/vaccines/search?infection_id=${infection.id}`)}
+            onClick={() => router.push(buildVaccinesPageHref({ infectionId: infection.id, label: infection.name }))}
           />
         </li>
       ))}

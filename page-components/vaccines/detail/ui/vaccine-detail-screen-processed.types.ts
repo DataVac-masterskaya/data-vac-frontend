@@ -14,6 +14,7 @@ export type ProcessedAdministrationRow = {
   ageRange: string
   description: string
   method?: string
+  note?: string | null
 }
 
 export type ProcessedStatusIcon = 'attention' | 'incompatible' | 'neutral'

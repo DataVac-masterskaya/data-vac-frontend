@@ -21,6 +21,11 @@ export async function fetchContraindications(
   return apiFetch<Contraindication[]>(url);
 }
 
+export async function fetchContraindicationById(id: number): Promise<Contraindication | null> {
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/contraindications/${id}/`
+  return apiFetch<Contraindication>(url).catch(() => null)
+}
+
 export async function fetchContraindicationCategories(): Promise<ContraindicationCategory[]> {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/contraindications/categories/`;
 

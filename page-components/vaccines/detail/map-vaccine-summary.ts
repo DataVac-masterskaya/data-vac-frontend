@@ -11,6 +11,6 @@ export function mapVaccineToSummary(vaccine: Vaccine): VaccineSummarySidebarProp
     ageLabel: vaccine.age_allowed || 'не указан',
     administrationMethods: vaccine.administration_methods
       .filter((m): m is typeof m & { code: string } => m.code !== null)
-      .map((m) => ({ method: m.code as AdministrationMethod, note: m.note })),
+      .map((m) => ({ method: m.code as AdministrationMethod, note: m.note, ageGroup: m.age_group })),
   }
 }

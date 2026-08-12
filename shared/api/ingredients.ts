@@ -16,6 +16,15 @@ const SORT_TO_ORDERING: Record<NonNullable<IngredientsParams['sort']>, string> =
   type_desc: '-type',
 }
 
+export async function fetchIngredientById(id: number): Promise<Ingredient | null> {
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/ingredients/${id}/`
+  try {
+    return await apiFetch<Ingredient>(url, { next: { revalidate: 3600 } })
+  } catch {
+    return null
+  }
+}
+
 export async function fetchIngredients(params: IngredientsParams = {}): Promise<PaginatedResponse<Ingredient>> {
   const searchParams = new URLSearchParams()
 

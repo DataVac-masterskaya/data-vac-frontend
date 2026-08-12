@@ -52,12 +52,14 @@ export function buildVaccinesPageHref({
   ingredientId,
   infectionId,
   contraindicationId,
+  label,
 }: {
   sort?: VaccineSortValue
   q?: string
   ingredientId?: number
   infectionId?: number
   contraindicationId?: number
+  label?: string
 }): string {
   const params = new URLSearchParams()
   if (sort && sort !== 'popularity') {
@@ -74,6 +76,9 @@ export function buildVaccinesPageHref({
   }
   if (contraindicationId) {
     params.set('contraindication_id', String(contraindicationId))
+  }
+  if (label?.trim()) {
+    params.set('label', label.trim())
   }
   const query = params.toString()
   return query ? `/vaccines/search?${query}` : '/vaccines/search'

@@ -42,7 +42,7 @@ export default async function HomePage() {
         id: v.id,
         name: v.name,
         popularity: v.popularity,
-        href: buildVaccinesPageHref({ infectionId: v.id }),
+        href: buildVaccinesPageHref({ infectionId: v.id, label: v.name }),
       })),
     },
     {
@@ -54,7 +54,7 @@ export default async function HomePage() {
         id: v.id,
         name: v.name,
         popularity: v.popularity,
-        href: buildVaccinesPageHref({ contraindicationId: v.id }),
+        href: buildVaccinesPageHref({ contraindicationId: v.id, label: v.name }),
       })),
     },
     {
@@ -66,7 +66,7 @@ export default async function HomePage() {
         id: v.id,
         name: v.name,
         popularity: v.popularity,
-        href: buildVaccinesPageHref({ ingredientId: v.id }),
+        href: buildVaccinesPageHref({ ingredientId: v.id, label: v.name }),
       })),
     },
   ];

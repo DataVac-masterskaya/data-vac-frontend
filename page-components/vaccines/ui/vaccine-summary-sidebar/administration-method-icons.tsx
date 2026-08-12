@@ -2,7 +2,7 @@
 
 import { AdministrationIcon, type AdministrationMethod } from '@datavac/ui-kit'
 import { AdministrationImagePanel } from '@/shared/ui/AdministrationImagePanel/AdministrationImagePanel'
-import { ADMINISTRATION_METHOD_IMAGE } from '@/page-components/vaccines/lib/administration-method-images'
+import { getAdministrationImage } from '@/page-components/vaccines/lib/administration-method-images'
 import type { AdministrationMethodEntry } from './types'
 
 type AdministrationMethodIconsProps = {
@@ -51,14 +51,14 @@ export function AdministrationMethodIcons({ methods }: AdministrationMethodIcons
 
   return (
     <div className="flex items-center gap-2.5">
-      {visibleMethods.map(({ method, note }, index) => {
+      {visibleMethods.map(({ method, note, ageGroup }, index) => {
         const { label, caption } = METHOD_INFO[method]
         return (
           <AdministrationImagePanel
             key={`${method}-${index}`}
             trigger={<AdministrationIcon method={method} />}
             title={label}
-            imageSrc={ADMINISTRATION_METHOD_IMAGE[method]}
+            imageSrc={getAdministrationImage(method, note, ageGroup)}
             imageAlt={label}
             caption={note || caption}
           />

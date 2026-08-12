@@ -35,7 +35,7 @@ export function getIngredientColumns(): DataTableColumn<Ingredient>[] {
       label: '',
       width: 172,
       render: (row) => (
-        <IngredientWhereUsed href={ingredientVaccinesHref(row.id)} />
+        <IngredientWhereUsed href={ingredientVaccinesHref(row.id, row.name)} />
       ),
     },
   ]
