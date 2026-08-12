@@ -17,13 +17,13 @@ export function ContraIndicationRow({
   return (
     <div
       className={cn(
-        'group grid grid-cols-1 gap-3 rounded-xl bg-card px-3 py-[11px]',
-        'sm:grid-cols-[200px_minmax(0,1fr)_auto] sm:items-center sm:gap-5',
+        'group grid grid-cols-[1fr_auto] items-center gap-x-2 gap-y-1 rounded-xl bg-card px-3 py-[11px]',
+        'sm:grid-cols-[200px_minmax(0,1fr)_auto] sm:gap-5',
         'md:grid-cols-[280px_minmax(0,1fr)_auto]',
         className,
       )}
     >
-      <span className="block truncate text-sm text-fg-muted">{category}</span>
+      <span className="col-span-2 block truncate text-sm text-fg-muted sm:col-span-1">{category}</span>
 
       <span className="block min-w-0 text-sm text-fg">{text}</span>
 
