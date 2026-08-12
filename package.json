@@ -8,7 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@datavac/ui-kit": "^1.13.3",
+    "@datavac/ui-kit": "^1.13.4",
     "embla-carousel-react": "^8.6.0",
     "embla-carousel-wheel-gestures": "^8.1.0",
     "gsap": "^3.15.0",
