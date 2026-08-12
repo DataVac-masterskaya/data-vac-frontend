@@ -8,12 +8,11 @@ export interface VaccineListItem {
   name: string
   official_name: string | null
   is_available_in_rf: boolean
-  popularity: number
+  popularity: number | null
   infections: VaccineInfection[]
-  administration_method: string | null
-  min_age_months: number | null
-  max_age_months: number | null
-  allowed_during_pregnancy: boolean
+  age_allowed: string | null
+  pregnancy_usage_status: boolean
+  administration_methods: { code: string | null; age_group: string | null; note: string | null }[]
 }
 
 export interface Vaccine {

@@ -1,16 +1,17 @@
 import type { VaccineListItem } from '@/shared/types/api'
 import type { VaccineData } from '@/page-components/vaccines/model/types'
 import { VaccineCatalogItem } from '@/page-components/vaccines/model/catalogTypes'
+import { mapAdministrationMethodsFromApi } from './map-administration-methods'
 
 export function mapVaccineToTableRow(vaccine: VaccineListItem): VaccineData {
   return {
     id: String(vaccine.id),
     name: vaccine.name,
     infections: vaccine.infections,
-    routes: [],
-    ageRange: 'не указан',
+    routes: mapAdministrationMethodsFromApi(vaccine.administration_methods),
+    ageRange: vaccine.age_allowed ?? 'Не ограничено',
     permissibility: 'allowed',
-    pregnancyPermissibility: 'allowed',
+    pregnancyPermissibility: vaccine.pregnancy_usage_status ? 'allowed' : 'forbidden',
     contraindications: [],
     isIncompatible: false,
   }

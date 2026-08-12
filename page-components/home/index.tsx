@@ -29,7 +29,7 @@ export default async function HomePage() {
       items: vaccines.results.map((v) => ({
         id: v.id,
         name: v.name,
-        popularity: v.popularity,
+        popularity: v.popularity ?? 0,
         href: `/vaccines/${v.id}`,
       })),
     },
