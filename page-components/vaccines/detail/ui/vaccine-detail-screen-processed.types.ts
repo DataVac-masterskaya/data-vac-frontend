@@ -13,6 +13,7 @@ export type ProcessedLinkGroup = {
 export type ProcessedAdministrationRow = {
   ageRange: string
   description: string
+  method?: string
 }
 
 export type ProcessedStatusIcon = 'attention' | 'incompatible' | 'neutral'

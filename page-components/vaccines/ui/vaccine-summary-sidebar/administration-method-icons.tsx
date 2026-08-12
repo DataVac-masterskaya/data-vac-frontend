@@ -2,6 +2,7 @@
 
 import { AdministrationIcon, type AdministrationMethod } from '@datavac/ui-kit'
 import { AdministrationImagePanel } from '@/shared/ui/AdministrationImagePanel/AdministrationImagePanel'
+import { ADMINISTRATION_METHOD_IMAGE } from '@/page-components/vaccines/lib/administration-method-images'
 import type { AdministrationMethodEntry } from './types'
 
 type AdministrationMethodIconsProps = {
@@ -57,7 +58,7 @@ export function AdministrationMethodIcons({ methods }: AdministrationMethodIcons
             key={`${method}-${index}`}
             trigger={<AdministrationIcon method={method} />}
             title={label}
-            imageSrc="/images/administration-demo.jpg"
+            imageSrc={ADMINISTRATION_METHOD_IMAGE[method]}
             imageAlt={label}
             caption={note || caption}
           />

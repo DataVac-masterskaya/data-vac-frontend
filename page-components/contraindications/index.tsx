@@ -51,7 +51,7 @@ export default async function ContraindicationsPage({
         text: item.name,
         // TODO: заменить на реальный признак активности из ответа API
         isActive: false,
-        href: buildVaccinesPageHref({ q: item.name }),
+        href: buildVaccinesPageHref({ contraindicationId: item.id }),
       })),
     }));
 

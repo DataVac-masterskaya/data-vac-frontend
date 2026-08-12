@@ -22,7 +22,6 @@ export function VaccineCatalog({ data, sortField, sortDirection }: VaccineCatalo
       columns={vaccineCatalogColumns}
       rows={data}
       getRowKey={(row) => row.id}
-      isRowDisabled={(row) => !row.isAvailable}
       sortField={sortField}
       sortDirection={sortDirection}
       onSortChange={(field, direction) => {
@@ -37,15 +36,16 @@ export function VaccineCatalog({ data, sortField, sortDirection }: VaccineCatalo
           router.push(`?${params.toString()}`)
         })
       }}
+      isRowDisabled={(row) => !row.isAvailable}
+      disabledTooltip={
+        <span className="flex flex-col gap-0.5">
+          <span className="font-semibold leading-4">Об этой вакцине нет сведений.</span>
+          <span className="leading-4 text-white/60">Нажмите, чтобы прочитать полную информацию</span>
+        </span>
+      }
       onRowClick={(row) => {
         router.push(`/vaccines/${row.id}`)
       }}
-      disabledTooltip={
-        <div className="max-w-[180px]">
-          <p className="font-semibold">Об этой вакцине нет сведений.</p>
-          <p className="italic opacity-60">Нажмите, чтобы прочитать полную информацию</p>
-        </div>
-      }
       className="gap-6"
     />
   )

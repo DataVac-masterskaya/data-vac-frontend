@@ -12,6 +12,11 @@ export async function generateStaticParams() {
   return ids.map((id) => ({ id: String(id) }))
 }
 
+function formatRevisionDate(dateStr: string): string {
+  const [year, month, day] = dateStr.split('-')
+  return `${day}.${month}.${year}`
+}
+
 export default async function VaccineDetailPage({
   params,
 }: {
@@ -30,7 +35,17 @@ export default async function VaccineDetailPage({
       <BackLink href="/vaccines" label="Назад к вакцинам" className="mb-4" />
 
       <div className="flex items-start justify-between gap-6 mb-6">
-        <h1 className="text-2xl font-semibold text-fg">{vaccine.name}</h1>
+        <div className="flex flex-col gap-1">
+          <h1 className="text-2xl font-semibold text-fg">{vaccine.name}</h1>
+          {!vaccine.is_available_in_rf && (
+            <p className="text-base font-semibold text-fg">Вакцина не доступна в РФ</p>
+          )}
+          {vaccine.revision_date && (
+            <p className="text-base text-fg-muted">
+              Дата последней ревизии: {formatRevisionDate(vaccine.revision_date)}
+            </p>
+          )}
+        </div>
         <VaccineInstructionLinks
           officialLinkUrl={vaccine.nonspec_url}
           instructionSpecialistUrl={vaccine.instruction_url}

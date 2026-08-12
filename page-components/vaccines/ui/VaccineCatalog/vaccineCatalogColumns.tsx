@@ -11,7 +11,9 @@ export const vaccineCatalogColumns: DataTableColumn<VaccineCatalogItem>[] = [
     width: 200,
     sortable: true,
     render: (row) => (
-      <span className="font-semibold leading-tight">{row.name}</span>
+      <span className="font-semibold leading-tight">
+        {row.name}
+      </span>
     ),
   },
   {

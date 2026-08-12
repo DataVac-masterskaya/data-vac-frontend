@@ -26,8 +26,8 @@ export function VaccineRoutesCell({ routes }: VaccineRoutesCellProps) {
     <div
       className={
         layout !== "desktop"
-          ? "flex flex-wrap items-start gap-1"
-          : "flex items-start gap-1 pt-0.5 overflow-visible"
+          ? "flex flex-wrap items-start gap-1 pt-[5px]"
+          : "flex items-start gap-1 pt-[5px] overflow-visible"
       }
     >
       {visibleRoutes.map((method, index) => {
