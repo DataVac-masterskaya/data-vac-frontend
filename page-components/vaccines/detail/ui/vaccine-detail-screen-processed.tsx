@@ -1,13 +1,10 @@
-import { CircleXmarkIcon, InfoCircleIcon, MinusIcon, type AdministrationMethod } from '@datavac/ui-kit'
+import { CircleXmarkIcon, InfoCircleIcon, MinusIcon } from '@datavac/ui-kit'
 import { VaccineInfoBlock } from '@/shared/ui/VaccineInfoBlock'
-import { getAdministrationImage } from '@/page-components/vaccines/lib/administration-method-images'
 import { ProcessedSectionTitle } from './processed-section-title'
 import { ProcessedSectionNote } from './processed-section-note'
 import { ProcessedLinkRow } from './processed-link-row'
 import { getProcessedLinkItemKey } from './get-processed-link-item-key'
 import type { ProcessedSection, ProcessedStatusIcon } from './vaccine-detail-screen-processed.types'
-
-const DEMO_IMAGE = '/images/administration-demo.jpg'
 
 const STATUS_ICON: Record<ProcessedStatusIcon, React.ReactNode> = {
   attention: <InfoCircleIcon width={20} height={20} className="text-warning" />,
@@ -81,11 +78,13 @@ function ProcessedSectionRenderer({ section }: { section: ProcessedSection }) {
             {section.rows.map((row, index) => (
               <div key={`${row.ageRange}-${index}`} className="flex items-center gap-3">
                 <span className="w-28 shrink-0 text-sm text-fg-muted">{row.ageRange}</span>
-                <img
-                  src={row.method ? getAdministrationImage(row.method as AdministrationMethod, row.note, row.ageRange) : DEMO_IMAGE}
-                  alt=""
-                  className="h-16 w-16 shrink-0 rounded-lg border border-accent object-cover"
-                />
+                {row.listIconUrl && (
+                  <img
+                    src={row.listIconUrl}
+                    alt=""
+                    className="h-16 w-16 shrink-0 rounded-lg border border-accent object-cover"
+                  />
+                )}
                 {row.method && <span className="max-w-48 text-sm text-fg">{row.description}</span>}
               </div>
             ))}

@@ -28,13 +28,12 @@ export function mapAdministrationMethodsFromApi(
   const result: AdministrationRoute[] = []
 
   for (const m of methods) {
-    if (m.code === null && m.list_icon_url === null) continue
-    const dedupeKey = m.list_icon_url ?? m.code ?? ''
-    if (seen.has(dedupeKey)) continue
-    seen.add(dedupeKey)
+    if (m.code === null) continue
+    if (seen.has(m.code)) continue
+    seen.add(m.code)
     result.push({
       code: m.code,
-      knownMethod: m.code && KNOWN_METHODS.has(m.code) ? (m.code as AdministrationMethod) : null,
+      knownMethod: KNOWN_METHODS.has(m.code) ? (m.code as AdministrationMethod) : null,
       listIconUrl: m.list_icon_url,
     })
   }

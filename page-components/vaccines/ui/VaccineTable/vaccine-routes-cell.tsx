@@ -15,7 +15,7 @@ type VaccineRoutesCellProps = {
 export function VaccineRoutesCell({ routes }: VaccineRoutesCellProps) {
   const { layout, routesMaxVisible } = useVaccineTableMedia();
 
-  const renderable = routes.filter((r) => r.listIconUrl || r.knownMethod);
+  const renderable = routes.filter((r) => r.knownMethod);
 
   if (renderable.length === 0) {
     return null;
@@ -42,15 +42,7 @@ export function VaccineRoutesCell({ routes }: VaccineRoutesCellProps) {
             key={key}
             className={`inline-flex shrink-0 overflow-visible ${needsRightPadding ? " pr-1" : ""}`}
           >
-            {route.listIconUrl ? (
-              <img
-                src={route.listIconUrl}
-                alt={route.code ?? ''}
-                className="h-11 w-10 shrink-0 object-contain"
-              />
-            ) : (
-              <AdministrationIcon method={route.knownMethod!} className="h-11 w-10 shrink-0 overflow-visible" />
-            )}
+            <AdministrationIcon method={route.knownMethod!} className="h-11 w-10 shrink-0 overflow-visible" />
           </span>
         );
       })}

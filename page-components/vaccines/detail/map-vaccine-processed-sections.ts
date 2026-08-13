@@ -62,6 +62,7 @@ export function mapVaccineProcessedSections(vaccine: Vaccine): ProcessedSection[
       description: (m.code ? ADMINISTRATION_CODE_TO_LABEL[m.code] ?? m.code : null) || m.note || 'не указан',
       method: m.code ?? undefined,
       note: m.note,
+      listIconUrl: m.list_icon_url ?? null,
     }))
 
   if (administrationRows.length > 0) {
