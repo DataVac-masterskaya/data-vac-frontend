@@ -1,4 +1,6 @@
 import type { AdministrationMethod } from '@datavac/ui-kit'
+import type { VaccinePdfData } from '@/page-components/vaccines/detail/pdf'
+
 
 export type VaccineSummaryInfection = {
   name: string
@@ -19,4 +21,5 @@ export type VaccineSummarySidebarProps = {
   ageLabel: string
   administrationMethods: AdministrationMethodEntry[]
   className?: string
+  pdfData: VaccinePdfData
 }

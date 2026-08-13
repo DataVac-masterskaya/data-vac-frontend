@@ -7,6 +7,7 @@ import { mapVaccineToOrgComment } from './map-vaccine-org-comment'
 import { mapVaccineToSummary } from './map-vaccine-summary'
 import type { ProcessedSection } from './ui/vaccine-detail-screen-processed.types'
 import type { VaccineInstructionSection } from './ui/vaccine-detail-screen-instruction.types'
+import { mapVaccineToPdfData } from './pdf'
 
 type VaccineDetailPageData = {
   summary: VaccineSummarySidebarProps
@@ -17,8 +18,11 @@ type VaccineDetailPageData = {
 
 export function mapVaccineToDetailPageData(vaccine: Vaccine): VaccineDetailPageData {
   return {
-    summary: mapVaccineToSummary(vaccine),
-    // TODO: когда API будет готов — маппить vaccine.processed_sections / instruction_sections
+    summary: {
+      ...mapVaccineToSummary(vaccine),
+      pdfData: mapVaccineToPdfData(vaccine),
+    },
+    
     processedSections: mapVaccineProcessedSections(vaccine),
     instructionSections: mapVaccineInstructionSections(vaccine),
     orgComment: mapVaccineToOrgComment(vaccine),
