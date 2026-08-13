@@ -23,8 +23,8 @@ function buildVaccineColumns(
   order: readonly VaccineColumnKey[],
 ): DataTableColumn<VaccineData>[] {
   return order.map((key) => ({
-    key,
-    ...VACCINE_COLUMN_META[key],
+    ...(VACCINE_COLUMN_META[key] as DataTableColumn<VaccineData>),
+    key: String(key),
     render: vaccineCellRenderers[key],
   }));
 }
