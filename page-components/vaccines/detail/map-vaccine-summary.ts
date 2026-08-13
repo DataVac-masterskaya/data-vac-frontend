@@ -1,5 +1,6 @@
 import type { Vaccine } from '@/shared/types/api'
 import { mapVaccineInfections } from '@/page-components/vaccines/lib/map-vaccine-infections'
+import { mediaUrl } from '@/shared/api/media-url'
 import type { AdministrationMethod } from '@datavac/ui-kit'
 import type { VaccineSummarySidebarProps } from '../ui/vaccine-summary-sidebar/types'
 
@@ -25,7 +26,12 @@ export function mapVaccineToSummary(
           seen.add(m.code!)
           return true
         })
-        .map((m) => ({ method: m.code as AdministrationMethod, note: m.note, ageGroup: m.age_group }))
+        .map((m) => ({
+          method: m.code as AdministrationMethod,
+          note: m.note,
+          ageGroup: m.age_group,
+          detailImageUrl: mediaUrl(m.detail_image_url),
+        }))
     })(),
   }
 }

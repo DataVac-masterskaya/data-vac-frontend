@@ -79,21 +79,19 @@ function ProcessedSectionRenderer({ section }: { section: ProcessedSection }) {
             {section.rows.map((row, index) => (
               <div key={`${row.ageRange}-${index}`} className="flex items-center gap-3">
                 <span className="w-28 shrink-0 text-sm text-fg-muted">{row.ageRange}</span>
-                {row.listIconUrl && (
-                  <AdministrationImagePanel
-                    trigger={
-                      <img
-                        src={row.listIconUrl}
-                        alt={row.description}
-                        className="h-16 w-16 shrink-0 rounded-lg border border-accent object-cover cursor-pointer"
-                      />
-                    }
-                    title={row.description}
-                    imageSrc={row.detailImageUrl ?? row.listIconUrl}
-                    imageAlt={row.description}
-                    caption={row.note ?? undefined}
-                  />
-                )}
+                <AdministrationImagePanel
+                  trigger={
+                    <img
+                      src={row.listIconUrl ?? '/images/administration/no_illustration.png'}
+                      alt={row.description}
+                      className="h-16 w-16 shrink-0 rounded-lg border border-accent object-cover cursor-pointer"
+                    />
+                  }
+                  title={row.description}
+                  imageSrc={row.detailImageUrl ?? row.listIconUrl ?? '/images/administration/no_illustration.png'}
+                  imageAlt={row.description}
+                  caption={row.note ?? undefined}
+                />
                 {row.method && <span className="max-w-48 text-sm text-fg">{row.description}</span>}
               </div>
             ))}

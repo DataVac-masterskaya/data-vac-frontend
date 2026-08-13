@@ -1,21 +1,13 @@
 import type { Vaccine } from '@/shared/types/api'
+import { ADMINISTRATION_CODE_TO_LABEL } from '@/page-components/vaccines/lib/map-administration-methods'
+import { mediaUrl } from '@/shared/api/media-url'
 import { mapVaccineInstructionSections } from '../map-vaccine-instruction-sections'
 import type {
   VaccinePdfContraindicationGroup,
   VaccinePdfData,
   VaccinePdfIngredientGroup,
 } from './vaccine-pdf.types'
-import { PDF_ADMIN_IMAGE_SRC, PDF_LOGO_SRC } from './pdf-assets'
-
-const METHOD_LABELS: Record<string, string> = {
-  intramuscularly: 'Внутримышечно',
-  subcutaneously: 'Подкожно',
-  cutaneously: 'Накожно',
-  intradermally: 'Внутрикожно',
-  drops: 'Перорально: капли',
-  pills: 'Перорально: таблетки',
-  intranasally: 'Интраназально',
-}
+import { PDF_LOGO_SRC } from './pdf-assets'
 
 const INGREDIENT_ROLE_LABELS: Record<string, string> = {
   active: 'Действующее вещество',
@@ -96,8 +88,8 @@ function administrationTitle(method: {
   note: string | null
 }): string {
   if (method.note?.trim()) return method.note.trim()
-  if (method.code && METHOD_LABELS[method.code]) return METHOD_LABELS[method.code]
-  return method.code || 'не указан'
+  if (method.code) return ADMINISTRATION_CODE_TO_LABEL[method.code] ?? method.code
+  return 'не указан'
 }
 
 export function mapVaccineToPdfData(vaccine: Vaccine): VaccinePdfData {
@@ -117,7 +109,7 @@ export function mapVaccineToPdfData(vaccine: Vaccine): VaccinePdfData {
       .map((m) => ({
         title: administrationTitle(m),
         ageGroup: m.age_group,
-        imageSrc: PDF_ADMIN_IMAGE_SRC,
+        imageSrc: mediaUrl(m.detail_image_url) ?? `/images/administration/no_illustration.png`,
       })),
     contraindicationGroups: groupContraindications(vaccine.contraindications),
     ingredients: groupIngredientsByRole(vaccine.ingredients),

@@ -51,14 +51,14 @@ export function AdministrationMethodIcons({ methods }: AdministrationMethodIcons
 
   return (
     <div className="flex items-center gap-2.5">
-      {visibleMethods.map(({ method, note, ageGroup }, index) => {
+      {visibleMethods.map(({ method, note, ageGroup, detailImageUrl }, index) => {
         const { label } = METHOD_INFO[method]
         return (
           <AdministrationImagePanel
             key={`${method}-${index}`}
             trigger={<AdministrationIcon method={method} />}
             title={label}
-            imageSrc={getAdministrationImage(method, note, ageGroup)}
+            imageSrc={detailImageUrl ?? getAdministrationImage(method, note, ageGroup)}
             imageAlt={label}
             caption={note || undefined}
           />
