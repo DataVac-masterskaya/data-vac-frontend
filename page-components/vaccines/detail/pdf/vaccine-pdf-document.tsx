@@ -72,10 +72,9 @@ export function VaccinePdfDocument({ data, qrImages }: Props) {
             <View style={s.methodsRow}>
               {data.administrationMethods.map((m, i) => (
                 <View key={`${m.title}-${i}`} style={s.methodCard}>
-                  <Text style={s.bold}>{m.title}</Text>
-                  {m.ageGroup ? <Text style={s.text}>{m.ageGroup}</Text> : null}
-                  {/* картинки: абсолютный URL нужен в браузере — см. ниже */}
+                  <Text style={s.methodTitle}>{m.title}</Text>
                   <Image src={m.imageSrc} style={s.methodImage} />
+                  {m.ageGroup ? <Text style={s.methodAge}>{m.ageGroup}</Text> : null}
                 </View>
               ))}
             </View>

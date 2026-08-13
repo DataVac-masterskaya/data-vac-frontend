@@ -4,13 +4,8 @@ import { createElement } from 'react'
 import { VaccinePdfDocument } from './vaccine-pdf-document'
 import type { VaccinePdfData } from './vaccine-pdf.types'
 
-function sanitizeFilename(name: string): string {
-  return name
-    .trim()
-    .replace(/[^\p{L}\p{N}\-_ ]+/gu, '')
-    .replace(/\s+/g, '-')
-    .slice(0, 80) || 'vaccine'
-}
+
+const BLOB_URL_REVOKE_MS = 60_000
 
 function toAbsoluteUrl(path: string): string {
   if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('data:')) {
@@ -40,29 +35,32 @@ function withAbsoluteImages(data: VaccinePdfData): VaccinePdfData {
   }
 }
 
+
 export async function downloadVaccinePdf(data: VaccinePdfData): Promise<void> {
-  const [specialist, nonspec] = await Promise.all([
-    makeQrDataUrl(data.specialistUrl),
-    makeQrDataUrl(data.nonspecUrl),
-  ])
+  
+  const win = window.open('about:blank', '_blank')
+  if (!win) {
+    throw new Error('Не удалось открыть PDF: браузер заблокировал всплывающее окно')
+  }
 
-  const blob = await pdf(
-    createElement(VaccinePdfDocument, {
-      data: withAbsoluteImages(data),
-      qrImages: { specialist, nonspec },
-    }) as Parameters<typeof pdf>[0],
-  ).toBlob()
+  try {
+    const [specialist, nonspec] = await Promise.all([
+      makeQrDataUrl(data.specialistUrl),
+      makeQrDataUrl(data.nonspecUrl),
+    ])
 
-  const filename = `${sanitizeFilename(data.officialName || data.name)}.pdf`
-  const objectUrl = URL.createObjectURL(blob)
+    const blob = await pdf(
+      createElement(VaccinePdfDocument, {
+        data: withAbsoluteImages(data),
+        qrImages: { specialist, nonspec },
+      }) as Parameters<typeof pdf>[0],
+    ).toBlob()
 
-  const a = document.createElement('a')
-  a.href = objectUrl
-  a.download = filename
-  a.rel = 'noopener'
-  document.body.appendChild(a)
-  a.click()
-  a.remove()
-
-  URL.revokeObjectURL(objectUrl)
+    const objectUrl = URL.createObjectURL(blob)
+    win.location.href = objectUrl
+    window.setTimeout(() => URL.revokeObjectURL(objectUrl), BLOB_URL_REVOKE_MS)
+  } catch (error) {
+    win.close()
+    throw error
+  }
 }
