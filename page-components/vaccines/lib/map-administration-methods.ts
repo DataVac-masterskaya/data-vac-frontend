@@ -20,6 +20,9 @@ export const ADMINISTRATION_CODE_TO_LABEL: Record<string, string> = {
   drops: 'Перорально: капли',
   pills: 'Перорально: таблетки',
   intranasally: 'Интраназально',
+  inhalationally: 'Ингаляционно',
+  instillation_bladder: 'Инстилляция в мочевой пузырь',
+  other: 'Другим способом',
 }
 
 export function mapAdministrationMethodsFromApi(
