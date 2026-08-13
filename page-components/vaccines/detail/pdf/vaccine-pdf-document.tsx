@@ -23,24 +23,27 @@ export function VaccinePdfDocument({ data, qrImages }: Props) {
         {/* Header: DataVac + 2 QR */}
         <View style={s.header}>
           <View style={s.brandBlock}>
-            <Text style={s.brandTitle}>DataVac</Text>
+            <Image src={data.logoSrc} style={s.logo} />
             <Text style={s.brandSubtitle}>
               Структурированная информация с сайта Государственного реестра лекарственных средств
             </Text>
           </View>
-          <View style={s.qrBlock}>
-            {qrImages?.specialist ? (
-              <View style={s.qrItem}>
-                <Image src={qrImages.specialist} style={s.qrImage} />
-                <Text style={s.qrLabel}>Специалистов</Text>
-              </View>
-            ) : null}
-            {qrImages?.nonspec ? (
-              <View style={s.qrItem}>
-                <Image src={qrImages.nonspec} style={s.qrImage} />
-                <Text style={s.qrLabel}>Неспециалистов</Text>
-              </View>
-            ) : null}
+          <View>
+            <Text style={s.qrCaption}>Ссылка на версию инструкции для:</Text>
+            <View style={s.qrBlock}>
+              {qrImages?.specialist ? (
+                <View style={s.qrItem}>
+                  <Image src={qrImages.specialist} style={s.qrImage} />
+                  <Text style={s.qrLabel}>Специалистов</Text>
+                </View>
+              ) : null}
+              {qrImages?.nonspec ? (
+                <View style={s.qrItem}>
+                  <Image src={qrImages.nonspec} style={s.qrImage} />
+                  <Text style={s.qrLabel}>Неспециалистов</Text>
+                </View>
+              ) : null}
+            </View>
           </View>
         </View>
 

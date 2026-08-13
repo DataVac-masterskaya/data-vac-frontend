@@ -32,6 +32,7 @@ async function makeQrDataUrl(url: string | null | undefined): Promise<string | u
 function withAbsoluteImages(data: VaccinePdfData): VaccinePdfData {
   return {
     ...data,
+    logoSrc: toAbsoluteUrl(data.logoSrc),
     administrationMethods: data.administrationMethods.map((m) => ({
       ...m,
       imageSrc: toAbsoluteUrl(m.imageSrc),

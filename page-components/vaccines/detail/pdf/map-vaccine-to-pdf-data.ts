@@ -1,8 +1,8 @@
 import type { Vaccine } from '@/shared/types/api'
 import { mapVaccineInstructionSections } from '../map-vaccine-instruction-sections'
 import type { VaccinePdfData, VaccinePdfIngredientGroup } from './vaccine-pdf.types'
+import { PDF_ADMIN_IMAGE_SRC, PDF_LOGO_SRC } from './pdf-assets'
 
-const ADMIN_IMAGE = '/images/administration-demo.jpg'
 
 function groupIngredientsByRole(
   ingredients: Vaccine['ingredients'],
@@ -33,7 +33,7 @@ export function mapVaccineToPdfData(vaccine: Vaccine): VaccinePdfData {
       .map((m) => ({
         title: m.code || m.note || 'не указан',
         ageGroup: m.age_group,
-        imageSrc: ADMIN_IMAGE,
+        imageSrc: PDF_ADMIN_IMAGE_SRC,
       })),
     contraindications: vaccine.contraindications.map((c) => ({
       name: c.name,
@@ -50,5 +50,6 @@ export function mapVaccineToPdfData(vaccine: Vaccine): VaccinePdfData {
     nonspecUrl: vaccine.nonspec_url,
     orgComment: vaccine.comment?.text ?? null,
     revisionDate: vaccine.revision_date,
+    logoSrc: PDF_LOGO_SRC,
   }
 }
