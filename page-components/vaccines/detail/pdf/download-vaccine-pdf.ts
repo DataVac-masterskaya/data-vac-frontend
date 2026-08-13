@@ -3,7 +3,7 @@ import QRCode from 'qrcode'
 import { createElement } from 'react'
 import { VaccinePdfDocument } from './vaccine-pdf-document'
 import type { VaccinePdfData } from './vaccine-pdf.types'
-
+import { registerPdfFonts } from './register-pdf-fonts'
 
 const BLOB_URL_REVOKE_MS = 60_000
 
@@ -37,7 +37,8 @@ function withAbsoluteImages(data: VaccinePdfData): VaccinePdfData {
 
 
 export async function downloadVaccinePdf(data: VaccinePdfData): Promise<void> {
-  
+  registerPdfFonts()
+
   const win = window.open('about:blank', '_blank')
   if (!win) {
     throw new Error('Не удалось открыть PDF: браузер заблокировал всплывающее окно')

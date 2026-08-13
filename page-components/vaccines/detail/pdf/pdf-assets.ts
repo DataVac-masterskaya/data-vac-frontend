@@ -1,2 +1,4 @@
 export const PDF_LOGO_SRC = '/images/datavac-logo.png'
 export const PDF_ADMIN_IMAGE_SRC = '/images/administration-demo.jpg'
+export const PDF_FONT_REGULAR = '/fonts/InterTight-Regular.ttf'
+export const PDF_FONT_BOLD = '/fonts/InterTight-Bold.ttf'
