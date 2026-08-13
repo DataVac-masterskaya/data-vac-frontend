@@ -1,8 +1,41 @@
 import type { Vaccine } from '@/shared/types/api'
 import { mapVaccineInstructionSections } from '../map-vaccine-instruction-sections'
-import type { VaccinePdfData, VaccinePdfIngredientGroup } from './vaccine-pdf.types'
+import type {
+  VaccinePdfContraindicationGroup,
+  VaccinePdfData,
+  VaccinePdfIngredientGroup,
+} from './vaccine-pdf.types'
 import { PDF_ADMIN_IMAGE_SRC, PDF_LOGO_SRC } from './pdf-assets'
 
+const METHOD_LABELS: Record<string, string> = {
+  intramuscularly: 'Внутримышечно',
+  subcutaneously: 'Подкожно',
+  cutaneously: 'Накожно',
+  intradermally: 'Внутрикожно',
+  drops: 'Перорально: капли',
+  pills: 'Перорально: таблетки',
+  intranasally: 'Интраназально',
+}
+
+const INGREDIENT_ROLE_LABELS: Record<string, string> = {
+  active: 'Действующее вещество',
+  auxiliary: 'Вспомогательное вещество',
+  antibiotic: 'Антибиотик',
+}
+
+const CONTRAINDICATION_TYPE_LABELS: Record<string, string> = {
+  absolute: 'Абсолютные',
+  relative: 'Временные',
+}
+
+/** Sections already shown in the structured part of the PDF — skip duplicates below the divider. */
+const STRUCTURED_INSTRUCTION_TITLES = new Set([
+  'Допустимый возраст',
+  'Способы введения',
+  'Взаимодействие с препаратами',
+  'Одновременное введение с другими вакцинами',
+  'Хранение',
+])
 
 function groupIngredientsByRole(
   ingredients: Vaccine['ingredients'],
@@ -10,18 +43,69 @@ function groupIngredientsByRole(
   const byRole = new Map<string, string[]>()
 
   for (const item of ingredients) {
-    const role = item.role || 'other'
-    const list = byRole.get(role) ?? []
+    const roleKey = item.role || 'other'
+    const list = byRole.get(roleKey) ?? []
     list.push(item.name)
-    byRole.set(role, list)
+    byRole.set(roleKey, list)
   }
 
-  return Array.from(byRole.entries()).map(([role, names]) => ({ role, names }))
+  return Array.from(byRole.entries()).map(([role, names]) => ({
+    role: INGREDIENT_ROLE_LABELS[role] ?? role,
+    names,
+  }))
+}
+
+function groupContraindications(
+  contraindications: Vaccine['contraindications'],
+): VaccinePdfContraindicationGroup[] {
+  const byType = new Map<string, string[]>()
+
+  for (const item of contraindications) {
+    const key = item.type || 'other'
+    const list = byType.get(key) ?? []
+    list.push(item.name)
+    byType.set(key, list)
+  }
+
+  return Array.from(byType.entries()).map(([type, items]) => ({
+    label: CONTRAINDICATION_TYPE_LABELS[type] ?? type,
+    items,
+  }))
+}
+
+function splitStorageLines(value: string | null): string[] {
+  if (!value) return []
+  return value
+    .split(/\n+|(?<=\.)\s+(?=[А-ЯA-Z«"])/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+}
+
+function formatRevisionDate(value: string | null): string | null {
+  if (!value) return null
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return value
+  const dd = String(date.getDate()).padStart(2, '0')
+  const mm = String(date.getMonth() + 1).padStart(2, '0')
+  const yyyy = date.getFullYear()
+  return `${dd}.${mm}.${yyyy}`
+}
+
+function administrationTitle(method: {
+  code: string | null
+  note: string | null
+}): string {
+  if (method.note?.trim()) return method.note.trim()
+  if (method.code && METHOD_LABELS[method.code]) return METHOD_LABELS[method.code]
+  return method.code || 'не указан'
 }
 
 export function mapVaccineToPdfData(vaccine: Vaccine): VaccinePdfData {
-  
   const pregnancyAllowed = vaccine.pregnancy_usage_status
+
+  const instructionSections = mapVaccineInstructionSections(vaccine).filter(
+    (section) => !STRUCTURED_INSTRUCTION_TITLES.has(section.title),
+  )
 
   return {
     name: vaccine.name,
@@ -31,25 +115,23 @@ export function mapVaccineToPdfData(vaccine: Vaccine): VaccinePdfData {
     administrationMethods: vaccine.administration_methods
       .filter((m) => m.code || m.note || m.age_group)
       .map((m) => ({
-        title: m.code || m.note || 'не указан',
+        title: administrationTitle(m),
         ageGroup: m.age_group,
         imageSrc: PDF_ADMIN_IMAGE_SRC,
       })),
-    contraindications: vaccine.contraindications.map((c) => ({
-      name: c.name,
-      type: c.type,
-    })),
+    contraindicationGroups: groupContraindications(vaccine.contraindications),
     ingredients: groupIngredientsByRole(vaccine.ingredients),
     interactionInfo: vaccine.interaction_info,
     pregnancyLabel: pregnancyAllowed ? 'Разрешена' : 'Не разрешена',
     pregnancyCaution: !pregnancyAllowed,
     compatibilityInfo: vaccine.compatibility_info,
-    storageConditions: vaccine.storage_conditions,    
-    instructionSections: mapVaccineInstructionSections(vaccine),
+    storageConditions: vaccine.storage_conditions,
+    storageLines: splitStorageLines(vaccine.storage_conditions),
+    instructionSections,
     specialistUrl: vaccine.instruction_url,
     nonspecUrl: vaccine.nonspec_url,
     orgComment: vaccine.comment?.text ?? null,
-    revisionDate: vaccine.revision_date,
+    revisionDate: formatRevisionDate(vaccine.revision_date),
     logoSrc: PDF_LOGO_SRC,
   }
 }
