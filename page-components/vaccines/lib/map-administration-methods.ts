@@ -1,14 +1,15 @@
 import type { AdministrationMethod } from '@datavac/ui-kit'
+import type { AdministrationRoute } from '@/page-components/vaccines/model/types'
 
-const METHOD_LABEL_TO_CODES: Record<string, AdministrationMethod[]> = {
-  Накожно: ['cutaneously'],
-  Внутримышечно: ['intramuscularly'],
-  Подкожно: ['subcutaneously'],
-  Внутрикожно: ['intradermally'],
-  'Перорально: капли': ['drops'],
-  'Перорально: таблетки': ['pills'],
-  Интраназально: ['intranasally'],
-}
+const KNOWN_METHODS = new Set<string>([
+  'cutaneously',
+  'intramuscularly',
+  'subcutaneously',
+  'intradermally',
+  'drops',
+  'pills',
+  'intranasally',
+])
 
 export const ADMINISTRATION_CODE_TO_LABEL: Record<string, string> = {
   cutaneously: 'Накожно',
@@ -20,14 +21,14 @@ export const ADMINISTRATION_CODE_TO_LABEL: Record<string, string> = {
   intranasally: 'Интраназально',
 }
 
-export function mapAdministrationMethods(label: string): AdministrationMethod[] {
-  return METHOD_LABEL_TO_CODES[label] ?? []
-}
-
 export function mapAdministrationMethodsFromApi(
-  methods: { code: string | null; age_group: string | null; note: string | null }[]
-): AdministrationMethod[] {
+  methods: { code: string | null; age_group: string | null; note: string | null; list_icon_url: string | null; detail_image_url: string | null }[]
+): AdministrationRoute[] {
   return methods
-    .map((m) => m.code)
-    .filter((code): code is AdministrationMethod => code !== null)
+    .filter((m) => m.code !== null || m.list_icon_url !== null)
+    .map((m) => ({
+      code: m.code,
+      knownMethod: m.code && KNOWN_METHODS.has(m.code) ? (m.code as AdministrationMethod) : null,
+      listIconUrl: m.list_icon_url,
+    }))
 }

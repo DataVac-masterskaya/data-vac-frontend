@@ -3,6 +3,11 @@ import { mapVaccineInfections } from '@/page-components/vaccines/lib/map-vaccine
 import type { AdministrationMethod } from '@datavac/ui-kit'
 import type { VaccineSummarySidebarProps } from '../ui/vaccine-summary-sidebar/types'
 
+const KNOWN_METHODS = new Set<string>([
+  'cutaneously', 'intramuscularly', 'subcutaneously',
+  'intradermally', 'drops', 'pills', 'intranasally',
+])
+
 export function mapVaccineToSummary(vaccine: Vaccine): VaccineSummarySidebarProps {
   return {
     infections: mapVaccineInfections(vaccine.infections),
@@ -10,7 +15,7 @@ export function mapVaccineToSummary(vaccine: Vaccine): VaccineSummarySidebarProp
     showPregnancyWarning: !vaccine.pregnancy_usage_status,
     ageLabel: vaccine.age_allowed || 'не указан',
     administrationMethods: vaccine.administration_methods
-      .filter((m): m is typeof m & { code: string } => m.code !== null)
+      .filter((m) => m.code !== null && KNOWN_METHODS.has(m.code))
       .map((m) => ({ method: m.code as AdministrationMethod, note: m.note, ageGroup: m.age_group })),
   }
 }
