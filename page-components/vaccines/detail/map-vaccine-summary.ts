@@ -8,7 +8,9 @@ const KNOWN_METHODS = new Set<string>([
   'intradermally', 'drops', 'pills', 'intranasally',
 ])
 
-export function mapVaccineToSummary(vaccine: Vaccine): VaccineSummarySidebarProps {
+export function mapVaccineToSummary(
+  vaccine: Vaccine,
+): Omit<VaccineSummarySidebarProps, 'pdfData'> {
   return {
     infections: mapVaccineInfections(vaccine.infections),
     pregnancyLabel: vaccine.pregnancy_usage_status ? 'Разрешена' : 'Не разрешена',

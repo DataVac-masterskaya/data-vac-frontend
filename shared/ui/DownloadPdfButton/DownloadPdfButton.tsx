@@ -7,7 +7,7 @@ type DownloadPdfButtonProps = {
   onClick?: () => void
 }
 
-export function DownloadPdfButton({ disabled = true, onClick }: DownloadPdfButtonProps) {
+export function DownloadPdfButton({ disabled = false, onClick }: DownloadPdfButtonProps) {
   return (
     <PillActionButton
       type="button"

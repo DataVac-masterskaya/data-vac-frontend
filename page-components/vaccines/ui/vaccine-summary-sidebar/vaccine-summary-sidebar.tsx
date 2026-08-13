@@ -22,6 +22,7 @@ export function VaccineSummarySidebar({
   showPregnancyWarning,
   ageLabel,
   administrationMethods,
+  pdfData,
   className,
 }: VaccineSummarySidebarProps) {
   const { isDesktop, isTablet, isMobile } = useSummarySidebarMediaContext()
@@ -59,7 +60,7 @@ export function VaccineSummarySidebar({
 
           <SummaryDivider marginClassName="mt-[31px] mb-4 summary-wide:mt-[46px]" />
 
-          <SummaryActions />
+          <SummaryActions pdfData={pdfData} />
         </>
       ) : isTablet ? (
         <>
