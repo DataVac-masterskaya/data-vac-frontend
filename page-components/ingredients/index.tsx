@@ -36,7 +36,7 @@ export default async function IngredientsPage({
   return (
     <div className={`${INGREDIENT_TABLE_WIDTH_CLASS} flex flex-col`}>
       <ResultsHeader
-        title="Компоненты"
+        title="Ингредиенты"
         count={count}
         filters={<IngredientsFilter activeType={type} sort={sortValue} q={q} />}
       />

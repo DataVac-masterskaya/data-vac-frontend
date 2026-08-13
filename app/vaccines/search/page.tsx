@@ -1,4 +1,5 @@
 export const dynamic = 'force-dynamic'
+export const metadata = { title: 'Поиск вакцин' }
 
 import { SearchResultsPage } from '@/page-components/search'
 

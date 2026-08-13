@@ -6,7 +6,10 @@ import "./globals.css";
 import "@datavac/ui-kit/style.css";
 
 export const metadata: Metadata = {
-  title: "DataVac — справочник вакцин",
+  title: {
+    template: "%s | DataVac",
+    default: "DataVac — справочник вакцин",
+  },
   description:
     "Справочная информация о вакцинах, инфекциях, противопоказаниях и ингредиентах",
 };
