@@ -20,10 +20,10 @@ export default async function InfectionsPage({
 }: {
   searchParams: Promise<{ category?: string; sort?: string; page?: string }>
 }) {
-  const { category, sort = 'name_asc', page: pageParam } = await searchParams;
+  const { category, sort = 'popularity', page: pageParam } = await searchParams;
   const page = pageParam ? Math.max(1, Number(pageParam)) : 1
   const { results, count } = await fetchInfections({
-    sort: sort as 'name_asc' | 'name_desc',
+    sort: sort as 'popularity' | 'name_asc' | 'name_desc',
     category: category || undefined,
     limit: PAGE_SIZE,
     offset: (page - 1) * PAGE_SIZE,
@@ -42,7 +42,7 @@ export default async function InfectionsPage({
         }
       />
       <div className="py-6 md:px-3">
-        <SortControlWrapper />
+        <SortControlWrapper sort={sort} />
       </div>
       <InfectionsList
         infections={results.map((infection) => ({

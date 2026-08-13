@@ -10,7 +10,7 @@ interface IngredientsParams {
 }
 
 const SORT_TO_ORDERING: Record<NonNullable<IngredientsParams['sort']>, string> = {
-  popularity: 'popularity',
+  popularity: '-popularity',
   name: 'name',
   name_desc: '-name',
   type: 'type',

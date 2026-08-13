@@ -1,7 +1,7 @@
 import type { Infection, PaginatedResponse } from '@/shared/types/api'
 
 interface InfectionsParams {
-  sort?: 'name_asc' | 'name_desc'
+  sort?: 'popularity' | 'name_asc' | 'name_desc'
   limit?: number
   offset?: number
   category?: string
@@ -20,6 +20,7 @@ const FRONTEND_TO_API_CATEGORY: Record<string, string> = Object.fromEntries(
 )
 
 const SORT_MAP: Record<NonNullable<InfectionsParams['sort']>, string> = {
+  popularity: '-popularity',
   name_asc: 'name',
   name_desc: '-name',
 }

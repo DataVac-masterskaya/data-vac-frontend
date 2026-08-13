@@ -42,13 +42,19 @@ export default async function IngredientsPage({
       />
 
       <div className="mt-4">
-        <IngredientsTable
-          ingredients={results}
-          sortField={sortField}
-          sortDirection={sortDirection}
-          type={type}
-          q={q}
-        />
+        {results.length === 0 ? (
+          <div className="mt-4 bg-card rounded-2xl p-10 text-center text-fg-secondary">
+            Ничего не найдено
+          </div>
+        ) : (
+          <IngredientsTable
+            ingredients={results}
+            sortField={sortField}
+            sortDirection={sortDirection}
+            type={type}
+            q={q}
+          />
+        )}
       </div>
       <PaginationControl page={page} totalPages={totalPages} />
     </div>

@@ -8,15 +8,15 @@ export type IngredientSortValue =
   | 'popularity'
 
 export function normalizeIngredientSort(sort?: string): IngredientSortValue {
+  if (sort === 'name') return 'name'
   if (sort === 'name_desc') return 'name_desc'
   if (sort === 'type') return 'type'
   if (sort === 'type_desc') return 'type_desc'
-  if (sort === 'popularity') return 'popularity'
-  return 'name'
+  return 'popularity'
 }
 
 export function ingredientSortToTable(sort: IngredientSortValue): {
-  sortField: string
+  sortField: string | undefined
   sortDirection: SortDirection
 } {
   if (sort === 'type' || sort === 'type_desc') {
@@ -26,7 +26,7 @@ export function ingredientSortToTable(sort: IngredientSortValue): {
     }
   }
   if (sort === 'popularity') {
-    return { sortField: 'name', sortDirection: 'asc' }
+    return { sortField: undefined, sortDirection: 'asc' }
   }
   return {
     sortField: 'name',
@@ -60,7 +60,7 @@ export function buildIngredientsPageHref({
   if (type) {
     params.set('type', type)
   }
-  if (sort && sort !== 'name') {
+  if (sort && sort !== 'popularity') {
     params.set('sort', sort)
   }
   if (q?.trim()) {

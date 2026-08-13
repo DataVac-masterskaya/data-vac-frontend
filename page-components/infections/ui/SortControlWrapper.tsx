@@ -12,12 +12,12 @@ const MOBILE_OPTIONS: { label: string; value: SortValue }[] = [
   { label: 'По названию Я – А', value: 'name_desc' }
 ]
 
-export function SortControlWrapper() {
+export function SortControlWrapper({ sort }: { sort: string }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const currentSort = searchParams.get('sort') || 'name_asc';
+  const currentSort = sort;
 
   const isActive = (field: string) => {
     return currentSort.startsWith(field);
@@ -58,7 +58,7 @@ export function SortControlWrapper() {
           active={isActive('name')}
           direction={direction}
           onChange={handleSortChange}
-          className={"text-sm text-fg-muted"}
+          className={"text-sm"}
         />
       </div>
       <div className="md:hidden">

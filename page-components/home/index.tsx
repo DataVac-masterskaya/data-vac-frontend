@@ -10,7 +10,7 @@ export default async function HomePage() {
   const [vaccinesRes, infectionsRes, ingredientsRes, contraindicationsRes] =
     await Promise.allSettled([
       fetchVaccines({ sort: 'popularity', limit: 10 }),
-      fetchInfections({ sort: 'name_asc', limit: 10 }),
+      fetchInfections({ sort: 'popularity', limit: 10 }),
       fetchIngredients({ sort: 'popularity', limit: 10 }),
       fetchContraindications({ sort: 'popularity' }),
     ]);
