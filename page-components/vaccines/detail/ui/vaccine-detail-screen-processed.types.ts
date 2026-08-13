@@ -16,6 +16,7 @@ export type ProcessedAdministrationRow = {
   method?: string
   note?: string | null
   listIconUrl?: string | null
+  detailImageUrl?: string | null
 }
 
 export type ProcessedStatusIcon = 'attention' | 'incompatible' | 'neutral'

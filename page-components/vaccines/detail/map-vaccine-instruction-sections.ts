@@ -1,4 +1,5 @@
 import type { Vaccine } from '@/shared/types/api'
+import { ADMINISTRATION_CODE_TO_LABEL } from '@/page-components/vaccines/lib/map-administration-methods'
 import type { VaccineInstructionSection } from './ui/vaccine-detail-screen-instruction.types'
 
 export function mapVaccineInstructionSections(vaccine: Vaccine): VaccineInstructionSection[] {
@@ -11,12 +12,23 @@ export function mapVaccineInstructionSections(vaccine: Vaccine): VaccineInstruct
     })
   }
 
-  const firstMethod = vaccine.administration_methods?.find((m) => m.code || m.note)
-  if (firstMethod) {
-    const methodText = firstMethod.code || firstMethod.note!
+  const seenCodes = new Set<string>()
+  const methodLabels = (vaccine.administration_methods ?? [])
+    .filter((m) => m.code || m.note)
+    .filter((m) => {
+      const key = m.code ?? m.note ?? ''
+      if (seenCodes.has(key)) return false
+      seenCodes.add(key)
+      return true
+    })
+    .map((m) => (m.code ? ADMINISTRATION_CODE_TO_LABEL[m.code] ?? m.code : m.note!))
+
+  if (methodLabels.length > 0) {
     sections.push({
       title: 'Способы введения',
-      content: `Вакцину ${vaccine.name} следует вводить ${methodText}.`,
+      content: methodLabels.length === 1
+        ? `Вакцину ${vaccine.name} следует вводить ${methodLabels[0]}.`
+        : methodLabels,
     })
   }
 

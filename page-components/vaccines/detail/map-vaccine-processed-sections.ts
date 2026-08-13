@@ -2,6 +2,7 @@ import type { Vaccine } from '@/shared/types/api'
 import { mapVaccineInfections } from '@/page-components/vaccines/lib/map-vaccine-infections'
 import { ADMINISTRATION_CODE_TO_LABEL } from '@/page-components/vaccines/lib/map-administration-methods'
 import { buildVaccinesPageHref } from '@/page-components/vaccines/model/sort'
+import { mediaUrl } from '@/shared/api/media-url'
 import type { ProcessedLinkItem, ProcessedSection } from './ui/vaccine-detail-screen-processed.types'
 
 function mapInfectionItems(vaccine: Vaccine): ProcessedLinkItem[] {
@@ -62,7 +63,8 @@ export function mapVaccineProcessedSections(vaccine: Vaccine): ProcessedSection[
       description: (m.code ? ADMINISTRATION_CODE_TO_LABEL[m.code] ?? m.code : null) || m.note || 'не указан',
       method: m.code ?? undefined,
       note: m.note,
-      listIconUrl: m.list_icon_url ?? null,
+      listIconUrl: mediaUrl(m.list_icon_url),
+      detailImageUrl: mediaUrl(m.detail_image_url),
     }))
 
   if (administrationRows.length > 0) {

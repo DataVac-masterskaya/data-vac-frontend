@@ -1,5 +1,6 @@
 import { CircleXmarkIcon, InfoCircleIcon, MinusIcon } from '@datavac/ui-kit'
 import { VaccineInfoBlock } from '@/shared/ui/VaccineInfoBlock'
+import { AdministrationImagePanel } from '@/shared/ui/AdministrationImagePanel/AdministrationImagePanel'
 import { ProcessedSectionTitle } from './processed-section-title'
 import { ProcessedSectionNote } from './processed-section-note'
 import { ProcessedLinkRow } from './processed-link-row'
@@ -79,10 +80,18 @@ function ProcessedSectionRenderer({ section }: { section: ProcessedSection }) {
               <div key={`${row.ageRange}-${index}`} className="flex items-center gap-3">
                 <span className="w-28 shrink-0 text-sm text-fg-muted">{row.ageRange}</span>
                 {row.listIconUrl && (
-                  <img
-                    src={row.listIconUrl}
-                    alt=""
-                    className="h-16 w-16 shrink-0 rounded-lg border border-accent object-cover"
+                  <AdministrationImagePanel
+                    trigger={
+                      <img
+                        src={row.listIconUrl}
+                        alt={row.description}
+                        className="h-16 w-16 shrink-0 rounded-lg border border-accent object-cover cursor-pointer"
+                      />
+                    }
+                    title={row.description}
+                    imageSrc={row.detailImageUrl ?? row.listIconUrl}
+                    imageAlt={row.description}
+                    caption={row.note ?? undefined}
                   />
                 )}
                 {row.method && <span className="max-w-48 text-sm text-fg">{row.description}</span>}

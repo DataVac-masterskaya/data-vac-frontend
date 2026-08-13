@@ -1,5 +1,6 @@
 import type { AdministrationMethod } from '@datavac/ui-kit'
 import type { AdministrationRoute } from '@/page-components/vaccines/model/types'
+import { mediaUrl } from '@/shared/api/media-url'
 
 const KNOWN_METHODS = new Set<string>([
   'cutaneously',
@@ -34,7 +35,7 @@ export function mapAdministrationMethodsFromApi(
     result.push({
       code: m.code,
       knownMethod: KNOWN_METHODS.has(m.code) ? (m.code as AdministrationMethod) : null,
-      listIconUrl: m.list_icon_url,
+      listIconUrl: mediaUrl(m.list_icon_url),
     })
   }
 
