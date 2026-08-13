@@ -7,6 +7,7 @@ export const pdfStyles = StyleSheet.create({
     paddingHorizontal: 40,
     fontSize: 10,
     color: '#111',
+    fontFamily: 'Inter Tight',
   },
   header: {
     flexDirection: 'row',
