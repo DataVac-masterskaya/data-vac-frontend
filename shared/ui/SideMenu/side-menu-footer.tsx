@@ -15,19 +15,17 @@ type FooterLinkItem = {
 }
 
 const FOOTER_LINKS: FooterLinkItem[] = [
-  { href: '/#about', label: 'О нас' },
-  { href: '/support', label: 'Обратная связь' },
-  { href: '/#about', label: 'АНО «Коллективный иммунитет»' },
-  { href: '/#privacy', label: 'Все права защищены' }
+  { href: 'https://vaccina.info/team#submenu:menu-about', label: 'О нас' },
+  { href: 'https://vaccina.info/questions', label: 'Обратная связь' },
 ]
 
 type FooterLinkProps = FooterLinkItem
 
 function FooterLink({ href, label }: FooterLinkProps) {
   return (
-    <Link href={href} className={FOOTER_LINK_CLASS_NAME}>
+    <a href={href} target="_blank" rel="noopener noreferrer" className={FOOTER_LINK_CLASS_NAME}>
       {label}
-    </Link>
+    </a>
   )
 }
 
@@ -61,8 +59,10 @@ export function SideMenuFooter({
         {showFooter && !isTablet ? (
           <div className="flex min-h-0 flex-1 flex-col gap-1 pt-2 pl-1 text-xs text-fg-muted">
             {FOOTER_LINKS.map((item) => (
-              <FooterLink key={`${item.href}-${item.label}`} href={item.href} label={item.label} />
+              <FooterLink key={item.href} href={item.href} label={item.label} />
             ))}
+            <span>АНО «Коллективный иммунитет»</span>
+            <span>Все права защищены</span>
             <PrivacyPolicyPanel trigger={<button className={cn(FOOTER_LINK_CLASS_NAME, 'w-fit cursor-pointer')} type='button' children='Политика конфиденциальности'/>}/>
           </div>
         ) : null}

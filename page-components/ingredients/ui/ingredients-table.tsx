@@ -14,7 +14,7 @@ export const INGREDIENT_TABLE_WIDTH_CLASS =
 
 type Props = {
   ingredients: Ingredient[];
-  sortField: string;
+  sortField: string | undefined;
   sortDirection: SortDirection;
   type?: string;
   q?: string;

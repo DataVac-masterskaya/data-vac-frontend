@@ -11,11 +11,11 @@ export const MOCK_VACCINE_DATA_ROWS: VaccineData[] = [
       { id: 4, name: 'Полиомиелит' },
     ],
     routes: [
-      'intramuscularly',
-      'subcutaneously',
-      'intradermally',
-      'cutaneously',
-      'intranasally',
+      { code: 'intramuscularly', knownMethod: 'intramuscularly', listIconUrl: null },
+      { code: 'subcutaneously', knownMethod: 'subcutaneously', listIconUrl: null },
+      { code: 'intradermally', knownMethod: 'intradermally', listIconUrl: null },
+      { code: 'cutaneously', knownMethod: 'cutaneously', listIconUrl: null },
+      { code: 'intranasally', knownMethod: 'intranasally', listIconUrl: null },
     ],
     contraindications: [
       'Острое заболевание с температурой',
@@ -36,7 +36,10 @@ export const MOCK_VACCINE_DATA_ROWS: VaccineData[] = [
     id: '6',
     name: 'Энджерикс Б',
     infections: [{ id: 6, name: 'Гепатит B' }],
-    routes: ['intramuscularly', 'subcutaneously'],
+    routes: [
+      { code: 'intramuscularly', knownMethod: 'intramuscularly', listIconUrl: null },
+      { code: 'subcutaneously', knownMethod: 'subcutaneously', listIconUrl: null },
+    ],
     contraindications: [],
     ageRange: 'от 0 мес. до ∞',
     permissibility: 'allowed',
