@@ -7,7 +7,7 @@ interface ContraindicationsParams {
 }
 
 const SORT_MAP: Record<NonNullable<ContraindicationsParams['sort']>, string> = {
-  popularity: '-popularity',
+  popularity: 'popularity',
   name: 'name',
 }
 
