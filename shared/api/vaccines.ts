@@ -4,6 +4,7 @@ import { apiFetch, ApiError } from './fetch'
 interface VaccinesParams {
   sort?: 'popularity' | 'name' | 'name_desc' | 'official_name' | 'official_name_desc'
   q?: string
+  lang?: string
   limit?: number
   offset?: number
   letter?: string
@@ -12,8 +13,8 @@ interface VaccinesParams {
   contraindication_id?: number
 }
 
-const SORT_TO_ORDERING: Record<NonNullable<VaccinesParams['sort']>, string | undefined> = {
-  popularity: undefined, // default backend order, no param needed
+const SORT_TO_ORDERING: Record<NonNullable<VaccinesParams['sort']>, string> = {
+  popularity: '-popularity',
   name: 'current_version__name',
   name_desc: '-current_version__name',
   official_name: 'current_version__official_name',
@@ -24,8 +25,9 @@ export async function fetchVaccines(params: VaccinesParams = {}): Promise<Pagina
   const searchParams = new URLSearchParams()
 
   if (params.q?.trim()) searchParams.set('search', params.q.trim())
-  const ordering = params.sort ? SORT_TO_ORDERING[params.sort] : undefined
-  if (ordering) searchParams.set('ordering', ordering)
+  if (params.lang) searchParams.set('lang', params.lang)
+  const ordering = SORT_TO_ORDERING[params.sort ?? 'popularity']
+  searchParams.set('ordering', ordering)
   if (params.limit) searchParams.set('limit', String(params.limit))
   if (params.offset) searchParams.set('offset', String(params.offset))
   if (params.letter) searchParams.set('first_letter', params.letter)

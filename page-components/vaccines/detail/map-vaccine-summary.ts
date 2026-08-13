@@ -14,8 +14,16 @@ export function mapVaccineToSummary(vaccine: Vaccine): VaccineSummarySidebarProp
     pregnancyLabel: vaccine.pregnancy_usage_status ? 'Разрешена' : 'Не разрешена',
     showPregnancyWarning: !vaccine.pregnancy_usage_status,
     ageLabel: vaccine.age_allowed || 'не указан',
-    administrationMethods: vaccine.administration_methods
-      .filter((m) => m.code !== null && KNOWN_METHODS.has(m.code))
-      .map((m) => ({ method: m.code as AdministrationMethod, note: m.note, ageGroup: m.age_group })),
+    administrationMethods: (() => {
+      const seen = new Set<string>()
+      return vaccine.administration_methods
+        .filter((m) => m.code !== null && KNOWN_METHODS.has(m.code))
+        .filter((m) => {
+          if (seen.has(m.code!)) return false
+          seen.add(m.code!)
+          return true
+        })
+        .map((m) => ({ method: m.code as AdministrationMethod, note: m.note, ageGroup: m.age_group }))
+    })(),
   }
 }

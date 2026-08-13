@@ -24,11 +24,20 @@ export const ADMINISTRATION_CODE_TO_LABEL: Record<string, string> = {
 export function mapAdministrationMethodsFromApi(
   methods: { code: string | null; age_group: string | null; note: string | null; list_icon_url: string | null; detail_image_url: string | null }[]
 ): AdministrationRoute[] {
-  return methods
-    .filter((m) => m.code !== null || m.list_icon_url !== null)
-    .map((m) => ({
+  const seen = new Set<string>()
+  const result: AdministrationRoute[] = []
+
+  for (const m of methods) {
+    if (m.code === null && m.list_icon_url === null) continue
+    const dedupeKey = m.list_icon_url ?? m.code ?? ''
+    if (seen.has(dedupeKey)) continue
+    seen.add(dedupeKey)
+    result.push({
       code: m.code,
       knownMethod: m.code && KNOWN_METHODS.has(m.code) ? (m.code as AdministrationMethod) : null,
       listIconUrl: m.list_icon_url,
-    }))
+    })
+  }
+
+  return result
 }

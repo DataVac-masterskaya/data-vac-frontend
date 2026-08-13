@@ -12,7 +12,7 @@ export function mapVaccineToTableRow(vaccine: VaccineListItem): VaccineData {
     ageRange: vaccine.age_allowed ?? 'Не ограничено',
     permissibility: 'allowed',
     pregnancyPermissibility: vaccine.pregnancy_usage_status ? 'allowed' : 'forbidden',
-    contraindications: [],
+    contraindications: vaccine.contraindications.map((c) => c.name),
     isIncompatible: false,
   }
 }

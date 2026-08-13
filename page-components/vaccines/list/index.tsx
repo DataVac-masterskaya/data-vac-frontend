@@ -19,11 +19,12 @@ export default async function VaccineCatalogPage({
     page?: string
   }>
 }) {
-  const { letter, sort, page: pageParam } = await searchParams
+  const { letter, lang, sort, page: pageParam } = await searchParams
   const page = pageParam ? Math.max(1, Number(pageParam)) : 1
   const sortValue = normalizeVaccineSort(sort)
   const { results, count } = await fetchVaccines({
     letter: letter || undefined,
+    lang: lang || undefined,
     sort: sortValue,
     limit: PAGE_SIZE,
     offset: (page - 1) * PAGE_SIZE,

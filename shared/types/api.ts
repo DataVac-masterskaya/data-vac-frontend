@@ -13,6 +13,7 @@ export interface VaccineListItem {
   age_allowed: string | null
   pregnancy_usage_status: boolean
   administration_methods: { code: string | null; age_group: string | null; note: string | null; list_icon_url: string | null; detail_image_url: string | null }[]
+  contraindications: { id: number; name: string; type: string }[]
 }
 
 export interface Vaccine {

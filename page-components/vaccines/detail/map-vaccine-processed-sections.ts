@@ -21,6 +21,7 @@ function pregnancyStatus(vaccine: Vaccine): { icon: 'neutral' | 'attention'; tex
 const CONTRAINDICATION_TYPE_LABELS: Record<string, string> = {
   absolute: 'Абсолютные',
   relative: 'Временные',
+  temporary: 'Временные',
 }
 
 const INGREDIENT_ROLE_LABELS: Record<string, string> = {
@@ -47,8 +48,15 @@ export function mapVaccineProcessedSections(vaccine: Vaccine): ProcessedSection[
     })
   }
 
+  const seenAdminRows = new Set<string>()
   const administrationRows = vaccine.administration_methods
     .filter((m) => m.code || m.note || m.age_group)
+    .filter((m) => {
+      const key = `${m.code ?? ''}|${m.age_group ?? ''}|${m.note ?? ''}`
+      if (seenAdminRows.has(key)) return false
+      seenAdminRows.add(key)
+      return true
+    })
     .map((m) => ({
       ageRange: m.age_group || vaccine.age_allowed || 'не указан',
       description: (m.code ? ADMINISTRATION_CODE_TO_LABEL[m.code] ?? m.code : null) || m.note || 'не указан',
