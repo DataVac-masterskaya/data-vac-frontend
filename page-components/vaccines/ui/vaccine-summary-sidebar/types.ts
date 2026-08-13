@@ -12,6 +12,7 @@ export type AdministrationMethodEntry = {
   method: AdministrationMethod
   note: string | null
   ageGroup: string | null
+  detailImageUrl: string | null
 }
 
 export type VaccineSummarySidebarProps = {
