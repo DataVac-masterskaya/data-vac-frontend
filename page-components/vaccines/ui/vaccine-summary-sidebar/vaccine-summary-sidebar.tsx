@@ -63,21 +63,24 @@ export function VaccineSummarySidebar({
           <SummaryActions pdfData={pdfData} />
         </>
       ) : isTablet ? (
-        <>
-          <div className="flex min-w-0 flex-1 flex-col gap-5">
-            <AgeAndPregnancySection
-              ageLabel={content.ageLabel}
-              pregnancyLabel={content.pregnancyLabel}
-              showPregnancyWarning={content.showPregnancyWarning}
-            />
+        <div className="flex w-full min-w-0 flex-1 flex-col gap-4">
+          <div className="flex min-w-0 flex-row items-stretch gap-5">
+            <div className="flex min-w-0 flex-1 flex-col gap-5">
+              <AgeAndPregnancySection
+                ageLabel={content.ageLabel}
+                pregnancyLabel={content.pregnancyLabel}
+                showPregnancyWarning={content.showPregnancyWarning}
+              />
+            </div>
+            <div className="min-w-0 flex-[1.15]">
+              <MethodsSection
+                administrationMethods={content.administrationMethods}
+                label="Способ введения"
+              />
+            </div>
           </div>
-          <div className="min-w-0 flex-[1.15]">
-            <MethodsSection
-              administrationMethods={content.administrationMethods}
-              label="Способ введения"
-            />
-          </div>
-        </>
+          <SummaryActions pdfData={pdfData} />
+        </div>
       ) : (
         <>
           <AgeSection ageLabel={content.ageLabel} spacing="mobile" />
@@ -92,6 +95,7 @@ export function VaccineSummarySidebar({
             label="Способ введения"
             spacing="mobile"
           />
+          <SummaryActions pdfData={pdfData} />
         </>
       )}
     </>
@@ -111,7 +115,7 @@ export function VaccineSummarySidebar({
     <aside
       className={cn(
         'rounded-[16px] bg-card w-full p-3',
-        isTablet && 'flex flex-row items-stretch gap-5',
+        isTablet && 'flex flex-col gap-5',
         isMobile && 'flex flex-col gap-5',
         className,
       )}

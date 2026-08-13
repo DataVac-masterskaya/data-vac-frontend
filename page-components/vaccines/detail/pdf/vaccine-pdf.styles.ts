@@ -51,4 +51,7 @@ export const pdfStyles = StyleSheet.create({
     fontSize: 9,
     color: '#666',
   },
+
+  logo: { width: 116, height: 37, marginBottom: 6 },
+  qrCaption: { fontSize: 8, color: '#666', marginBottom: 6, textAlign: 'right' },
 })

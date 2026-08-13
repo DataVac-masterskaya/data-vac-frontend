@@ -37,4 +37,5 @@ export type VaccinePdfQr = {
     nonspecUrl: string | null
     orgComment: string | null // АНО: показывать только если не null
     revisionDate: string | null
+    logoSrc: string
   }
