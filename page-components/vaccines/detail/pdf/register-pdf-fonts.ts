@@ -1,5 +1,10 @@
 import { Font } from '@react-pdf/renderer'
-import { PDF_FONT_BOLD, PDF_FONT_REGULAR } from './pdf-assets'
+import {
+  PDF_FONT_BOLD,
+  PDF_FONT_ITALIC,
+  PDF_FONT_REGULAR,
+  PDF_FONT_SEMIBOLD,
+} from './pdf-assets'
 
 let registered = false
 
@@ -15,6 +20,15 @@ export function registerPdfFonts() {
       {
         src: `${origin}${PDF_FONT_REGULAR}`,
         fontWeight: 400,
+      },
+      {
+        src: `${origin}${PDF_FONT_ITALIC}`,
+        fontWeight: 400,
+        fontStyle: 'italic',
+      },
+      {
+        src: `${origin}${PDF_FONT_SEMIBOLD}`,
+        fontWeight: 600,
       },
       {
         src: `${origin}${PDF_FONT_BOLD}`,
