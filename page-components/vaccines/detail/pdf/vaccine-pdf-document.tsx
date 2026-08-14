@@ -42,7 +42,7 @@ function StatusBadge({
       <View style={iconStyle}>
         <Text style={s.statusIconText}>{symbol}</Text>
       </View>
-      <View style={{ flex: 1 }}>{children}</View>
+      <View style={s.statusValueWrap}>{children}</View>
     </View>
   )
 }
@@ -98,121 +98,157 @@ export function VaccinePdfDocument({ data, qrImages }: Props) {
           ) : null}
         </View>
 
-        <Text style={s.h1}>{data.name}</Text>
+        <View style={s.nameBlock} wrap={false}>
+          <Text style={s.h1}>{data.name}</Text>
 
-        {data.officialName ? (
-          <Section title="Полное название вакцины">
-            <Text style={s.textBold}>{data.officialName}</Text>
-          </Section>
-        ) : null}
+          {data.officialName ? (
+            <View>
+              <View style={s.officialNameLabelWrap}>
+                <Text style={s.sectionHeading}>Полное название вакцины</Text>
+              </View>
+              <Text style={s.officialName}>{data.officialName}</Text>
+            </View>
+          ) : null}
+        </View>
 
         {infections.length > 0 || data.ageAllowed ? (
-          <View style={s.row}>
-            <View style={s.col}>
+          <View style={s.twoColRow}>
+            <View style={s.twoColLeft}>
               {infections.length > 0 ? (
-                <Section title="Инфекции">
-                  <Text style={s.textBold}>{infections.join(', ')}</Text>
-                </Section>
+                <View>
+                  <Text style={s.sectionHeading}>Инфекции</Text>
+                  <Text style={s.infectionsValue}>{infections.join(', ')}</Text>
+                </View>
               ) : null}
             </View>
-            <View style={s.colLast}>
+            <View style={s.twoColRight}>
               {data.ageAllowed ? (
-                <Section title="Допустимый возраст">
-                  <Text style={s.textBold}>{data.ageAllowed}</Text>
-                </Section>
+                <View>
+                  <Text style={s.sectionHeading}>Допустимый возраст</Text>
+                  <Text style={s.ageValue}>{data.ageAllowed}</Text>
+                </View>
               ) : null}
             </View>
           </View>
         ) : null}
 
         {administrationMethods.length > 0 ? (
-          <Section title="Способ введения" wrap={false}>
+          <View style={s.methodsSection}>
+            <Text style={s.sectionHeading}>Способ введения</Text>
             <View style={s.methodsRow}>
               {administrationMethods.map((m, i) => (
-                <View key={`${m.title}-${i}`} style={s.methodCard} wrap={false}>
+                <View
+                  key={`${m.title}-${i}`}
+                  style={i % 3 === 2 ? s.methodCardLast : s.methodCard}
+                  wrap={false}
+                >
                   <Text style={s.methodTitle}>{m.title}</Text>
                   <Image src={m.imageSrc} style={s.methodImage} />
                   {m.ageGroup ? <Text style={s.methodAge}>{m.ageGroup}</Text> : null}
                 </View>
               ))}
             </View>
-          </Section>
+          </View>
         ) : null}
 
         {contraindicationGroups.length > 0 ? (
-          <Section title="Противопоказания">
+          <View style={s.contraSection}>
+            <Text style={s.sectionHeading}>Противопоказания</Text>
             {contraindicationGroups.map((group) => (
-              <View key={group.label} style={{ marginBottom: 8 }}>
-                <Text style={s.muted}>{group.label}</Text>
+              <View key={group.label}>
+                <Text style={s.contraGroupLabel}>{group.label}</Text>
                 {(group.items ?? []).map((name) => (
-                  <View key={name} style={s.contraItem}>
-                    <Text style={s.contraName}>{name}</Text>
-                  </View>
+                  <Text key={name} style={s.contraName}>
+                    {name}
+                  </Text>
                 ))}
               </View>
             ))}
-          </Section>
+          </View>
         ) : null}
 
         {hasTwoCol ? (
-          <View style={s.row}>
-            <View style={s.col}>
-              {ingredients.length > 0 ? (
-                <Section title="Состав">
-                  {ingredients.map((g) => (
-                    <View key={g.role}>
-                      <Text style={s.roleLabel}>{g.role}</Text>
-                      {(g.names ?? []).map((n) => (
-                        <Text key={n} style={s.textBold}>
-                          {n}
-                        </Text>
-                      ))}
-                    </View>
-                  ))}
-                </Section>
-              ) : null}
-              {storageLines.length > 0 ? (
-                <Section title="Хранение">
-                  {storageLines.map((line) => (
-                    <Text key={line} style={s.storageLine}>
-                      — {line}
-                    </Text>
-                  ))}
-                </Section>
-              ) : null}
-            </View>
-            <View style={s.colLast}>
-              {data.interactionInfo ? (
-                <Section title="Взаимодействие с препаратами">
-                  <StatusBadge tone="danger" symbol="x">
-                    <Text style={s.textBold}>{data.interactionInfo}</Text>
-                  </StatusBadge>
-                </Section>
-              ) : null}
-              {data.pregnancyLabel ? (
-                <Section title="Применение при беременности и ГВ">
-                  <StatusBadge
-                    tone={data.pregnancyCaution ? 'warn' : 'ok'}
-                    symbol={data.pregnancyCaution ? '!' : '+'}
+          <View style={s.infoSection}>
+            <View style={s.infoRow}>
+              <View style={s.infoColLeft}>
+                {ingredients.length > 0 ? (
+                  <View style={s.infoBlock}>
+                    <Text style={s.infoBlockHeading}>Состав</Text>
+                    {ingredients.map((g) => (
+                      <View key={g.role}>
+                        <Text style={s.roleLabel}>{g.role}</Text>
+                        {(g.names ?? []).map((n) => (
+                          <Text key={n} style={s.infoValue}>
+                            {n}
+                          </Text>
+                        ))}
+                      </View>
+                    ))}
+                  </View>
+                ) : null}
+                {storageLines.length > 0 ? (
+                  <View style={ingredients.length > 0 ? s.infoBlockSpaced : s.infoBlock}>
+                    <Text style={s.infoBlockHeading}>Хранение</Text>
+                    {storageLines.map((line) => (
+                      <Text key={line} style={s.storageLine}>
+                        — {line}
+                      </Text>
+                    ))}
+                  </View>
+                ) : null}
+              </View>
+              <View style={s.infoColRight}>
+                {data.interactionInfo ? (
+                  <View style={s.infoBlock}>
+                    <Text style={s.infoBlockHeading}>Взаимодействие с препаратами</Text>
+                    <StatusBadge tone="danger" symbol="×">
+                      <Text style={s.statusValue}>{data.interactionInfo}</Text>
+                    </StatusBadge>
+                  </View>
+                ) : null}
+                {data.pregnancyLabel ? (
+                  <View
+                    style={
+                      data.interactionInfo ? s.infoBlockSpaced : s.infoBlock
+                    }
                   >
-                    <Text style={s.textBold}>{data.pregnancyLabel}</Text>
-                  </StatusBadge>
-                </Section>
-              ) : null}
-              {data.compatibilityInfo ? (
-                <Section title="Одновременное введение">
-                  <StatusBadge tone="ok" symbol="+">
-                    <Text style={s.textBold}>{data.compatibilityInfo}</Text>
-                  </StatusBadge>
-                </Section>
-              ) : null}
+                    <Text style={s.infoBlockHeading}>
+                      Применение при беременности и грудном вскармливании
+                    </Text>
+                    <StatusBadge
+                      tone={data.pregnancyCaution ? 'warn' : 'ok'}
+                      symbol={data.pregnancyCaution ? '!' : '✓'}
+                    >
+                      <Text style={s.statusValue}>{data.pregnancyLabel}</Text>
+                    </StatusBadge>
+                  </View>
+                ) : null}
+                {data.compatibilityInfo ? (
+                  <View
+                    style={
+                      data.interactionInfo || data.pregnancyLabel
+                        ? s.infoBlockSpaced
+                        : s.infoBlock
+                    }
+                  >
+                    <Text style={s.infoBlockHeading}>
+                      Одновременное введение с другими вакцинами
+                    </Text>
+                    <StatusBadge tone="ok" symbol="✓">
+                      <Text style={s.statusValue}>{data.compatibilityInfo}</Text>
+                    </StatusBadge>
+                  </View>
+                ) : null}
+              </View>
             </View>
           </View>
         ) : null}
 
         {instructionSections.length > 0 ? (
           <View>
-            <Text style={s.divider}>Информация из инструкции:</Text>
+            <View style={s.divider}>
+              <Text style={s.dividerText}>Информация из инструкции:</Text>
+            </View>
             {instructionSections.map((sec) => (
               <Section key={sec.title} title={sec.title}>
                 {Array.isArray(sec.content) ? (
@@ -231,13 +267,13 @@ export function VaccinePdfDocument({ data, qrImages }: Props) {
 
         {data.orgComment ? (
           <View style={s.commentBox}>
-            <Text style={s.commentTitle}>Комментарий АНО «Коллективный иммунитет»</Text>
-            <Text style={s.textBold}>{data.orgComment}</Text>
+            <Text style={s.commentTitle}>Комментарий АНО «Коллективный иммунитет»:</Text>
+            <Text style={s.commentBody}>{data.orgComment}</Text>
           </View>
         ) : null}
 
         {data.revisionDate ? (
-          <Text style={s.revisionDate}>Дата последней ревизии: {data.revisionDate}</Text>
+          <Text style={s.revisionDate}>Дата последней ревизии: {data.revisionDate}.</Text>
         ) : null}
 
         <Text style={s.footer} render={({ pageNumber }) => `стр. ${pageNumber}`} fixed />
