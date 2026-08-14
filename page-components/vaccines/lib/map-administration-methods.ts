@@ -39,6 +39,7 @@ export function mapAdministrationMethodsFromApi(
       code: m.code,
       knownMethod: KNOWN_METHODS.has(m.code) ? (m.code as AdministrationMethod) : null,
       listIconUrl: mediaUrl(m.list_icon_url),
+      detailImageUrl: mediaUrl(m.detail_image_url),
     })
   }
 

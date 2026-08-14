@@ -46,7 +46,7 @@ export const VACCINE_COLUMN_META: Record<VaccineColumnKey, ColumnMeta> = {
     headerLabel: (
       <VaccineInfoPanel
         trigger={
-          <span className="flex items-center gap-1 cursor-pointer group">
+          <span className="flex items-center gap-2 cursor-pointer group">
             <span>{VACCINE_FIELD_LABELS.ageRange}</span>
             <span className="flex items-center text-fg-secondary group-hover:text-accent transition-colors">
               <InfoCircleIcon width={12} height={12} />

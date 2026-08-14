@@ -7,6 +7,7 @@ export type AdministrationRoute = {
   code: string | null
   knownMethod: AdministrationMethod | null
   listIconUrl: string | null
+  detailImageUrl: string | null
 }
 
 export interface VaccineData {
