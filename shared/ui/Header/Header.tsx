@@ -55,11 +55,11 @@ export function Header() {
         className={cn(
           STICKY_HEADER_CLASS,
           'flex items-center transition-[height] duration-200 ease-out',
-          isCompact ? 'h-16 justify-end' : 'h-14 justify-between',
+          isCompact ? 'h-16 justify-between' : 'h-14 justify-between',
         )}
       >
         <CollapsibleRow
-          hidden={isCompact}
+          hidden={false}
           className={cn('max-w-[572px] w-full', !isCompact && 'flex-1')}
         >
           <div className="h-14 flex items-center">
@@ -100,7 +100,7 @@ export function Header() {
         <DataVacLogo placement="sidebar" showText={true} />
         <ThemeToggle />
       </div>
-      <CollapsibleRow hidden={isCompact} className="pt-4">
+      <CollapsibleRow hidden={false} className="pt-4">
         <HeaderSearchBar forceClose={isCompact} />
       </CollapsibleRow>
     </header>
