@@ -37,7 +37,7 @@ export default async function ContraindicationsPage({
       acc[key].push(item);
       return acc;
     }, {}),
-  ).map(([title, items]) => {
+  ).sort(([a]) => (a === 'Гиперчувствительность' ? -1 : 0)).map(([title, items]) => {
     const subMap = items.reduce<Record<string, typeof items>>((acc, item) => {
       const key = item.subcategory ?? title;
       if (!acc[key]) acc[key] = [];
