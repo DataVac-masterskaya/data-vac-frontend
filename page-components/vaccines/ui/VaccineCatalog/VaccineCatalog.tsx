@@ -32,6 +32,7 @@ export function VaccineCatalog({ data, sortField, sortDirection }: VaccineCatalo
         } else {
           params.set('sort', sortValue)
         }
+        params.delete('page')
         startTransition(() => {
           router.push(`?${params.toString()}`)
         })

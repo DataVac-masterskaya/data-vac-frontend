@@ -22,6 +22,7 @@ export function VaccineAlphabetFilter() {
     } else {
       params.delete('letter');
     }
+    params.delete('page');
 
     startTransition(() => {
       router.push(`?${params.toString()}`);
@@ -32,7 +33,8 @@ export function VaccineAlphabetFilter() {
     const params = new URLSearchParams(searchParams.toString());
     params.set('lang', lang);
     params.delete('letter');
-    
+    params.delete('page');
+
     startTransition(() => {
       router.push(`?${params.toString()}`);
     });
