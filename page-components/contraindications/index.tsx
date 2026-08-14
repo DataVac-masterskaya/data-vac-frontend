@@ -27,8 +27,15 @@ export default async function ContraindicationsPage({
     ...categories.map((c) => ({ value: c.name, label: c.name })),
   ];
 
-  const withCategory = results.filter((item) => item.category);
-  const withoutCategory = results.filter((item) => !item.category);
+  const PINNED_NAME = 'гиперчувствительность к компонентам'
+  const pinnedItem = results.find(
+    (item) => item.name.toLowerCase() === PINNED_NAME,
+  )
+
+  const withCategory = results.filter(
+    (item) => item.category && item.name.toLowerCase() !== PINNED_NAME,
+  )
+  const withoutCategory = results.filter((item) => !item.category)
 
   const groupedCards = Object.entries(
     withCategory.reduce<Record<string, typeof withCategory>>((acc, item) => {
@@ -37,7 +44,7 @@ export default async function ContraindicationsPage({
       acc[key].push(item);
       return acc;
     }, {}),
-  ).sort(([a]) => (a === 'Гиперчувствительность' ? -1 : 0)).map(([title, items]) => {
+  ).map(([title, items]) => {
     const subMap = items.reduce<Record<string, typeof items>>((acc, item) => {
       const key = item.subcategory ?? title;
       if (!acc[key]) acc[key] = [];
@@ -72,20 +79,28 @@ export default async function ContraindicationsPage({
       />
 
       <div className="mt-4 flex flex-col gap-2">
-        {groupedCards.length === 0 && withoutCategory.length === 0 ? (
+        {!pinnedItem && groupedCards.length === 0 && withoutCategory.length === 0 ? (
           <div className="mt-4 bg-card rounded-2xl p-10 text-center text-fg-secondary">
             Ничего не найдено
           </div>
         ) : (
           <>
+            {pinnedItem && (
+              <ContraIndicationRow
+                category={pinnedItem.category?.name ?? ''}
+                text={pinnedItem.name}
+                linkText="Перейти к списку ингредиентов"
+                href="/ingredients"
+              />
+            )}
+
             {groupedCards.map((card) =>
               card.groups.length === 1 && card.groups[0].items.length === 1 ? (
                 <ContraIndicationRow
                   key={card.title}
                   category={card.title}
                   text={card.groups[0].items[0].text}
-                  linkText="Перейти к списку ингредиентов"
-                  href="/ingredients"
+                  href={card.groups[0].items[0].href}
                 />
               ) : (
                 <ContraIndicationGroupCard
