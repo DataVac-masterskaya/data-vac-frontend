@@ -1,5 +1,5 @@
 import type { DataTableColumn } from '@datavac/ui-kit'
-import { InfoCircleIcon } from '@datavac/ui-kit'
+import { InfoCircleIcon, Tooltip } from '@datavac/ui-kit'
 import type { ReactNode } from 'react'
 import type { VaccineData } from '../../model/types'
 import { VACCINE_FIELD_LABELS } from './labels'
@@ -46,11 +46,20 @@ export const VACCINE_COLUMN_META: Record<VaccineColumnKey, ColumnMeta> = {
     headerLabel: (
       <VaccineInfoPanel
         trigger={
-          <span className="flex items-center gap-2 cursor-pointer group">
+          <span className="flex items-center gap-1 cursor-pointer group">
             <span>{VACCINE_FIELD_LABELS.ageRange}</span>
-            <span className="flex items-center text-fg-secondary group-hover:text-accent transition-colors">
-              <InfoCircleIcon width={12} height={12} />
-            </span>
+            <Tooltip
+              content={
+                <span className="flex flex-col">
+                  <span className="leading-4 font-semibold text-white">Возрастные ограничения.</span>
+                  <span className="leading-4 text-white/60 italic">Нажмите, чтобы прочитать полную информацию</span>
+                </span>
+              }
+            >
+              <span className="flex items-center text-fg-secondary group-hover:text-accent transition-colors">
+                <InfoCircleIcon width={12} height={12} />
+              </span>
+            </Tooltip>
           </span>
         }
         title="Возрастные ограничения"

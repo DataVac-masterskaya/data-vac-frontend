@@ -44,15 +44,6 @@ export function SupportTabs({ presets }: SupportTabsProps) {
       content: (
         <div className="flex flex-col items-center gap-8 pt-4">
           <QRPaymentBlock qrSrc="/qr-payment.png" />
-          <button
-            type="button"
-            onClick={() =>
-              window.open('https://my.cloudpayments.ru/', '_blank', 'noopener,noreferrer')
-            }
-            className="rounded-full border border-border bg-card text-fg text-sm font-semibold px-6 py-3 transition-colors hover:bg-subtle"
-          >
-            Изменить условия или отменить подписку
-          </button>
         </div>
       ),
     },
